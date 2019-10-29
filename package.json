@@ -1,0 +1,15 @@
+{
+  "name": "ganic",
+  "version": "1.0.0",
+  "description": "A cool organic programming javascript library",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "organic",
+    "ganic"
+  ],
+  "author": "Rango Yuan",
+  "license": "MIT"
+}

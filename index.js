@@ -1,6 +1,6 @@
 const { live, take } = require('./src/ganic')
 
-exports = {
+module.exports = {
   live,
   take
 }

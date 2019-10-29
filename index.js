@@ -1,6 +1,6 @@
 const { live, take } = require('./src/ganic')
 
-exports.default = {
+exports = {
   live,
   take
 }

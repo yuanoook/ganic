@@ -16,8 +16,8 @@ describe('parasite async function', () => {
 
   beforeEach(() => mockFn.mockReset())
 
-  let checkOrganExcretion = (organ, expectation, done) => {
-    let checkExpectation = () => {
+  const checkOrganExcretion = (organ, expectation, done) => {
+    const checkExpectation = () => {
       expect(mockFn.mock.calls).toEqual(expectation)
       done()
     }
@@ -52,7 +52,7 @@ describe('parasite async function', () => {
 
   it('should call timeout with attachTimeout', done => {
     const organism = props => {
-      let [state, setState] = attachState(props.initState)
+      const [state, setState] = attachState(props.initState)
       attachTimeout(props.delay, () => setState(props.delayState))
       return state;
     }
@@ -67,7 +67,7 @@ describe('parasite async function', () => {
 
   it('should call periodically with attachInterval', done => {
     const organism = props => {
-      let [state, setState] = attachState(props.initState)
+      const [state, setState] = attachState(props.initState)
       attachInterval(props.delay, () => setState(n => n + 1))
       return state
     }

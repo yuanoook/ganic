@@ -13,8 +13,8 @@ exports.take = function(deps) {
   return operatingOrgan.take(deps)
 }
 
-let create = organism => {
-  let organ = {
+const create = organism => {
+  const organ = {
     organism,
     latestResult: null,
 
@@ -38,8 +38,8 @@ let create = organism => {
 
     parasites: [],
     getParasite(index) {
-      var point = this.parasites[index]
-      if (point) return point
+      const parasite = this.parasites[index]
+      if (parasite) return parasite
 
       this.parasites[index] = {
         organ: this,
@@ -99,7 +99,7 @@ let create = organism => {
       return this.parasites[index]
     },
     take: function(deps) {
-      let parasite = this.getParasite(this.parasiteCheckingIndex)
+      const parasite = this.getParasite(this.parasiteCheckingIndex)
       parasite.receiveDeps(deps)
       this.parasiteCheckingIndex ++
 
@@ -123,7 +123,7 @@ let create = organism => {
 
 let organ;
 exports.live = function(organism, props) {
-  var isSameOrganism = organ && organ.organism === organism
+  const isSameOrganism = organ && organ.organism === organism
   organ = isSameOrganism ? organ : create(organism);
   organ.receiveProps(props);
   return organ;

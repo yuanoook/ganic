@@ -10,11 +10,11 @@ describe('should always keep identity from parasite', () => {
   it('should always get permanent unique setState from attachState', () => {
     let lastSetA
     const organism = () => {
-      let [, setA] = attachState()
+      const [, setA] = attachState()
       expect(!lastSetA || lastSetA === setA).toEqual(true)
       lastSetA = setA
 
-      let [, setB] = attachState()
+      const [, setB] = attachState()
       expect(setA === setB).toEqual(false)
     }
 
@@ -24,11 +24,11 @@ describe('should always keep identity from parasite', () => {
   it('should always get permanent unique ref from attachRef', () => {
     let lastARef
     const organism = () => {
-      let aRef = attachRef()
+      const aRef = attachRef()
       expect(!lastARef || lastARef === aRef).toEqual(true)
       lastARef = aRef
 
-      let bRef = attachRef()
+      const bRef = attachRef()
       expect(aRef === bRef).toEqual(false)
     }
 

@@ -1,36 +1,31 @@
 const { take, live } = require('./ganic');
 
 test('attach  rightly', () => {
-  let mockFn = jest.fn()
+  const intervalParasitism = (deps, give) => {
+    let delay = deps.delay
+    if (!delay) return
+    let timer = setInterval(() => {
+      give(num => {
+        return num + 1
+      });
+    }, delay)
+    mockFn('attach: ', delay)
+    return () => {
+      mockFn('detach: ', delay)
+      clearInterval(timer);
+    }
+  }
 
-  let sync = x => x;
-
-  let organFn = props => {
+  const sync = x => x;
+  const intervalOrganism = props => {
     let a = sync(props.a)
     let b = sync(props.b)
-
-    let c = take(props.c).attach((deps, give) => {
-      let delay = deps.delay
-      if (!delay) return
-
-      let timer = setInterval(() => {
-        give(num => {
-          return num + 1
-        });
-      }, delay)
-
-      mockFn('attach: ', delay)
-      return () => {
-        mockFn('detach: ', delay)
-        clearInterval(timer);
-      }
-    }).firstGive(0)
-
+    let c = take(props.c).attach(intervalParasitism).firstGive(0)
     let d = take().attach({da: 1}).firstGive()
-
     return `${a} ${b} ${c} ${JSON.stringify(d)}`;
   }
 
+  let mockFn = jest.fn()
   let initProps = {
     a: 1,
     b: 2,
@@ -39,7 +34,7 @@ test('attach  rightly', () => {
     }
   }
 
-  let organ = live(organFn, initProps).onExcrete(r => {
+  let organ = live(intervalOrganism, initProps).onExcrete(r => {
     console.log('ex: ', r)
   })
 
@@ -67,6 +62,4 @@ test('attach  rightly', () => {
   // setTimeout(() => {
   //   updateProps({b: 3})
   // }, 17000);
-
 });
-

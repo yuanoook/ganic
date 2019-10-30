@@ -18,7 +18,7 @@ describe('should always keep identity from parasite', () => {
       expect(setA === setB).toEqual(false)
     }
 
-    [1, 2, 3].forEach(i => live(organism, i))
+    ;[1, 2, 3].forEach(i => live(organism, i))
   })
 
   it('should always get permanent unique ref from attachRef', () => {
@@ -32,7 +32,7 @@ describe('should always keep identity from parasite', () => {
       expect(aRef === bRef).toEqual(false)
     }
 
-    [1, 2, 3].forEach(i => live(organism, i))
+    ;[1, 2, 3].forEach(i => live(organism, i))
   })
 
 })

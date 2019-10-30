@@ -24,6 +24,13 @@ const attachState = initState => {
   return take(initState).attach(stateParasitism).firstGive()
 }
 
+const attachEffect = (parasitism, deps) => {
+  const isDepsNull = deps === null || deps === undefined
+  const takeDeps = !isDepsNull ? deps : Math.random()
+
+  return take(takeDeps).attach(() => parasitism(deps)).firstGive()
+}
+
 const timeoutParasitism = ({delay, callbackRef}) => {
   if (!delay) return
   const timer = setTimeout(() => {
@@ -37,7 +44,7 @@ const timeoutParasitism = ({delay, callbackRef}) => {
 const attachTimeout = (delay, callback) => {
   const callbackRef = attachRef()
   callbackRef.current = callback
-  take({delay, callbackRef: callbackRef}).attach(timeoutParasitism).firstGive()
+  return take({delay, callbackRef: callbackRef}).attach(timeoutParasitism).firstGive()
 }
 
 const intervalParasitism = ({delay, callbackRef}) => {
@@ -59,6 +66,8 @@ const attachInterval = (delay, callback) => {
 module.exports = {
   attachRef,
   attachState,
+
+  attachEffect,
   attachTimeout,
   attachInterval
 }

@@ -1,6 +1,6 @@
 {
   "name": "ganic",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "A cool organic programming javascript library",
   "main": "index.js",
   "repository": {
@@ -8,7 +8,8 @@
     "url": "https://github.com/yuanoook/ganic.git"
   },
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "prepublishOnly": "jest"
   },
   "keywords": [
     "organic",

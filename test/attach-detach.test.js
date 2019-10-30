@@ -60,7 +60,7 @@ describe('parasite attach & detach', () => {
     randoms.forEach(
       random => live(organism, random)
     )
-  
+
     expect(mockFn.mock.calls).toEqual([
       ['attach', randoms[0]],
       ['detach', randoms[0]],

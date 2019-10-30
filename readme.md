@@ -28,17 +28,17 @@ const intervalOrganism = props => {
 
 ## Give the organism life
 ```javascript
-  const initProps = { delay: 1000, initState: 0 }
-  const organ = live(intervalOrganism, initProps)
+const initProps = { delay: 1000, initState: 0 }
+const organ = live(intervalOrganism, initProps)
 
-  organ.onExcrete(r => console.log('ex: ', r))
+organ.onExcrete(r => console.log('ex: ', r))
 
-  // you'll get
-  // > ex: 0
-  // > ex: 1
-  // > ex: 2
-  // > ex: 3
-  // > ...
+// you'll get
+// > ex: 0
+// > ex: 1
+// > ex: 2
+// > ex: 3
+// > ...
 ```
 
 ## Todo

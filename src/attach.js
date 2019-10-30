@@ -26,7 +26,7 @@ const attachState = initState => {
 
 const timeoutParasitism = ({delay, callbackRef}) => {
   if (!delay) return
-  let timer = setTimeout(() => {
+  const timer = setTimeout(() => {
     callbackRef.current()
   }, delay)
   return () => {
@@ -35,14 +35,14 @@ const timeoutParasitism = ({delay, callbackRef}) => {
 }
 
 const attachTimeout = (delay, callback) => {
-  let callbackRef = attachRef()
+  const callbackRef = attachRef()
   callbackRef.current = callback
   take({delay, callbackRef: callbackRef}).attach(timeoutParasitism).firstGive()
 }
 
 const intervalParasitism = ({delay, callbackRef}) => {
   if (!delay) return
-  let timer = setInterval(() => {
+  const timer = setInterval(() => {
     callbackRef.current()
   }, delay)
   return () => {
@@ -51,7 +51,7 @@ const intervalParasitism = ({delay, callbackRef}) => {
 }
 
 const attachInterval = (delay, callback) => {
-  let callbackRef = attachRef()
+  const callbackRef = attachRef()
   callbackRef.current = callback
   take({delay, callbackRef: callbackRef}).attach(intervalParasitism).firstGive()
 }

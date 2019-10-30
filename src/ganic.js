@@ -8,7 +8,7 @@ exports.take = function(deps) {
   if (!operatingOrgan) return console.warn(`
     Don't try to call the organism by yourself!
     Call organ.operate instead!
-    Let organicJs to handle this!
+    Let ganic to handle this!
   `)
   return operatingOrgan.take(deps)
 }

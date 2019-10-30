@@ -1,58 +1,48 @@
 # Ganic
-A cool organic programming javascript library
 
-# Parasitism function
+> ### Components should be alive, Ganic makes it happen.
+
+## Parasitism function
 ```javascript
-  let intervalParasitism = (deps, give) => {
-    let delay = deps.delay
-    if (!delay) return
-
-    let timer = setInterval(() => {
-      give(num => {
-        return num + 1
-      });
-    }, delay)
-
-    return () => {
-      clearInterval(timer);
-    }
+const intervalParasitism = ({delay, callbackRef}) => {
+  if (!delay) return
+  const timer = setInterval(() => {
+    callbackRef.current()
+  }, delay)
+  return () => {
+    clearInterval(timer);
   }
+}
 ```
 
-# Organism function
+## Organism function
 ```javascript
-  let intervalOrganism = props => {
-    let a = sync(props.a)
-    let b = sync(props.b)
-    let c = take(props.c).attach(intervalParasitism).firstGive(0)
-    let d = take().attach({da: 1}).firstGive()
-    return `${a} ${b} ${c} ${JSON.stringify(d)}`;
-  }
+const intervalOrganism = props => {
+  const [state, setState] = attachState(props.initState)
+  const callbackRef = attachRef()
+  callbackRef.current = () => setState(n => n + 1)
+  take({delay: props.delay, callbackRef: callbackRef}).attach(intervalParasitism).firstGive()
+  return state
+}
 ```
 
-# Live the organism
+## Give the organism life
 ```javascript
-  let initProps = {
-    a: 1,
-    b: 2,
-    c: {
-      delay: 1000
-    }
-  }
+  const initProps = { delay: 1000, initState: 0 }
+  const organ = live(intervalOrganism, initProps)
 
-  let organ = live(intervalOrganism, initProps).onExcrete(r => {
-    console.log('ex: ', r)
-  })
+  organ.onExcrete(r => console.log('ex: ', r))
+
+  // you'll get
+  // > ex: 0
+  // > ex: 1
+  // > ex: 2
+  // > ex: 3
+  // > ...
 ```
 
-# Todo
-
-Test Cover, re-arrange test cases
+## Todo
 
 Nested async time-slice-able organs
 
 Focus Points, In and Out
-
-
-
-

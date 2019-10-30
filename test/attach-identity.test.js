@@ -1,0 +1,38 @@
+const { live } = require('../src/ganic')
+
+const {
+  attachRef,
+  attachState
+} = require('../src/attach')
+
+describe('should always keep identity from parasite', () => {
+
+  it('should always get permanent unique setState from attachState', () => {
+    let lastSetA
+    const organism = () => {
+      let [, setA] = attachState()
+      expect(!lastSetA || lastSetA === setA).toEqual(true)
+      lastSetA = setA
+
+      let [, setB] = attachState()
+      expect(setA === setB).toEqual(false)
+    }
+
+    [1, 2, 3].forEach(i => live(organism, i))
+  })
+
+  it('should always get permanent unique ref from attachRef', () => {
+    let lastARef
+    const organism = () => {
+      let aRef = attachRef()
+      expect(!lastARef || lastARef === aRef).toEqual(true)
+      lastARef = aRef
+
+      let bRef = attachRef()
+      expect(aRef === bRef).toEqual(false)
+    }
+
+    [1, 2, 3].forEach(i => live(organism, i))
+  })
+
+})

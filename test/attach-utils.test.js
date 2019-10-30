@@ -1,4 +1,4 @@
-const { take, live } = require('../src/ganic')
+const { live } = require('../src/ganic')
 
 const {
   attachRef,
@@ -27,7 +27,6 @@ describe('attach-utils', () => {
     let lastSetstate
     const organism = () => {
       let [state, setState] = attachState(defaultProps.initState)
-      expect(!lastSetstate || lastSetstate === setState).toEqual(true)
       lastSetstate = setState
       return state
     }
@@ -48,8 +47,22 @@ describe('attach-utils', () => {
         checkExpectation()
       }
     })
-    setTimeout(() => lastSetstate && lastSetstate(defaultProps.delayState))
+    setTimeout(() => lastSetstate(defaultProps.delayState))
     live(organism, 2)
+  })
+
+  it('should always get permanent unique setState from attachState', () => {
+    let lastSetA
+    const organism = () => {
+      let [, setA] = attachState()
+      expect(!lastSetA || lastSetA === setA).toEqual(true)
+      lastSetA = setA
+
+      let [, setB] = attachState()
+      expect(setA === setB).toEqual(false)
+    }
+
+    [1, 2, 3].forEach(i => live(organism, i))
   })
 
   it('should always get permanent unique ref from attachRef', () => {
@@ -63,9 +76,7 @@ describe('attach-utils', () => {
       expect(aRef === bRef).toEqual(false)
     }
 
-    live(organism, 1)
-    live(organism, 2)
-    live(organism, 3)
+    [1, 2, 3].forEach(i => live(organism, i))
   })
 
   it('should call timeout with attachTimeout', done => {
@@ -96,9 +107,9 @@ describe('attach-utils', () => {
     const organism = props => {
       let [state, setState] = attachState(props.initState)
       attachInterval(props.delay, () => setState(n => n + 1))
-      return state;
+      return state
     }
-  
+
     let checkExpectation = () => {
       expect(mockFn.mock.calls).toEqual([
         [defaultProps.initState],

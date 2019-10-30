@@ -1,18 +1,23 @@
 const { take } = require('../src/ganic');
 
 const attachRef = () => {
-  return take().attach({})
+  return take().attach({}).firstGive()
 }
 
 const stateParasitism = (deps, give) => {
   let state = deps;
   let setState = (newState) => {
+    if (!setState) return
     state = typeof newState === 'function'
       ? newState(state)
       : newState
     give([state, setState])
   }
   give([state, setState])
+  return () => {
+    state = null
+    setState = null
+  }
 }
 
 const attachState = initState => {

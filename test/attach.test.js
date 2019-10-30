@@ -1,68 +1,62 @@
-const { take, live } = require('../src/ganic');
+const { take, live } = require('../src/ganic')
 
-test('attach  rightly', done => {  
+const {
+  attachRef,
+  attachState,
+  attachTimeout,
+  attachInterval
+} = require('./attach-utils')
+
+describe('attach-utils', () => {
   const mockFn = jest.fn()
-
-  const stateParasitism = (deps, give) => {
-    let state = deps;
-    let setState = (newState) => {
-      state = typeof newState === 'function'
-        ? newState(state)
-        : newState
-      give([state, setState])
-    }
-    give([state, setState])
-  }
-
-  const attachState = initState => {
-    return take(initState).attach(stateParasitism).firstGive()
-  }
-
-  const attachRef = () => {
-    return take().attach({})
-  }
-
-  const timeoutParasitism = ({delay, callbackRef}) => {
-    if (!delay) return
-    let timer = setTimeout(() => {
-      callbackRef.current()
-    }, delay)
-    mockFn('attach: ', delay)
-    return () => {
-      mockFn('detach: ', delay)
-      clearTimeout(timer);
-    }
-  }
-
-  const attachTimeout = (delay, callback) => {
-    let callbackRef = attachRef()
-    callbackRef.current = callback
-    take({delay, callbackRef: callbackRef}).attach(timeoutParasitism).firstGive()
-  }
 
   const props = {
     initState: 1,
-    delay: 100,
+    delay: 50,
     delayState: 5999
   }
 
-  const stateOrganism = props => {
-    let [state, setState] = attachState(props.initState)
-    attachTimeout(props.delay, () => setState(props.delayState))
-    return state;
-  }
-
-  live(stateOrganism, props).onExcrete(r => {
-    mockFn('ex: ', r)
+  beforeEach(() => {
+    mockFn.mockReset()
   })
 
-  setTimeout(() => {
-    console.log(mockFn.mock.calls)
-    expect(mockFn.mock.calls).toEqual([
-      ['attach: ', props.delay],
-      ['ex: ', props.initState],
-      ['ex: ', props.delayState]
-    ]);
-    done()
-  }, props.delay)
-});
+  afterEach(() => {
+
+  })
+
+  it('should always get the same thing from attachRef', done => {
+    let lastRef = null
+    const organism = props => {
+      let ref = attachRef()
+      if (lastRef) {
+        expect(lastRef === ref).toEqual(false)
+      }
+      lastRef = ref
+    }
+
+    // TODO: ...
+
+  })
+
+  it('should call timeout with attachTimeout', done => {
+    const stateOrganism = props => {
+      let [state, setState] = attachState(props.initState)
+      attachTimeout(props.delay, () => setState(props.delayState))
+      return state;
+    }
+  
+    live(stateOrganism, props).onExcrete(mockFn)
+  
+    setTimeout(() => {
+      expect(mockFn.mock.calls).toEqual([
+        [props.initState],
+        [props.delayState]
+      ]);
+      done()
+    }, props.delay)
+  })
+
+  it('should call periodically with attachInterval', done => {
+
+  })
+})

@@ -31,25 +31,27 @@ let create = organFn => {
       operatingOrgan = null
     },
     run: function() {
-      this.dasyncIndex = 0
+      this.parasiteCheckingIndex = 0
       this.latestResult = this.describeFn(this.props)
-      setTimeout(() => this.triggerExcrete())
+      this.triggerExcrete()
     },
 
-    dasyncMap: [],
-    getDasyncPoint(index) {
-      var point = this.dasyncMap[index]
+    parasites: [],
+    getParasite(index) {
+      var point = this.parasites[index]
       if (point) return point
 
-      this.dasyncMap[index] = {
+      this.parasites[index] = {
         organ: this,
 
         hasExcreted: false,
-        installed: false,
-        toUninstall: null,
+        attaching: false,
+        attached: false,
+        toDetach: null,
 
         latestExcrement: null,
         setExcrement(excrement) {
+          this.hasExcreted = true
           this.latestExcrement = typeof excrement === 'function'
             ? excrement(this.latestExcrement)
             : excrement
@@ -60,47 +62,54 @@ let create = organFn => {
             : this.give(excrement)
         },
         give: function(excrement) {
-          this.hasExcreted = true
           this.setExcrement(excrement)
           return this.latestExcrement
         },
         // todo: make multiple asyncGive as one, just like what setState in React
         asyncGive: function(excrement) {
           this.setExcrement(excrement)
-          setTimeout(() => this.organ.operate())
+          if (!this.attaching) this.organ.operate()
         },
 
         deps: null,
         receiveDeps: function(deps) {
-          this.installable = !shallowEqual(deps, this.deps)
+          this.attachable = !shallowEqual(deps, this.deps)
           this.deps = deps
           return this
         },
-        install: function(func) {
-          if (this.installed && !this.installable) return this
-          this.uninstall()
-          this.toUninstall = func(this.deps, this.asyncGive.bind(this))
-          this.installed = true
+        attach: function(toAttach) {
+          if (this.attached && !this.attachable) return this
+          this.detach()
+          this.attaching = true
+          if (typeof toAttach === 'function') {
+            this.toDetach = toAttach(this.deps, this.asyncGive.bind(this))
+          } else {
+            this.setExcrement(toAttach)
+            this.toDetach = () => this.setExcrement(null)
+          }
+          this.attaching = false
+          this.attached = true
           return this;
         },
-        uninstall: function() {
-          if (typeof this.toUninstall === 'function') this.toUninstall()
+        detach: function() {
+          if (typeof this.toDetach === 'function') this.toDetach()
         }
       }
 
-      return this.dasyncMap[index]
+      return this.parasites[index]
     },
     take: function(deps) {
-      let dasyncPoint = this.getDasyncPoint(this.dasyncIndex)
-      dasyncPoint.receiveDeps(deps)
-      this.dasyncIndex ++
+      let parasite = this.getParasite(this.parasiteCheckingIndex)
+      parasite.receiveDeps(deps)
+      this.parasiteCheckingIndex ++
 
-      return dasyncPoint
+      return parasite
     },
 
     onExcreteListeners: [],
     onExcrete: function(func) {
       this.onExcreteListeners.push(func)
+      func(this.latestResult)
       return this
     },
     triggerExcrete: function() {

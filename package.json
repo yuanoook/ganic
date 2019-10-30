@@ -8,12 +8,15 @@
     "url": "https://github.com/yuanoook/ganic.git"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "keywords": [
     "organic",
     "ganic"
   ],
   "author": "Rango Yuan",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^24.9.0"
+  }
 }

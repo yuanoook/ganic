@@ -1,45 +1,68 @@
 const { take, live } = require('../src/ganic');
 
-test('attach  rightly', () => {
+test('attach  rightly', done => {  
   const mockFn = jest.fn()
 
-  const intervalParasitism = (deps, give) => {
-    let delay = deps.delay
+  const stateParasitism = (deps, give) => {
+    let state = deps;
+    let setState = (newState) => {
+      state = typeof newState === 'function'
+        ? newState(state)
+        : newState
+      give([state, setState])
+    }
+    give([state, setState])
+  }
+
+  const attachState = initState => {
+    return take(initState).attach(stateParasitism).firstGive()
+  }
+
+  const attachRef = () => {
+    return take().attach({})
+  }
+
+  const timeoutParasitism = ({delay, callbackRef}) => {
     if (!delay) return
-    let timer = setInterval(() => {
-      give(num => {
-        return num + 1
-      });
+    let timer = setTimeout(() => {
+      callbackRef.current()
     }, delay)
     mockFn('attach: ', delay)
     return () => {
       mockFn('detach: ', delay)
-      clearInterval(timer);
+      clearTimeout(timer);
     }
   }
 
-  const sync = x => x;
-  const intervalOrganism = props => {
-    let a = sync(props.a)
-    let b = sync(props.b)
-    let c = take(props.c).attach(intervalParasitism).firstGive(0)
-    let d = take().attach({da: 1}).firstGive()
-    return `${a} ${b} ${c} ${JSON.stringify(d)}`;
+  const attachTimeout = (delay, callback) => {
+    let callbackRef = attachRef()
+    callbackRef.current = callback
+    take({delay, callbackRef: callbackRef}).attach(timeoutParasitism).firstGive()
   }
 
-  let initProps = {
-    a: 1,
-    b: 2,
-    c: {
-      delay: 1000
-    }
+  const props = {
+    initState: 1,
+    delay: 100,
+    delayState: 5999
   }
 
-  live(intervalOrganism, initProps).onExcrete(r => {
-    console.log('ex: ', r)
+  const stateOrganism = props => {
+    let [state, setState] = attachState(props.initState)
+    attachTimeout(props.delay, () => setState(props.delayState))
+    return state;
+  }
+
+  live(stateOrganism, props).onExcrete(r => {
+    mockFn('ex: ', r)
   })
 
-  expect(mockFn.mock.calls).toEqual([
-    ['attach: ', 1000]
-  ]);
+  setTimeout(() => {
+    console.log(mockFn.mock.calls)
+    expect(mockFn.mock.calls).toEqual([
+      ['attach: ', props.delay],
+      ['ex: ', props.initState],
+      ['ex: ', props.delayState]
+    ]);
+    done()
+  }, props.delay)
 });

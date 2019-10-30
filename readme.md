@@ -47,6 +47,10 @@ A cool organic programming javascript library
 
 # Todo
 
+Test Cover, re-arrange test cases
+
+Nested async time-slice-able organs
+
 Focus Points, In and Out
 
 

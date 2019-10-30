@@ -1,6 +1,8 @@
-const { take, live } = require('./ganic');
+const { take, live } = require('../src/ganic');
 
 test('attach  rightly', () => {
+  const mockFn = jest.fn()
+
   const intervalParasitism = (deps, give) => {
     let delay = deps.delay
     if (!delay) return
@@ -25,7 +27,6 @@ test('attach  rightly', () => {
     return `${a} ${b} ${c} ${JSON.stringify(d)}`;
   }
 
-  let mockFn = jest.fn()
   let initProps = {
     a: 1,
     b: 2,

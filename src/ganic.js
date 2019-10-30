@@ -6,16 +6,16 @@ const shallowEqual = (a, b) => {
 let operatingOrgan
 exports.take = function(deps) {
   if (!operatingOrgan) return console.warn(`
-    Don't try to call the organFn by yourself!
+    Don't try to call the organism by yourself!
     Call organ.operate instead!
     Let organicJs to handle this!
   `)
   return operatingOrgan.take(deps)
 }
 
-let create = organFn => {
+let create = organism => {
   let organ = {
-    describeFn: organFn,
+    organism,
     latestResult: null,
 
     props: null,
@@ -32,7 +32,7 @@ let create = organFn => {
     },
     run: function() {
       this.parasiteCheckingIndex = 0
-      this.latestResult = this.describeFn(this.props)
+      this.latestResult = this.organism(this.props)
       this.triggerExcrete()
     },
 
@@ -122,8 +122,9 @@ let create = organFn => {
 }
 
 let organ;
-exports.live = function(organFn, props) {
-  organ = organ || create(organFn);
+exports.live = function(organism, props) {
+  var isSameOrganism = organ && organ.organism === organism
+  organ = isSameOrganism ? organ : create(organism);
   organ.receiveProps(props);
   return organ;
 }

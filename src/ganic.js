@@ -2,11 +2,7 @@ const { shallowEqual } = require('./utils')
 
 let operatingOrgan
 exports.take = function(deps) {
-  if (!operatingOrgan) return console.warn(`
-    Don't try to call the organism by yourself!
-    Call organ.operate instead!
-    Let Ganic handle this!
-  `)
+  if (!operatingOrgan) throw "Don't use TAKE outside of organism!"
   return operatingOrgan.take(deps)
 }
 

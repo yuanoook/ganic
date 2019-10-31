@@ -5,7 +5,7 @@ exports.take = function(deps) {
   if (!operatingOrgan) return console.warn(`
     Don't try to call the organism by yourself!
     Call organ.operate instead!
-    Let ganic to handle this!
+    Let Ganic handle this!
   `)
   return operatingOrgan.take(deps)
 }
@@ -13,7 +13,7 @@ exports.take = function(deps) {
 const create = organism => {
   const organ = {
     organism,
-    latestResult: null,
+    present: null,
 
     props: null,
     receiveProps: function(props) {
@@ -29,7 +29,7 @@ const create = organism => {
     },
     run: function() {
       this.parasiteCheckingIndex = 0
-      this.latestResult = this.organism(this.props)
+      this.present = this.organism(this.props)
       this.triggerExcrete()
     },
 
@@ -106,11 +106,11 @@ const create = organism => {
     onExcreteListeners: [],
     onExcrete: function(func) {
       this.onExcreteListeners.push(func)
-      func(this.latestResult)
+      func(this.present)
       return this
     },
     triggerExcrete: function() {
-      this.onExcreteListeners.forEach(func => func(this.latestResult))
+      this.onExcreteListeners.forEach(func => func(this.present))
       return this
     }
   }

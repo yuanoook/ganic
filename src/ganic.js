@@ -13,7 +13,7 @@ exports.take = function(deps) {
 const create = organism => {
   const organ = {
     organism,
-    present: null,
+    pheno: null,
 
     props: null,
     receiveProps: function(props) {
@@ -29,7 +29,7 @@ const create = organism => {
     },
     run: function() {
       this.parasiteCheckingIndex = 0
-      this.present = this.organism(this.props)
+      this.pheno = this.organism(this.props)
       this.triggerExcrete()
     },
 
@@ -106,11 +106,11 @@ const create = organism => {
     onExcreteListeners: [],
     onExcrete: function(func) {
       this.onExcreteListeners.push(func)
-      func(this.present)
+      func(this.pheno)
       return this
     },
     triggerExcrete: function() {
-      this.onExcreteListeners.forEach(func => func(this.present))
+      this.onExcreteListeners.forEach(func => func(this.pheno))
       return this
     }
   }

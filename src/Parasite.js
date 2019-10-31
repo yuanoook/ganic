@@ -1,4 +1,4 @@
-const { shallowEqual } = require('./utils')
+const { shallowEqual } = require('./etc/utils')
 
 const Parasite = function({ organ }) {
   Object.assign(this, {

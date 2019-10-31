@@ -1,6 +1,6 @@
 const { Parasite } = require('./Parasite')
-const { shallowEqual } = require('./utils')
-const SINGLETON = require('./singleton')
+const { shallowEqual } = require('./etc/utils')
+const SINGLETON = require('./etc/singleton')
 
 const Organ = function({ organism }) {
   if (typeof organism !== 'function') throw "To create an Organ, organism must be a function!"

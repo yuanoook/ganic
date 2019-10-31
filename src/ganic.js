@@ -1,5 +1,5 @@
-const SINGLETON = require('./singleton')
-const orphanage = require('./orphanage')
+const SINGLETON = require('./etc/singleton')
+const orphanage = require('./etc/orphanage')
 
 exports.take = function(deps) {
   if (!SINGLETON.operatingOrgan) throw "Don't use TAKE outside of organism!"

@@ -1,4 +1,4 @@
-const { Organ } = require('./Organ')
+const { Organ } = require('../Organ')
 
 const organs = new Map()
 

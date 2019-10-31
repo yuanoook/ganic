@@ -1,4 +1,4 @@
-const { take, live } = require('../src/ganic')
+const { take, live } = require('../src/Ganic')
 
 const {
   attachEffect

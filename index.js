@@ -1,4 +1,4 @@
-const { live, take } = require('./src/ganic')
+const { live, take } = require('./src/Ganic')
 
 const {
   attachRef,

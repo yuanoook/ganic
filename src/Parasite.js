@@ -54,7 +54,10 @@ Parasite.prototype = {
     return this;
   },
   detach: function() {
-    if (typeof this.toDetach === 'function') this.toDetach()
+    if (typeof this.toDetach === 'function') {
+      console.log('detach ...')
+      this.toDetach()
+    }
   }
 }
 

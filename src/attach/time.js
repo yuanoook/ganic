@@ -1,4 +1,4 @@
-const { take } = require('../ganic')
+const { take } = require('../Ganic')
 const { attachRef } = require('./base')
 
 const makeTimeParasitism = (setTimer, clearTimer) => {

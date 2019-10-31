@@ -44,7 +44,7 @@ Parasite.prototype = {
     this.detach()
     this.attaching = true
     if (typeof toAttach === 'function') {
-      this.toDetach = toAttach(this.deps, this.asyncGive.bind(this))
+      this.toDetach = toAttach(this.deps, this.asyncGive.bind(this), this)
     } else {
       this.setExcrement(toAttach)
       this.toDetach = () => this.setExcrement(null)

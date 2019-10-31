@@ -4,16 +4,16 @@ const attachRef = () => {
   return take().attach({}).firstGive()
 }
 
-const stateParasitism = (deps, give) => {
-  let state = deps;
+const stateParasitism = function(deps, give, parasite) {
+  let state = deps
   let setState = (newState) => {
     if (!setState) return
     state = typeof newState === 'function'
       ? newState(state)
       : newState
-    give([state, setState])
+    give([state, setState, parasite])
   }
-  give([state, setState])
+  give([state, setState, parasite])
   return () => {
     state = null
     setState = null

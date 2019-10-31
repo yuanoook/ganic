@@ -13,7 +13,7 @@ Organ.prototype = {
 
   props: null,
   receiveProps: function(props) {
-    if (shallowEqual(this.props, props)) return
+    if (shallowEqual(this.props, props)) return this
 
     this.props = props
     this.operate()
@@ -24,6 +24,8 @@ Organ.prototype = {
     SINGLETON.operatingOrgan = null
     return this
   },
+
+  parasiteCheckingIndex: 0,
   run: function() {
     this.parasiteCheckingIndex = 0
     this.pheno = this.organism(this.props)

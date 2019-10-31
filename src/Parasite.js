@@ -1,16 +1,8 @@
 const { shallowEqual } = require('./utils')
-const { Organ } = require('./Organ')
 
 const Parasite = function({ organ }) {
-  // if (typeof organ !== 'object') {
-  //   console.log(organ)
-  //   throw "not an object"
-  // } else {
-  //   throw "an object"
-  // }
-
+  const { Organ } = require('./Organ')
   if (!(organ instanceof Organ)) throw "To create an Parasite, organ must be an Organ!"
-
   this.organ = organ
 }
 

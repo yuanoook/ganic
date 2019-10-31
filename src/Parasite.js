@@ -1,17 +1,18 @@
 const { shallowEqual } = require('./utils')
 
 const Parasite = function({ organ }) {
-  this.organ = organ
+  Object.assign(this, {
+    organ,
+    deps: null,
+    hasExcreted: false,
+    attaching: false,
+    attached: false,
+    toDetach: null,
+    latestExcrement: null
+  })
 }
 
 Parasite.prototype = {
-  organ: null,
-
-  hasExcreted: false,
-  attaching: false,
-  attached: false,
-  toDetach: null,
-  latestExcrement: null,
   setExcrement(excrement) {
     this.hasExcreted = true
     this.latestExcrement = typeof excrement === 'function'
@@ -27,13 +28,10 @@ Parasite.prototype = {
     this.setExcrement(excrement)
     return this.latestExcrement
   },
-  // todo: make multiple asyncGive as one, just like what setState in React
   asyncGive: function(excrement) {
     this.setExcrement(excrement)
     if (!this.attaching) this.organ.operate()
   },
-
-  deps: null,
   receiveDeps: function(deps) {
     this.attachable = !shallowEqual(deps, this.deps)
     this.deps = deps
@@ -55,7 +53,6 @@ Parasite.prototype = {
   },
   detach: function() {
     if (typeof this.toDetach === 'function') {
-      console.log('detach ...')
       this.toDetach()
     }
   }

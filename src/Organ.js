@@ -4,17 +4,19 @@ const SINGLETON = require('./singleton')
 
 const Organ = function({ organism }) {
   if (typeof organism !== 'function') throw "To create an Organ, organism must be a function!"
-  this.organism = organism
+  Object.assign(this, {
+    organism,
+    pheno: null,
+    props: null,
+    parasites: [],
+    parasiteCheckingIndex: 0,
+    onExcreteListeners: []
+  })
 }
 
 Organ.prototype = {
-  organism: null,
-  pheno: null,
-
-  props: null,
   receiveProps: function(props) {
     if (shallowEqual(this.props, props)) return this
-
     this.props = props
     this.operate()
   },
@@ -24,15 +26,11 @@ Organ.prototype = {
     SINGLETON.operatingOrgan = null
     return this
   },
-
-  parasiteCheckingIndex: 0,
   run: function() {
     this.parasiteCheckingIndex = 0
     this.pheno = this.organism(this.props)
     this.triggerExcrete()
   },
-
-  parasites: [],
   getParasite(index) {
     const parasite = this.parasites[index]
     if (parasite) return parasite
@@ -47,8 +45,6 @@ Organ.prototype = {
 
     return parasite
   },
-
-  onExcreteListeners: [],
   onExcrete: function(func) {
     this.onExcreteListeners.push(func)
     func(this.pheno)

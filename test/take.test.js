@@ -3,19 +3,14 @@ const { live, take } = require('../src/Ganic')
 describe('take in Ganic', () => {
 
   it('should get different parasite from different organism', () => {
-    let organ1Parasite
+    const organism1 = () => take(1)
+    const organism2 = () => take(2)
 
-    const organism1 = () => {
-      organ1Parasite = take(1)
-    }
+    const organ1 = live(organism1, 1)
+    const organ2 = live(organism2, 2)
 
-    const organism2 = () => {
-      const parasite = take(2)
-      expect(organ1Parasite === parasite).toBe(false)
-    }
-
-    live(organism1, 1)
-    live(organism2, 2)
+    expect(organ1).not.toBe(organ2)
+    expect(organ1.parasites[0]).not.toBe(organ2.parasites[0])
   })
 
 })

@@ -1,8 +1,6 @@
 const { shallowEqual } = require('./utils')
 
 const Parasite = function({ organ }) {
-  const { Organ } = require('./Organ')
-  if (!(organ instanceof Organ)) throw "To create an Parasite, organ must be an Organ!"
   this.organ = organ
 }
 

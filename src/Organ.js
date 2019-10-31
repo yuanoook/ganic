@@ -1,8 +1,6 @@
 const { Parasite } = require('./Parasite')
-const {
-  shallowEqual,
-  SINGLETON
-} = require('./utils')
+const { shallowEqual } = require('./utils')
+const SINGLETON = require('./singleton')
 
 const Organ = function({ organism }) {
   if (typeof organism !== 'function') throw "To create an Organ, organism must be a function!"
@@ -24,6 +22,7 @@ Organ.prototype = {
     SINGLETON.operatingOrgan = this
     this.run()
     SINGLETON.operatingOrgan = null
+    return this
   },
   run: function() {
     this.parasiteCheckingIndex = 0

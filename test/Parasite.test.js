@@ -3,7 +3,7 @@ const { Parasite } = require('../src/Parasite')
 
 describe('Parasite', () => {
 
-  it('should create an Parasite', () => {
+  it('should create a Parasite', () => {
     const parasite = new Parasite({
       organ: new Organ({ organism: () => {} })
     })

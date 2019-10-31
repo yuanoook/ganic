@@ -1,4 +1,4 @@
-const { take } = require('./ganic');
+const { take } = require('../ganic');
 
 const attachRef = () => {
   return take().attach({}).firstGive()

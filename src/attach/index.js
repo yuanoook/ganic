@@ -3,12 +3,12 @@ const {
   attachMemo,
   attachState,
   attachEffect
-} = require('./attach-base')
+} = require('./base')
 
 const {
   attachTimeout,
   attachInterval
-} = require('./attach-time')
+} = require('./time')
 
 module.exports = {
   attachRef,

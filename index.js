@@ -1,3 +1,5 @@
+'use strict';
+
 const {live, attach} = require('./src/Ganic');
 
 const {

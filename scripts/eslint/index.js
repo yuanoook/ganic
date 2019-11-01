@@ -66,7 +66,7 @@ function runESLint({onlyChanged}) {
   }
   const {errorCount, warningCount, output} = runESLintOnFilesWithOptions(
     allPaths,
-    onlyChanged
+    onlyChanged,
   );
   console.log(output);
   return errorCount === 0 && warningCount === 0;

@@ -1,4 +1,6 @@
 const {
+  attach,
+
   attachRef,
   attachMemo,
   attachState,
@@ -11,6 +13,8 @@ const {
 } = require('./time')
 
 module.exports = {
+  attach,
+
   attachRef,
   attachMemo,
   attachState,

@@ -1,6 +1,7 @@
-const { take, live } = require('../src/Ganic')
+const { live } = require('../src/Ganic')
 
 const {
+  attach,
   attachEffect
 } = require('../src/attach')
 
@@ -29,7 +30,7 @@ describe('parasite attach & detach', () => {
   }
 
   it('should attach & detach properly', () => {
-    const organism = props => take(props).attach(parasitism).firstGive()
+    const organism = props => attach(parasitism, props)
     liveCheckWith3Randoms(organism)
   })
 

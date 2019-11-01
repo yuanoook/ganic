@@ -4,16 +4,16 @@ const {attach} = require('../Ganic');
 
 const attachRef = () => attach({});
 
-const stateParasitism = function(deps, give, parasite) {
+const stateParasitism = function(deps, give) {
   let state = deps;
   let setState = newState => {
     if (!setState) {
       return;
     }
     state = typeof newState === 'function' ? newState(state) : newState;
-    give([state, setState, parasite]);
+    give([state, setState]);
   };
-  give([state, setState, parasite]);
+  give([state, setState]);
   return () => {
     state = null;
     setState = null;

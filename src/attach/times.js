@@ -10,7 +10,7 @@ const debounceParasitism = ({value, idle}, give) => {
 const attachDebounce = (value, idle) =>
   attach(debounceParasitism, {value, idle}, value);
 
-const throttleParasitism = ({value, idle}, give, lastTime = 0) => {
+const throttleParasitism = ({value, idle}, give, {passOn: lastTime = 0}) => {
   const timeLeft = lastTime + idle - Date.now();
   const update = () => {
     lastTime = Date.now();

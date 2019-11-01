@@ -1,14 +1,20 @@
 'use strict';
 
-const {live, attach} = require('./src/Ganic');
+const { live } = require('./src/Ganic');
 
 const {
+  attach,
+
   attachRef,
+  attachMemo,
   attachState,
   attachEffect,
 
   attachTimeout,
   attachInterval,
+
+  attachDebounce,
+  attachThrottle,
 } = require('./src/attach');
 
 module.exports = {
@@ -16,9 +22,13 @@ module.exports = {
   attach,
 
   attachRef,
+  attachMemo,
   attachState,
   attachEffect,
 
   attachTimeout,
   attachInterval,
+
+  attachDebounce,
+  attachThrottle,
 };

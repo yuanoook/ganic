@@ -31,7 +31,7 @@ const intervalOrganism = props => {
 const initProps = { delay: 1000, initState: 0 }
 const organ = live(intervalOrganism, initProps)
 
-organ.onExcrete(r => console.log('ex: ', r))
+organ.addListener(r => console.log('ex: ', r))
 
 // you'll get
 // > ex: 0

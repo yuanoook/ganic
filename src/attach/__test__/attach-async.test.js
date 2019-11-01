@@ -21,7 +21,7 @@ describe('parasite async function', () => {
     };
 
     let count = 0;
-    organ.onExcrete(r => {
+    organ.addListener(r => {
       mockFn(r);
       if (expectation.length === ++count) {
         checkExpectation();

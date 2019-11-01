@@ -10,11 +10,12 @@ const Organ = function({organism}) {
   }
   Object.assign(this, {
     organism,
-    pheno: null,
+    result: null,
+    subOrganSetDescription: null,
     props: null,
     parasites: [],
     parasiteCheckingIndex: 0,
-    onExcreteListeners: [],
+    listeners: [],
   });
 };
 
@@ -24,18 +25,18 @@ Organ.prototype = {
       return this;
     }
     this.props = props;
-    this.operate();
+    this.update();
   },
-  operate: function() {
-    SINGLETON.operatingOrgan = this;
-    this.run();
-    SINGLETON.operatingOrgan = null;
-    return this;
-  },
-  run: function() {
+  update: function() {
+    SINGLETON.updatingOrgan = this;
+
     this.parasiteCheckingIndex = 0;
-    this.pheno = this.organism(this.props);
-    this.triggerExcrete();
+    this.result = this.organism(this.props);
+    this.subOrganSetDescription = this.result;
+    this.wakeListeners();
+
+    SINGLETON.updatingOrgan = null;
+    return this;
   },
   getParasite(index) {
     const parasite = this.parasites[index];
@@ -57,13 +58,13 @@ Organ.prototype = {
       .attach(parasitism)
       .firstGive(firstExcrement);
   },
-  onExcrete: function(func) {
-    this.onExcreteListeners.push(func);
-    func(this.pheno);
+  addListener: function(func) {
+    this.listeners.push(func);
+    func(this.result);
     return this;
   },
-  triggerExcrete: function() {
-    this.onExcreteListeners.forEach(func => func(this.pheno));
+  wakeListeners: function() {
+    this.listeners.forEach(func => func(this.result));
     return this;
   },
 };

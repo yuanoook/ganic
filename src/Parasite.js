@@ -32,7 +32,7 @@ Parasite.prototype = {
   asyncGive: function(excrement) {
     this.setExcrement(excrement);
     if (!this.attaching) {
-      this.organ.operate();
+      this.organ.update();
     }
   },
   receiveDeps: function(deps) {

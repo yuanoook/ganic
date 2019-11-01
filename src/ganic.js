@@ -4,10 +4,10 @@ const SINGLETON = require('./etc/singleton');
 const orphanage = require('./etc/orphanage');
 
 const attach = function(parasitism, deps, firstExcrement) {
-  if (!SINGLETON.operatingOrgan) {
+  if (!SINGLETON.updatingOrgan) {
     throw new Error("Don't use ATTACH outside of organism!");
   }
-  return SINGLETON.operatingOrgan.attach(parasitism, deps, firstExcrement);
+  return SINGLETON.updatingOrgan.attach(parasitism, deps, firstExcrement);
 };
 
 const orphanLive = (organism, props) => {

@@ -4,6 +4,8 @@ const {live} = require('../../Ganic');
 
 const {attachState, attachTimeout, attachInterval} = require('..');
 
+const {checkAsyncExpectation} = require('./utils');
+
 describe('parasite async function', () => {
   const mockFn = jest.fn();
   const defaultProps = {
@@ -13,21 +15,6 @@ describe('parasite async function', () => {
   };
 
   beforeEach(() => mockFn.mockReset());
-
-  const checkOrganExcretion = (organ, expectation, done) => {
-    const checkExpectation = () => {
-      expect(mockFn.mock.calls).toEqual(expectation);
-      done();
-    };
-
-    let count = 0;
-    organ.addListener(r => {
-      mockFn(r);
-      if (expectation.length === ++count) {
-        checkExpectation();
-      }
-    });
-  };
 
   it('should update state with attachState', done => {
     let lastSetstate;
@@ -43,7 +30,7 @@ describe('parasite async function', () => {
       [defaultProps.delayState],
     ];
 
-    checkOrganExcretion(organ, expectation, done);
+    checkAsyncExpectation({organ, expectation, done, mockFn});
 
     setTimeout(() => lastSetstate(defaultProps.delayState));
     live(organism, 2);
@@ -58,7 +45,7 @@ describe('parasite async function', () => {
     const organ = live(organism, defaultProps);
     const expectation = [[defaultProps.initState], [defaultProps.delayState]];
 
-    checkOrganExcretion(organ, expectation, done);
+    checkAsyncExpectation({organ, expectation, done, mockFn});
   });
 
   it('should call periodically with attachInterval', done => {
@@ -72,6 +59,6 @@ describe('parasite async function', () => {
       defaultProps.initState + i,
     ]);
 
-    checkOrganExcretion(organ, expectation, done);
+    checkAsyncExpectation({organ, expectation, done, mockFn});
   });
 });

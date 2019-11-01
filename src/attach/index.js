@@ -11,6 +11,8 @@ const {
 
 const {attachTimeout, attachInterval} = require('./time');
 
+const {attachDebounce, attachThrottle} = require('./pipe');
+
 module.exports = {
   attach,
 
@@ -21,4 +23,7 @@ module.exports = {
 
   attachTimeout,
   attachInterval,
+
+  attachDebounce,
+  attachThrottle,
 };

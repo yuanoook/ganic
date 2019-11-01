@@ -3,22 +3,33 @@
   "version": "1.0.9",
   "description": "A cool organic programming javascript library",
   "main": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/yuanoook/ganic.git"
+  "devDependencies": {
+    "babel-eslint": "^10.0.3",
+    "chalk": "^2.4.2",
+    "eslint": "^6.6.0",
+    "eslint-plugin-jest": "^23.0.2",
+    "eslint-plugin-no-for-of-loops": "^1.0.1",
+    "glob": "^7.1.5",
+    "jest": "^24.9.0",
+    "minimatch": "^3.0.4",
+    "prettier": "^1.18.2"
   },
   "scripts": {
     "test": "jest",
     "prepublishOnly": "jest",
-    "watch": "jest --watchAll"
+    "watch": "jest --watchAll",
+    "lint": "node ./scripts/tasks/eslint.js",
+    "prettier": "node ./scripts/prettier/index.js write-changed",
+    "prettier-all": "node ./scripts/prettier/index.js write"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yuanoook/ganic.git"
   },
   "keywords": [
     "organic",
     "ganic"
   ],
   "author": "Rango Yuan",
-  "license": "MIT",
-  "devDependencies": {
-    "jest": "^24.9.0"
-  }
+  "license": "MIT"
 }

@@ -4,13 +4,10 @@ const {
   attachRef,
   attachMemo,
   attachState,
-  attachEffect
-} = require('./base')
+  attachEffect,
+} = require('./base');
 
-const {
-  attachTimeout,
-  attachInterval
-} = require('./time')
+const {attachTimeout, attachInterval} = require('./time');
 
 module.exports = {
   attach,
@@ -21,5 +18,5 @@ module.exports = {
   attachEffect,
 
   attachTimeout,
-  attachInterval
-}
+  attachInterval,
+};

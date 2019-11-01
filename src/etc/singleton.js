@@ -1,3 +1,3 @@
 module.exports = {
-  operatingOrgan: null
-}
+  operatingOrgan: null,
+};

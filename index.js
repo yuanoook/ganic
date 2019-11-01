@@ -1,4 +1,4 @@
-const { live, attach } = require('./src/Ganic')
+const {live, attach} = require('./src/Ganic');
 
 const {
   attachRef,
@@ -6,8 +6,8 @@ const {
   attachEffect,
 
   attachTimeout,
-  attachInterval
-} = require('../src/attach')
+  attachInterval,
+} = require('../src/attach');
 
 module.exports = {
   live,
@@ -18,5 +18,5 @@ module.exports = {
   attachEffect,
 
   attachTimeout,
-  attachInterval
-}
+  attachInterval,
+};

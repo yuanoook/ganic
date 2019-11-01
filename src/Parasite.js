@@ -44,6 +44,7 @@ Parasite.prototype = {
     if (this.attached && !this.attachable) {
       return this;
     }
+    // feed the detached value to next attach
     this.detach();
     this.attaching = true;
     if (typeof toAttach === 'function') {

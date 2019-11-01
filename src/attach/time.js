@@ -4,7 +4,7 @@ const {attach, attachRef} = require('./base');
 
 const makeTimeParasitism = (setTimer, clearTimer) => {
   return ({delay, callbackRef}) => {
-    if (!delay) {
+    if (typeof delay !== 'number') {
       return;
     }
     const timer = setTimer(() => {

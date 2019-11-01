@@ -6,6 +6,7 @@
  */
 
 'use strict';
+/* eslint-disable no-console */
 
 const minimatch = require('minimatch');
 const CLIEngine = require('eslint').CLIEngine;

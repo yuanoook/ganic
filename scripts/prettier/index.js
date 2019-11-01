@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 'use strict';
+/* eslint-disable no-console */
 
 // Based on similar script in Jest
 // https://github.com/facebook/jest/blob/a7acc5ae519613647ff2c253dd21933d6f94b47f/scripts/prettier.js

@@ -20,7 +20,9 @@ const Organ = function({organism}) {
 
 Organ.prototype = {
   receiveProps: function(props) {
-    if (shallowEqual(this.props, props)) return this;
+    if (shallowEqual(this.props, props)) {
+      return this;
+    }
     this.props = props;
     this.operate();
   },
@@ -37,8 +39,9 @@ Organ.prototype = {
   },
   getParasite(index) {
     const parasite = this.parasites[index];
-    if (parasite) return parasite;
-
+    if (parasite) {
+      return parasite;
+    }
     this.parasites[index] = new Parasite({organ: this});
     return this.parasites[index];
   },

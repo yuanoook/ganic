@@ -17,7 +17,9 @@ const orphanLive = (organism, props) => {
 };
 
 const live = function(organism, props, parent, key) {
-  if (!parent) return orphanLive(organism, props);
+  if (!parent) { 
+    return orphanLive(organism, props);
+  }
   // todo, add parent and key logic
 };
 

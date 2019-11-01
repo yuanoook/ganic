@@ -44,10 +44,10 @@ Parasite.prototype = {
     if (this.attached && !this.attachable) {
       return this;
     }
-    const passOn = this.detach();
+    const handover = this.detach();
     this.attaching = true;
     if (typeof toAttach === 'function') {
-      this.toDetach = toAttach(this.deps, this.asyncGive.bind(this), {passOn});
+      this.toDetach = toAttach(this.deps, this.asyncGive.bind(this), {handover});
     } else {
       this.setExcrement(toAttach);
       this.toDetach = () => this.setExcrement(null);

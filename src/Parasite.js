@@ -45,10 +45,10 @@ Parasite.prototype = {
       return this;
     }
     // feed the detached value to next attach
-    this.detach();
+    const relay = this.detach();
     this.attaching = true;
     if (typeof toAttach === 'function') {
-      this.toDetach = toAttach(this.deps, this.asyncGive.bind(this), this);
+      this.toDetach = toAttach(this.deps, this.asyncGive.bind(this), relay);
     } else {
       this.setExcrement(toAttach);
       this.toDetach = () => this.setExcrement(null);
@@ -59,7 +59,7 @@ Parasite.prototype = {
   },
   detach: function() {
     if (typeof this.toDetach === 'function') {
-      this.toDetach();
+      return this.toDetach();
     }
   },
 };

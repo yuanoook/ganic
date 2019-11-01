@@ -24,8 +24,7 @@ const throttle = function (delay, action) {
   }
 }
 
-const throttleParasitism = ({value, idle}, give, parasite) => {
-  const lastUpdateAt = parasite.$lastupdate || 0;
+const throttleParasitism = ({value, idle}, give, lastUpdateAt = 0) => {
   const now = Date.now();
 
   const timeGap = now - lastUpdateAt;
@@ -33,19 +32,20 @@ const throttleParasitism = ({value, idle}, give, parasite) => {
   const updateImmediately = availableTimeGap <= 0;
 
   const update = () => {
-    parasite.$lastupdate = Date.now()
+    lastUpdateAt = Date.now()
     give(value)
   }
 
   if (updateImmediately) {
     update();
-    return;
+    return () => lastUpdateAt;
   }
 
   const timer = setTimeout(update, availableTimeGap)
 
   return () => {
-    clearTimeout(timer)
+    clearTimeout(timer);
+    return lastUpdateAt;
   }
 }
 

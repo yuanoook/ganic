@@ -24,24 +24,16 @@ const throttle = function (delay, action) {
   }
 }
 
-const throttleParasitism = ({value, idle}, give, lastGiveTime = 0) => {
-  const now = Date.now();
-  const timeGap = now - lastGiveTime;
-  const availableTime = idle - timeGap;
-  const giveValue = () => {
-    lastGiveTime = Date.now();
+const throttleParasitism = ({value, idle}, give, lastTime = 0) => {
+  const timeLeft = lastTime + idle - Date.now();
+  const update = () => {
+    lastTime = Date.now();
     give(value);
   }
-  let timer;
-  if (availableTime <= 0) {
-    giveValue();
-  } else {
-    timer = setTimeout(giveValue, availableTime)
-  }
-
+  const timer = timeLeft <= 0 ? update() : setTimeout(update, timeLeft)
   return () => {
     timer && clearTimeout(timer);
-    return lastGiveTime;
+    return lastTime;
   }
 }
 

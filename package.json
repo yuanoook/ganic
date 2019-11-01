@@ -1,6 +1,6 @@
 {
   "name": "ganic",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "A cool organic programming javascript library",
   "main": "index.js",
   "devDependencies": {
@@ -21,7 +21,7 @@
   },
   "scripts": {
     "test": "jest",
-    "prepublishOnly": "jest",
+    "prepublishOnly": "jest & yarn lint",
     "watch": "jest --watchAll",
     "lint": "node ./scripts/tasks/eslint.js",
     "prettier": "node ./scripts/prettier/index.js write-changed",

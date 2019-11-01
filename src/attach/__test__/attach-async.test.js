@@ -52,7 +52,7 @@ describe('parasite async function', () => {
   it('should call timeout with attachTimeout', done => {
     const organism = props => {
       const [state, setState] = attachState(props.initState);
-      attachTimeout(props.delay, () => setState(props.delayState));
+      attachTimeout(() => setState(props.delayState), props.delay);
       return state;
     };
     const organ = live(organism, defaultProps);
@@ -64,7 +64,7 @@ describe('parasite async function', () => {
   it('should call periodically with attachInterval', done => {
     const organism = props => {
       const [state, setState] = attachState(props.initState);
-      attachInterval(props.delay, () => setState(n => n + 1));
+      attachInterval(() => setState(n => n + 1), props.delay);
       return state;
     };
     const organ = live(organism, defaultProps);

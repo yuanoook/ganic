@@ -1,10 +1,13 @@
+'use strict';
+
 const {Parasite} = require('./Parasite');
 const {shallowEqual} = require('./etc/utils');
 const SINGLETON = require('./etc/singleton');
 
 const Organ = function({organism}) {
-  if (typeof organism !== 'function')
-    throw 'To create an Organ, organism must be a function!';
+  if (typeof organism !== 'function') {
+    throw new Error('To create an Organ, organism must be a function!');
+  }
   Object.assign(this, {
     organism,
     pheno: null,

@@ -1,3 +1,5 @@
+'use strict';
+
 const {live} = require('../../Ganic');
 
 const {attach, attachEffect} = require('..');

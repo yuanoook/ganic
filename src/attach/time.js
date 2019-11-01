@@ -1,3 +1,5 @@
+'use strict';
+
 const {attach, attachRef} = require('./base');
 
 const makeTimeParasitism = (setTimer, clearTimer) => {

@@ -1,8 +1,12 @@
+'use strict';
+
 const SINGLETON = require('./etc/singleton');
 const orphanage = require('./etc/orphanage');
 
 const attach = function(parasitism, deps, firstExcrement) {
-  if (!SINGLETON.operatingOrgan) throw "Don't use ATTACH outside of organism!";
+  if (!SINGLETON.operatingOrgan) {
+    throw new Error("Don't use ATTACH outside of organism!");
+  }
   return SINGLETON.operatingOrgan.attach(parasitism, deps, firstExcrement);
 };
 

@@ -1,3 +1,5 @@
+'use strict';
+
 const {attach} = require('../Ganic');
 
 const attachRef = () => attach({});
@@ -5,7 +7,9 @@ const attachRef = () => attach({});
 const stateParasitism = function(deps, give, parasite) {
   let state = deps;
   let setState = newState => {
-    if (!setState) return;
+    if (!setState) {
+      return;
+    }
     state = typeof newState === 'function' ? newState(state) : newState;
     give([state, setState, parasite]);
   };
@@ -20,9 +24,9 @@ const attachState = initState => {
   return attach(stateParasitism, initState);
 };
 
-const attachMemo = (fn, deps) => {
+const attachMemo = (fn, dependencies) => {
   const parasitism = (deps, give) => give(fn(deps));
-  return attach(parasitism, deps);
+  return attach(parasitism, dependencies);
 };
 
 const attachEffect = (parasitism, deps) => {

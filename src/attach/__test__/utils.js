@@ -16,5 +16,5 @@ const checkAsyncExpectation = ({organ, expectation, done, mockFn}) => {
 };
 
 module.exports = {
-  checkAsyncExpectation
-}
+  checkAsyncExpectation,
+};

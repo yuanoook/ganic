@@ -34,7 +34,7 @@ describe('attachDebounce & attachThrottle', () => {
       // expect it will skip two updates, and bring out the final state
       const debouncedState = attachDebounce(state, 60);
       return {state, debouncedState, interval};
-    }
+    };
 
     const expectation = [
       // 0ms - init
@@ -66,7 +66,7 @@ describe('attachDebounce & attachThrottle', () => {
       attachInterval(() => setState(n => n + 1), 50);
       const throttledState = attachThrottle(state, 135);
       return {state, throttledState};
-    }
+    };
 
     const expectation = [
       // 0ms - init

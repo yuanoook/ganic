@@ -9,7 +9,7 @@ const {
 
   attachTimeout,
   attachInterval,
-} = require('../src/attach');
+} = require('./src/attach');
 
 module.exports = {
   live,

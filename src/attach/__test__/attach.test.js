@@ -1,4 +1,4 @@
-const { live, attach } = require('../src/Ganic')
+const { live, attach } = require('../../Ganic')
 
 describe('attach in Ganic', () => {
 

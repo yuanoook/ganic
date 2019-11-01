@@ -1,9 +1,9 @@
-const { live } = require('../src/Ganic')
+const { live } = require('../../Ganic')
 
 const {
   attach,
   attachEffect
-} = require('../src/attach')
+} = require('..')
 
 describe('parasite attach & detach', () => {
   const mockFn = jest.fn()

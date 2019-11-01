@@ -1,10 +1,10 @@
-const { live } = require('../src/Ganic')
+const { live } = require('../../Ganic')
 
 const {
   attachState,
   attachTimeout,
   attachInterval
-} = require('../src/attach')
+} = require('..')
 
 describe('parasite async function', () => {
   const mockFn = jest.fn()

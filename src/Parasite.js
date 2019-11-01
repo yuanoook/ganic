@@ -1,3 +1,5 @@
+'use strict';
+
 const {shallowEqual} = require('./etc/utils');
 
 const Parasite = function({organ}) {
@@ -29,7 +31,9 @@ Parasite.prototype = {
   },
   asyncGive: function(excrement) {
     this.setExcrement(excrement);
-    if (!this.attaching) this.organ.operate();
+    if (!this.attaching) {
+      this.organ.operate();
+    }
   },
   receiveDeps: function(deps) {
     this.attachable = !shallowEqual(deps, this.deps);
@@ -37,7 +41,9 @@ Parasite.prototype = {
     return this;
   },
   attach: function(toAttach) {
-    if (this.attached && !this.attachable) return this;
+    if (this.attached && !this.attachable) {
+      return this;
+    }
     this.detach();
     this.attaching = true;
     if (typeof toAttach === 'function') {

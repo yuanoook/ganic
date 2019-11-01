@@ -24,28 +24,24 @@ const throttle = function (delay, action) {
   }
 }
 
-const throttleParasitism = ({value, idle}, give, lastUpdateAt = 0) => {
+const throttleParasitism = ({value, idle}, give, lastGiveTime = 0) => {
   const now = Date.now();
-
-  const timeGap = now - lastUpdateAt;
-  const availableTimeGap = idle - timeGap;
-  const updateImmediately = availableTimeGap <= 0;
-
-  const update = () => {
-    lastUpdateAt = Date.now()
-    give(value)
+  const timeGap = now - lastGiveTime;
+  const availableTime = idle - timeGap;
+  const giveValue = () => {
+    lastGiveTime = Date.now();
+    give(value);
   }
-
-  if (updateImmediately) {
-    update();
-    return () => lastUpdateAt;
+  let timer;
+  if (availableTime <= 0) {
+    giveValue();
+  } else {
+    timer = setTimeout(giveValue, availableTime)
   }
-
-  const timer = setTimeout(update, availableTimeGap)
 
   return () => {
-    clearTimeout(timer);
-    return lastUpdateAt;
+    timer && clearTimeout(timer);
+    return lastGiveTime;
   }
 }
 

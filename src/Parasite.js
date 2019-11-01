@@ -44,11 +44,10 @@ Parasite.prototype = {
     if (this.attached && !this.attachable) {
       return this;
     }
-    // feed the detached value to next attach
-    const relay = this.detach();
+    const passOn = this.detach();
     this.attaching = true;
     if (typeof toAttach === 'function') {
-      this.toDetach = toAttach(this.deps, this.asyncGive.bind(this), relay);
+      this.toDetach = toAttach(this.deps, this.asyncGive.bind(this), passOn);
     } else {
       this.setExcrement(toAttach);
       this.toDetach = () => this.setExcrement(null);

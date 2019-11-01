@@ -3,15 +3,12 @@
 const {attach} = require('./base');
 
 const debounceParasitism = ({value, idle}, give) => {
-  const timer = setTimeout(() => give(value), idle)
-  return () => {
-    clearTimeout(timer)
-  }
+  const timer = setTimeout(() => give(value), idle);
+  return () => clearTimeout(timer);
 };
 
-const attachDebounce = (value, idle) => {
-  return attach(debounceParasitism, {value, idle}, value);
-};
+const attachDebounce = (value, idle) => 
+  attach(debounceParasitism, {value, idle}, value);
 
 const throttleParasitism = ({value, idle}, give, lastTime = 0) => {
   const timeLeft = lastTime + idle - Date.now();
@@ -26,9 +23,8 @@ const throttleParasitism = ({value, idle}, give, lastTime = 0) => {
   }
 }
 
-const attachThrottle = (value, idle) => {
-  return attach(throttleParasitism, {value, idle}, value);
-};
+const attachThrottle = (value, idle) => 
+  attach(throttleParasitism, {value, idle}, value);
 
 module.exports = {
   attachDebounce,

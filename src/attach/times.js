@@ -18,7 +18,9 @@ const throttleParasitism = ({value, idle}, give, lastTime = 0) => {
   };
   const timer = timeLeft <= 0 ? update() : setTimeout(update, timeLeft);
   return () => {
-    timer && clearTimeout(timer);
+    if (timer) {
+      clearTimeout(timer);
+    }
     return lastTime;
   };
 };

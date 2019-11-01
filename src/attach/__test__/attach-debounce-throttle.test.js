@@ -18,7 +18,6 @@ describe('attachDebounce & attachThrottle', () => {
   beforeEach(() => mockFn.mockReset());
 
   it('should debounce state updates', done => {
-    const mockFn = jest.fn();
     const organism = () => {
       const [state, setState] = attachState(0);
       const [interval, setInterval] = attachState(50);
@@ -60,7 +59,6 @@ describe('attachDebounce & attachThrottle', () => {
   });
 
   it('should throttle state updates', done => {
-    const mockFn = jest.fn();
     const organism = () => {
       const [state, setState] = attachState(0);
       attachInterval(() => setState(n => n + 1), 50);

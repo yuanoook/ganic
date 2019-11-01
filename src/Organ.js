@@ -45,6 +45,9 @@ Organ.prototype = {
 
     return parasite
   },
+  attach: function(parasitism, deps, firstExcrement) {
+    return this.take(deps).attach(parasitism).firstGive(firstExcrement)
+  },
   onExcrete: function(func) {
     this.onExcreteListeners.push(func)
     func(this.pheno)

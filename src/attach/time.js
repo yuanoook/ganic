@@ -1,5 +1,4 @@
-const { take } = require('../Ganic')
-const { attachRef } = require('./base')
+const { attach, attachRef } = require('./base')
 
 const makeTimeParasitism = (setTimer, clearTimer) => {
   return ({delay, callbackRef}) => {
@@ -16,7 +15,7 @@ const makeTimeParasitism = (setTimer, clearTimer) => {
 const makeTimeAttach = (delay, callback, parasitism) => {
   const callbackRef = attachRef()
   callbackRef.current = callback
-  return take({delay, callbackRef: callbackRef}).attach(parasitism).firstGive()
+  return attach(parasitism, {delay, callbackRef: callbackRef})
 }
 
 const timeoutParasitism = makeTimeParasitism(setTimeout, clearTimeout)

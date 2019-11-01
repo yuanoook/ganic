@@ -1,8 +1,6 @@
-const { take } = require('../Ganic');
+const { attach } = require('../Ganic');
 
-const attachRef = () => {
-  return take().attach({}).firstGive()
-}
+const attachRef = () => attach({})
 
 const stateParasitism = function(deps, give, parasite) {
   let state = deps
@@ -21,21 +19,22 @@ const stateParasitism = function(deps, give, parasite) {
 }
 
 const attachState = initState => {
-  return take(initState).attach(stateParasitism).firstGive()
+  return attach(stateParasitism, initState)
 }
 
 const attachMemo = (fn, deps) => {
-  return take(deps).attach((deps, give) => give(fn(deps))).firstGive()
+  const parasitism = (deps, give) => give(fn(deps))
+  return attach(parasitism, deps)
 }
 
 const attachEffect = (parasitism, deps) => {
-  const isDepsNull = deps === null || deps === undefined
-  const takeDeps = !isDepsNull ? deps : Math.random()
-
-  return take(takeDeps).attach(() => parasitism(deps)).firstGive()
+  const toTakeDeps = deps !== undefined ? deps : Math.random()
+  const toAttachParasitism = () => parasitism(deps)
+  return attach(toAttachParasitism, toTakeDeps)
 }
 
 module.exports = {
+  attach,
   attachRef,
   attachState,
   attachMemo,

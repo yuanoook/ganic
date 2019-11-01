@@ -9,7 +9,8 @@
   },
   "scripts": {
     "test": "jest",
-    "prepublishOnly": "jest"
+    "prepublishOnly": "jest",
+    "watch": "jest --watchAll"
   },
   "keywords": [
     "organic",

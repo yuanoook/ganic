@@ -1,4 +1,4 @@
-const { live, take } = require('./src/Ganic')
+const { live, attach } = require('./src/Ganic')
 
 const {
   attachRef,
@@ -11,7 +11,7 @@ const {
 
 module.exports = {
   live,
-  take,
+  attach,
 
   attachRef,
   attachState,

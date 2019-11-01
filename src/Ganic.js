@@ -6,6 +6,11 @@ exports.take = function(deps) {
   return SINGLETON.operatingOrgan.take(deps)
 }
 
+exports.attach = function(parasitism, deps, firstExcrement) {
+  if (!SINGLETON.operatingOrgan) throw "Don't use TAKE outside of organism!"
+  return SINGLETON.operatingOrgan.attach(parasitism, deps, firstExcrement)
+}
+
 const orphanLive = (organism, props) => {
   const organ = orphanage.get(organism)
   organ.receiveProps(props)

@@ -21,7 +21,7 @@ const intervalOrganism = props => {
   const [state, setState] = attachState(props.initState)
   const callbackRef = attachRef()
   callbackRef.current = () => setState(n => n + 1)
-  take({delay: props.delay, callbackRef: callbackRef}).attach(intervalParasitism).firstGive()
+  attach(intervalParasitism, {delay: props.delay, callbackRef: callbackRef})
   return state
 }
 ```

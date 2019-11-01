@@ -1,9 +1,9 @@
-const { live } = require('../src/Ganic')
+const { live } = require('../../Ganic')
 
 const {
   attachRef,
   attachState
-} = require('../src/attach')
+} = require('..')
 
 describe('should always keep identity from parasite', () => {
 

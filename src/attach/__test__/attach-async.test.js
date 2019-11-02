@@ -33,7 +33,7 @@ describe('parasite async function', () => {
     checkAsyncExpectation({organ, expectation, done, mockFn});
 
     setTimeout(() => lastSetstate(defaultProps.delayState));
-    live(organism, 2);
+    organ.receive(2);
   });
 
   it('should call timeout with attachTimeout', done => {

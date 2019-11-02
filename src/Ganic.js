@@ -10,19 +10,13 @@ const attach = function(parasitism, deps, firstExcrement) {
   return Lakhesis.updatingOrgan.attach(parasitism, deps, firstExcrement);
 };
 
-// todo:  Klotho > organManager
-const orphanLive = (organism, props) => {
-  const organ = Klotho.get(organism);
-  organ.receiveProps(props);
-  return organ;
-};
+const create = (organism, props) =>
+  Klotho.spin({ organism, props }).receiveProps(props);
 
-// todo: live > create, Organ.create, new Organ(organSetDescription)
 const live = function(organism, props, parent, key) {
   if (!parent) {
-    return orphanLive(organism, props);
+    return create(organism, props);
   }
-  // todo, add parent and key logic
 };
 
 module.exports = {

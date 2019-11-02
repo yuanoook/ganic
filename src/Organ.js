@@ -17,15 +17,17 @@ const Organ = function({organism}) {
     parasiteCheckingIndex: 0,
     listeners: [],
   });
+
+  this.receive = this.receiveProps;
 };
 
 Organ.prototype = {
   receiveProps: function(props) {
-    if (shallowEqual(this.props, props)) {
-      return this;
+    if (!shallowEqual(this.props, props)) {
+      this.props = props;
+      this.update(); 
     }
-    this.props = props;
-    this.update();
+    return this;
   },
   update: function() {
     Lakhesis.updatingOrgan = this;

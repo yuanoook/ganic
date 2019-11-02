@@ -9,14 +9,18 @@ describe('shutdown', () => {
     const catchErrorMockFn = jest.fn();
     const {setTimeout, clearTimeout} = getAllTimeout(() => {
       expect(catchErrorMockFn.mock.calls).toEqual([
-        [ASYNC_GIVE_AFTER_DETACH_ERROR_MESSAGE]
+        [ASYNC_GIVE_AFTER_DETACH_ERROR_MESSAGE],
       ]);
       done();
     });
 
     // this parasitism is bad, we forget to clearTimeout
     const badParasitism = (deps, give) => setTimeout(() => {
-      try { give(); } catch (e) { catchErrorMockFn(e.message); }
+      try {
+        give();
+      } catch (e) {
+        catchErrorMockFn(e.message);
+      }
     });
     const badOrganism = () => attach(badParasitism);
     create({organism: badOrganism}).shutdown();
@@ -26,7 +30,7 @@ describe('shutdown', () => {
       const timer = setTimeout(give);
       // set up the right detach function, do our clean job here
       return () => clearTimeout(timer);
-    }
+    };
     const goodOrganism = () => attach(goodParasitism);
     // we can shutdown this safely :D
     create({organism: goodOrganism}).shutdown();

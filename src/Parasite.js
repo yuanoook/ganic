@@ -87,10 +87,10 @@ Parasite.prototype = {
   shutdown: function() {
     this.detach();
     this.clearUp();
-  }
+  },
 };
 
 module.exports = {
   Parasite,
-  ASYNC_GIVE_AFTER_DETACH_ERROR_MESSAGE
+  ASYNC_GIVE_AFTER_DETACH_ERROR_MESSAGE,
 };

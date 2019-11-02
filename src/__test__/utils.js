@@ -1,11 +1,12 @@
 'use strict';
+/* eslint-disable no-sequences */
 
 const getAllTimeout = done => {
   let timerCount = 0;
   const checkDone = () => --timerCount === 0 && done();
   return {
     setTimeout: (fn, delay) => (
-      timerCount ++,
+      timerCount++,
       setTimeout(
         () => (
           fn(),
@@ -22,9 +23,9 @@ const getAllTimeout = done => {
       clearTimeout(timer),
       checkDone()
     ),
-  }
-}
+  };
+};
 
 module.exports = {
-  getAllTimeout
+  getAllTimeout,
 };

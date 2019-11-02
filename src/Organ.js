@@ -90,7 +90,7 @@ Organ.prototype = {
   shutdown: function() {
     this.removeAllParasites();
     this.removeAllListners();
-  }
+  },
 };
 
 module.exports = {

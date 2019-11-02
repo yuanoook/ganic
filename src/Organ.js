@@ -1,8 +1,8 @@
 'use strict';
 
 const {Parasite} = require('./Parasite');
-const {shallowEqual} = require('./etc/utils');
-const SINGLETON = require('./etc/singleton');
+const {shallowEqual} = require('./moirai/utils');
+const Lakhesis = require('./moirai/Lakhesis');
 
 const Organ = function({organism}) {
   if (typeof organism !== 'function') {
@@ -28,14 +28,14 @@ Organ.prototype = {
     this.update();
   },
   update: function() {
-    SINGLETON.updatingOrgan = this;
+    Lakhesis.updatingOrgan = this;
 
     this.parasiteCheckingIndex = 0;
     this.result = this.organism(this.props);
     this.subOrganSetDescription = this.result;
     this.wakeListeners();
 
-    SINGLETON.updatingOrgan = null;
+    Lakhesis.updatingOrgan = null;
     return this;
   },
   getParasite(index) {

@@ -1,18 +1,18 @@
 'use strict';
 
-const SINGLETON = require('./etc/singleton');
-const orphanage = require('./etc/orphanage');
+const Klotho = require('./moirai/Klotho');
+const Lakhesis = require('./moirai/Lakhesis');
 
 const attach = function(parasitism, deps, firstExcrement) {
-  if (!SINGLETON.updatingOrgan) {
+  if (!Lakhesis.updatingOrgan) {
     throw new Error("Don't use ATTACH outside of organism!");
   }
-  return SINGLETON.updatingOrgan.attach(parasitism, deps, firstExcrement);
+  return Lakhesis.updatingOrgan.attach(parasitism, deps, firstExcrement);
 };
 
-// todo:  orphanage > organManager
+// todo:  Klotho > organManager
 const orphanLive = (organism, props) => {
-  const organ = orphanage.get(organism);
+  const organ = Klotho.get(organism);
   organ.receiveProps(props);
   return organ;
 };

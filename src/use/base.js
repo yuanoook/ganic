@@ -4,6 +4,11 @@ const {attach} = require('../Ganic');
 
 const useRef = () => attach({});
 
+const useMemo = (fn, dependencies) => {
+  const parasitism = (deps, give) => give(fn(deps));
+  return attach(parasitism, dependencies);
+};
+
 const stateParasitism = function(deps, give) {
   let state = deps;
   let setState = newState => {
@@ -24,11 +29,6 @@ const useState = initState => {
   return attach(stateParasitism, initState);
 };
 
-const useMemo = (fn, dependencies) => {
-  const parasitism = (deps, give) => give(fn(deps));
-  return attach(parasitism, dependencies);
-};
-
 const useEffect = (parasitism, deps) => {
   const toTakeDeps = deps !== undefined ? deps : Math.random();
   const toAttachParasitism = () => parasitism(deps);
@@ -37,7 +37,7 @@ const useEffect = (parasitism, deps) => {
 
 module.exports = {
   useRef,
-  useState,
   useMemo,
+  useState,
   useEffect,
 };

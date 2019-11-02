@@ -2,6 +2,7 @@
 
 const Klotho = require('./moirai/Klotho');
 const Lakhesis = require('./moirai/Lakhesis');
+const { shutdown } = require('./moirai/Atropos');
 
 const attach = function(parasitism, deps, firstExcrement) {
   if (!Lakhesis.updatingOrgan) {
@@ -10,10 +11,19 @@ const attach = function(parasitism, deps, firstExcrement) {
   return Lakhesis.updatingOrgan.attach(parasitism, deps, firstExcrement);
 };
 
-const live = ({organism, props, parent, key}) =>
-  Klotho.spin({ organism, props }).receiveProps(props);
+const use = attach;
+
+const create = ({organism, props, parent, key}) =>
+  Klotho.spin({organism, props, parent, key}).receiveProps(props);
+
+const live = create;
 
 module.exports = {
-  attach,
   live,
+  create,
+
+  use,
+  attach,
+
+  shutdown
 };

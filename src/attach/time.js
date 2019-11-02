@@ -1,6 +1,7 @@
 'use strict';
 
-const {attach, useRef} = require('./base');
+const {attach} = require('../Ganic');
+const {useRef} = require('./base');
 
 const makeTimeParasitism = (setTimer, clearTimer) => {
   return ({delay, callbackRef}) => {

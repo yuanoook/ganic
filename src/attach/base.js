@@ -36,7 +36,6 @@ const useEffect = (parasitism, deps) => {
 };
 
 module.exports = {
-  attach,
   useRef,
   useState,
   useMemo,

@@ -1,6 +1,6 @@
 'use strict';
 
-const {attach} = require('./base');
+const {attach} = require('../Ganic');
 
 const debounceParasitism = ({value, idle}, give) => {
   const timer = setTimeout(() => give(value), idle);

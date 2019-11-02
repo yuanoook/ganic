@@ -47,7 +47,7 @@ describe('useDebounce & useThrottle', () => {
       [{state: 3, debouncedState: 0, interval: 50}],
       [{state: 4, debouncedState: 0, interval: 50}],
 
-      // 225ms - ignored update from attachTimout, interval timer stoped here
+      // 225ms - ignored update from useTimeout, interval timer stoped here
       [{state: 4, debouncedState: 0, interval: null}],
 
       // 260ms (4 * 50ms + 60ms) - bring out the final state

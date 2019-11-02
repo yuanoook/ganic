@@ -1,8 +1,6 @@
 'use strict';
 
 const {
-  attach,
-
   useRef,
   useMemo,
   useState,
@@ -14,8 +12,6 @@ const {useTimeout, useInterval} = require('./time');
 const {useDebounce, useThrottle} = require('./times');
 
 module.exports = {
-  attach,
-
   useRef,
   useMemo,
   useState,

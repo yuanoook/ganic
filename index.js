@@ -1,6 +1,6 @@
 'use strict';
 
-const { live, attach } = require('./src/Ganic');
+const { create, attach } = require('./src/Ganic');
 
 const {
   useRef,
@@ -16,8 +16,8 @@ const {
 } = require('./src/attach');
 
 module.exports = {
-  // live, to bring sth alive from organSetDescription
-  live,
+  // create an organSet from organSetDescription
+  create,
 
   // attach, to design useX - Composite Parasite Maker
   attach,

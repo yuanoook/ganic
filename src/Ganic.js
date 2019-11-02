@@ -14,12 +14,8 @@ const attach = function(parasitism, deps, firstExcrement) {
 const create = ({organism, props, parent, key}) =>
   Klotho.spin({organism, props, parent, key}).receiveProps(props);
 
-const live = create;
-
 module.exports = {
-  live,
   create,
-
   attach,
   shutdown
 };

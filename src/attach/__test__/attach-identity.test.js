@@ -1,6 +1,6 @@
 'use strict';
 
-const {live} = require('../../Ganic');
+const {create} = require('../../Ganic');
 
 const {useRef, useState} = require('..');
 
@@ -16,7 +16,7 @@ describe('should always keep identity from parasite', () => {
       expect(setA === setB).toEqual(false);
     };
 
-    live({organism, props: 1}).receive(2).receive(3);
+    create({organism, props: 1}).receive(2).receive(3);
   });
 
   it('should always get permanent unique ref from useRef', () => {
@@ -30,6 +30,6 @@ describe('should always keep identity from parasite', () => {
       expect(aRef === bRef).toEqual(false);
     };
 
-    live({organism, props: 1}).receive(2).receive(3);
+    create({organism, props: 1}).receive(2).receive(3);
   });
 });

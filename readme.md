@@ -1,6 +1,6 @@
 # Ganic
 
-> ### Components should be alive, Ganic makes it happen.
+> ### Components should be acreate, Ganic makes it happen.
 
 ## Parasitism function
 ```javascript
@@ -29,7 +29,7 @@ const intervalOrganism = props => {
 ## Give the organism life
 ```javascript
 const initProps = { delay: 1000, initState: 0 }
-const organ = live(intervalOrganism, initProps)
+const organ = create(intervalOrganism, initProps)
 
 organ.addListener(r => console.log('ex: ', r))
 

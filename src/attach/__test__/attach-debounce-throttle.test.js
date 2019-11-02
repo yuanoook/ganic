@@ -1,6 +1,6 @@
 'use strict';
 
-const {live} = require('../../Ganic');
+const {create} = require('../../Ganic');
 
 const {
   useState,
@@ -54,7 +54,7 @@ describe('useDebounce & useThrottle', () => {
       [{state: 4, debouncedState: 4, interval: null}],
     ];
 
-    const organ = live({organism});
+    const organ = create({organism});
     checkAsyncExpectation({organ, expectation, done, mockFn});
   });
 
@@ -86,7 +86,7 @@ describe('useDebounce & useThrottle', () => {
       [{state: 5, throttledState: 5}],
     ];
 
-    const organ = live({organism});
+    const organ = create({organism});
     checkAsyncExpectation({organ, expectation, done, mockFn});
   });
 });

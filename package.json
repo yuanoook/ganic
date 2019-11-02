@@ -1,6 +1,6 @@
 {
   "name": "ganic",
-  "version": "1.0.18",
+  "version": "1.0.20",
   "description": "A cool organic programming javascript library",
   "main": "index.js",
   "devDependencies": {
@@ -29,15 +29,13 @@
   "scripts": {
     "test": "jest",
     "prepublishOnly": "jest & yarn lint & rollup -c",
+    "postpack": "rm -rf ./umd",
     "watch": "jest --watchAll",
     "lint": "node ./scripts/tasks/eslint.js",
     "prettier": "node ./scripts/prettier/index.js write-changed",
     "prettier-all": "node ./scripts/prettier/index.js write",
     "build": "rollup -c"
   },
-  "files": [
-    "./build/umd/ganic-production.min.js"
-  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/yuanoook/ganic.git"

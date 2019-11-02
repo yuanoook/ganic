@@ -5,7 +5,7 @@ import nodeResolve from 'rollup-plugin-node-resolve';
 export default {
   input: 'index.js',
   output: {
-    file: './build/umd/ganic-production.min.js',
+    file: './umd/ganic-production.min.js',
     format: 'umd',
     name: 'Ganic'
   },

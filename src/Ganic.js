@@ -10,14 +10,8 @@ const attach = function(parasitism, deps, firstExcrement) {
   return Lakhesis.updatingOrgan.attach(parasitism, deps, firstExcrement);
 };
 
-const create = (organism, props) =>
+const live = ({organism, props, parent, key}) =>
   Klotho.spin({ organism, props }).receiveProps(props);
-
-const live = function({organism, props, parent, key}) {
-  if (!parent) {
-    return create(organism, props);
-  }
-};
 
 module.exports = {
   attach,

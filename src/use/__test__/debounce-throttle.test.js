@@ -1,4 +1,5 @@
 'use strict';
+/* eslint-disable no-multi-spaces */
 
 const {create} = require('../../Ganic');
 const {

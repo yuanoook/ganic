@@ -17,5 +17,5 @@ const create = ({organism, props, parent, key}) =>
 module.exports = {
   create,
   attach,
-  shutdown
+  shutdown,
 };

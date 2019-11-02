@@ -37,7 +37,7 @@ describe('should always keep identity from parasite', () => {
       [2],
       [2],
       [4],
-    ])
+    ]);
   });
 
   it('should always get permanent unique ref from useRef', () => {

@@ -24,8 +24,8 @@ const spin = organSetDescription => {
 
   */
 
-  return new Organ({organism})
-}
+  return new Organ({organism});
+};
 
 module.exports = {
   spin,

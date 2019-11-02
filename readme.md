@@ -6,8 +6,29 @@ You are not limited to only **use Hooks** in React UI development. Ganic can wor
 
 It's very tiny, but very powerful.
 
-### Demo
-https://codesandbox.io/s/ganic-hb2r1
+### DEMO
+1. https://codesandbox.io/s/ganic-hb2r1
+2. https://yuanoook.com/
+
+## How to use?
+```bash
+# with npm
+npm install ganic;
+
+# with yarn
+yarn add ganic;
+```
+
+Browser
+```html
+<script src="https://unpkg.com/ganic/umd/ganic-production.min.js" />
+
+<script>
+  const {create, useState} = Ganic;
+  // ...
+</script>
+```
+
 
 ## Articles
 [Think in Ganic](#think-in-ganic)

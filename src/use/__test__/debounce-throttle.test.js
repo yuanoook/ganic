@@ -74,9 +74,9 @@ describe('useDebounce & useThrottle', () => {
   it('should throttle state updates', done => {
     const organism = () => {
       const [state, setState] = useState(0);          // parasite index 0
-      const throttledState = useThrottle(state, 135); // parasite index 1
+      const throttledState = useThrottle(state, 260); // parasite index 1
 
-      useInterval(() => setState(n => n + 1), 50);
+      useInterval(() => setState(n => n + 1), 100);
 
       const givingParasiteIndex = Lakhesis.givingParasite && Lakhesis.givingParasite.index;
 
@@ -87,19 +87,19 @@ describe('useDebounce & useThrottle', () => {
       // 0ms - init
       [{state: 0, throttledState: 0, givingParasiteIndex: null}],
 
-      // 50ms - 100ms - throttled 2 updates
+      // 100ms - 200ms - throttled 2 updates
       [{state: 1, throttledState: 0, givingParasiteIndex: 0}],
       [{state: 2, throttledState: 0, givingParasiteIndex: 0}],
 
-      // 135ms - brought out the 2nd update
+      // 260ms - brought out the 2nd update
       [{state: 2, throttledState: 2, givingParasiteIndex: 1}],
 
-      // 150ms - 250ms - throttled 3 more updates
+      // 300ms - 500ms - throttled 3 more updates
       [{state: 3, throttledState: 2, givingParasiteIndex: 0}],
       [{state: 4, throttledState: 2, givingParasiteIndex: 0}],
       [{state: 5, throttledState: 2, givingParasiteIndex: 0}],
 
-      // 270ms - brought out the 5th update
+      // 520ms - brought out the 5th update
       [{state: 5, throttledState: 5, givingParasiteIndex: 1}],
     ];
 

@@ -19,16 +19,17 @@ const {
 
 module.exports = {
   live,
-  attach,
+  // alias use*=attach*
+  use: attach,
 
-  attachRef,
-  attachMemo,
-  attachState,
-  attachEffect,
+  useRef: attachRef,
+  useMemo: attachMemo,
+  useState: attachState,
+  useEffect: attachEffect,
 
-  attachTimeout,
-  attachInterval,
+  useTimeout: attachTimeout,
+  useInterval: attachInterval,
 
-  attachDebounce,
-  attachThrottle,
+  useDebounce: attachDebounce,
+  useThrottle: attachThrottle,
 };

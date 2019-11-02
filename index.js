@@ -5,16 +5,16 @@ const { live } = require('./src/Ganic');
 const {
   attach,
 
-  useRef: useRef,
-  useMemo: useMemo,
-  useState: useState,
-  useEffect: useEffect,
+  useRef,
+  useMemo,
+  useState,
+  useEffect,
 
-  useTimeout: useTimeout,
-  useInterval: useInterval,
+  useTimeout,
+  useInterval,
 
-  useDebounce: useDebounce,
-  useThrottle: useThrottle,
+  useDebounce,
+  useThrottle,
 } = require('./src/attach');
 
 module.exports = {

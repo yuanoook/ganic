@@ -58,7 +58,7 @@ Organ.prototype = {
   attach: function(parasitism, deps, firstExcrement) {
     return this.take(deps)
       .attach(parasitism)
-      .firstYield(firstExcrement);
+      .firstGive(firstExcrement);
   },
   addListener: function(func) {
     this.listeners.push(func);

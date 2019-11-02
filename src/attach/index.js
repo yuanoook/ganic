@@ -9,7 +9,7 @@ const {
   attachEffect,
 } = require('./base');
 
-const {attachTimeout, attachInterval} = require('./time');
+const {useTimeout, useInterval} = require('./time');
 
 const {attachDebounce, attachThrottle} = require('./times');
 
@@ -21,8 +21,8 @@ module.exports = {
   attachState,
   attachEffect,
 
-  attachTimeout,
-  attachInterval,
+  useTimeout,
+  useInterval,
 
   attachDebounce,
   attachThrottle,

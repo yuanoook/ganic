@@ -10,8 +10,8 @@ const {
   attachState: useState,
   attachEffect: useEffect,
 
-  attachTimeout: useTimeout,
-  attachInterval: useInterval,
+  useTimeout: useTimeout,
+  useInterval: useInterval,
 
   attachDebounce: useDebounce,
   attachThrottle: useThrottle,

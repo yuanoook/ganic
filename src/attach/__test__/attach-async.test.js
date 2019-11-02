@@ -2,7 +2,7 @@
 
 const {live} = require('../../Ganic');
 
-const {attachState, attachTimeout, attachInterval} = require('..');
+const {attachState, useTimeout, useInterval} = require('..');
 
 const {checkAsyncExpectation} = require('./utils');
 
@@ -36,10 +36,10 @@ describe('parasite async function', () => {
     organ.receive(2);
   });
 
-  it('should call timeout with attachTimeout', done => {
+  it('should call timeout with useTimeout', done => {
     const organism = props => {
       const [state, setState] = attachState(props.initState);
-      attachTimeout(() => setState(props.delayState), props.delay);
+      useTimeout(() => setState(props.delayState), props.delay);
       return state;
     };
     const organ = live({organism, props: defaultProps});
@@ -48,10 +48,10 @@ describe('parasite async function', () => {
     checkAsyncExpectation({organ, expectation, done, mockFn});
   });
 
-  it('should call periodically with attachInterval', done => {
+  it('should call periodically with useInterval', done => {
     const organism = props => {
       const [state, setState] = attachState(props.initState);
-      attachInterval(() => setState(n => n + 1), props.delay);
+      useInterval(() => setState(n => n + 1), props.delay);
       return state;
     };
     const organ = live({organism, props: defaultProps});

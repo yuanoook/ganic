@@ -16,21 +16,21 @@ const makeTimeParasitism = (setTimer, clearTimer) => {
   };
 };
 
-const makeTimeAttach = (parasitism, {callback, delay}) => {
+const timeoutParasitism = makeTimeParasitism(setTimeout, clearTimeout);
+const intervalParasitism = makeTimeParasitism(setInterval, clearInterval);
+
+const attachTimeParasitism = (parasitism, {callback, delay}) => {
   const callbackRef = attachRef();
   callbackRef.current = callback;
   return attach(parasitism, {delay, callbackRef: callbackRef});
 };
 
-const timeoutParasitism = makeTimeParasitism(setTimeout, clearTimeout);
-const intervalParasitism = makeTimeParasitism(setInterval, clearInterval);
-
-const attachTimeout = (callback, delay) =>
-  makeTimeAttach(timeoutParasitism, {callback, delay});
-const attachInterval = (callback, delay) =>
-  makeTimeAttach(intervalParasitism, {callback, delay});
+const useTimeout = (callback, delay) =>
+  attachTimeParasitism(timeoutParasitism, {callback, delay});
+const useInterval = (callback, delay) =>
+  attachTimeParasitism(intervalParasitism, {callback, delay});
 
 module.exports = {
-  attachTimeout,
-  attachInterval,
+  useTimeout,
+  useInterval,
 };

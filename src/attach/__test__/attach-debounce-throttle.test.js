@@ -4,8 +4,8 @@ const {live} = require('../../Ganic');
 
 const {
   attachState,
-  attachInterval,
-  attachTimeout,
+  useInterval,
+  useTimeout,
 
   attachDebounce,
   attachThrottle,
@@ -23,11 +23,11 @@ describe('attachDebounce & attachThrottle', () => {
       const [interval, setInterval] = attachState(50);
 
       // start updating the state every 50ms
-      attachInterval(() => setState(n => n + 1), interval);
+      useInterval(() => setState(n => n + 1), interval);
 
       // stop updating state 110ms later
       // expect there'll be two updates only
-      attachTimeout(() => setInterval(null), 225);
+      useTimeout(() => setInterval(null), 225);
 
       // bring debouncedState, 60ms after the last state update
       // expect it will skip two updates, and bring out the final state
@@ -39,7 +39,7 @@ describe('attachDebounce & attachThrottle', () => {
       // 0ms - init
       [{state: 0, debouncedState: 0, interval: 50}],
 
-      // 50ms - skipped the 1st update from attachInterval
+      // 50ms - skipped the 1st update from useInterval
       [{state: 1, debouncedState: 0, interval: 50}],
 
       // - skipped 3 more updates
@@ -61,7 +61,7 @@ describe('attachDebounce & attachThrottle', () => {
   it('should throttle state updates', done => {
     const organism = () => {
       const [state, setState] = attachState(0);
-      attachInterval(() => setState(n => n + 1), 50);
+      useInterval(() => setState(n => n + 1), 50);
       const throttledState = attachThrottle(state, 135);
       return {state, throttledState};
     };

@@ -1,13 +1,9 @@
 'use strict';
 
-const getTestTimeout = done => {
+const getAllTimeout = done => {
   let timerCount = 0;
   const checkDone = () => --timerCount === 0 && done();
   return {
-    clearTimeout: timer => (
-      clearTimeout(timer),
-      checkDone()
-    ),
     setTimeout: (fn, delay) => (
       timerCount ++,
       setTimeout(
@@ -16,10 +12,19 @@ const getTestTimeout = done => {
           checkDone()
         ),
         delay)
-    )
+    ),
+
+    /**
+     *  Don't call clearTimeout right after setTimeout,
+     *  Otherwise, you'll get done called immediately
+     * */
+    clearTimeout: timer => timer && (
+      clearTimeout(timer),
+      checkDone()
+    ),
   }
 }
 
 module.exports = {
-  getTestTimeout,
+  getAllTimeout
 };

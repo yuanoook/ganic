@@ -1,14 +1,13 @@
 'use strict';
 
 const {create, attach} = require('../Ganic');
-const {useEffect} = require('../use');
 const {ASYNC_GIVE_AFTER_DETACH_ERROR_MESSAGE} = require('../Parasite');
-const {getTestTimeout} = require('./utils');
+const {getAllTimeout} = require('./utils');
 
 describe('shutdown', () => {
   it('should throw Error when call give after detach', done => {
     const catchErrorMockFn = jest.fn();
-    const {setTimeout, clearTimeout} = getTestTimeout(() => {
+    const {setTimeout, clearTimeout} = getAllTimeout(() => {
       expect(catchErrorMockFn.mock.calls).toEqual([
         [ASYNC_GIVE_AFTER_DETACH_ERROR_MESSAGE]
       ]);

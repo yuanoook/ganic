@@ -1,6 +1,7 @@
 // rollup.config.js
 import commonjs from 'rollup-plugin-commonjs';
 import nodeResolve from 'rollup-plugin-node-resolve';
+import minify from 'rollup-plugin-babel-minify';
 
 export default {
   input: 'index.js',
@@ -10,9 +11,14 @@ export default {
     name: 'Ganic'
   },
   plugins: [
+    minify({
+      removeConsole: true,
+      removeDebugger: true,
+      comments: false
+    }),
+
     nodeResolve({
-      jsnext: true,
-      main: true
+      mainFields: ['module', 'main', 'browser']
     }),
 
     commonjs({

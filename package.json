@@ -1,6 +1,6 @@
 {
   "name": "ganic",
-  "version": "1.0.20",
+  "version": "1.0.21",
   "description": "A cool organic programming javascript library",
   "main": "index.js",
   "devDependencies": {
@@ -20,6 +20,7 @@
     "prettier": "^1.18.2",
     "rollup": "^1.26.2",
     "rollup-plugin-babel": "^4.3.3",
+    "rollup-plugin-babel-minify": "^9.1.0",
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-prettier": "^0.6.0",

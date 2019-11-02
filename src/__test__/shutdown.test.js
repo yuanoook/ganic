@@ -3,13 +3,33 @@
 const {create, attach} = require('../Ganic');
 const {useEffect} = require('../use');
 const {ASYNC_GIVE_AFTER_DETACH_ERROR_MESSAGE} = require('../Parasite');
+const {getTestTimeout} = require('./utils');
 
 describe('shutdown', () => {
-  it('should throw Error when call give after detach', () => {
-    try {
-      throw new Error(ASYNC_GIVE_AFTER_DETACH_ERROR_MESSAGE)
-    } catch (e) {
-      expect(e.message).toBe(ASYNC_GIVE_AFTER_DETACH_ERROR_MESSAGE);
+  it('should throw Error when call give after detach', done => {
+    const catchErrorMockFn = jest.fn();
+    const {setTimeout, clearTimeout} = getTestTimeout(() => {
+      expect(catchErrorMockFn.mock.calls).toEqual([
+        [ASYNC_GIVE_AFTER_DETACH_ERROR_MESSAGE]
+      ]);
+      done();
+    });
+
+    // this parasitism is bad, we forget to clearTimeout
+    const badParasitism = (deps, give) => setTimeout(() => {
+      try { give(); } catch (e) { catchErrorMockFn(e.message); }
+    });
+    const badOrganism = () => attach(badParasitism);
+    create({organism: badOrganism}).shutdown();
+
+    // this parasitism is good, we do clearTimeout here
+    const goodParasitism = (deps, give) => {
+      const timer = setTimeout(give);
+      // set up the right detach function, do our clean job here
+      return () => clearTimeout(timer);
     }
+    const goodOrganism = () => attach(goodParasitism);
+    // we can shutdown this safely :D
+    create({organism: goodOrganism}).shutdown();
   });
 });

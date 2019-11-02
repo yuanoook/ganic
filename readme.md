@@ -2,11 +2,24 @@
 ## Use Hooks without React.
 **Ganic** is a **React Hooks**-like javascript library.
 
-You are not limited to only **use Hooks** in React UI development any more. Ganic could be well embeded in your old project, even backend.
+You are not limited to only **use Hooks** in React UI development. Ganic can work well in your old project, even backend.
 
 It's very tiny, but very powerful.
 
-## Exmaples
+### Demo
+https://codesandbox.io/s/ganic-hb2r1
+
+## Articles
+[Think in Ganic](#think-in-ganic)
+
+[Advanced Key Concepts](#advanced-key-concepts)
+
+[Make your own useX Hooks with `attach` API](#make-your-own-usex-hooks-with-attach)
+
+[Big Plan of Ganic](#big-plan)
+
+
+## API Exmaples
 ### useRef()
 ```javascript
 /**
@@ -152,7 +165,7 @@ With Hooks, literally we **use** everything, to manage the data income and outco
 
 I love React, and I love Hooks. I'm making Ganic, to make hooks available without React.
 
-# ON PLAN
+# Big Plan
 
 ## OrganTree
 Nested, async, prioritize-able, time-slice-able tree of organSets

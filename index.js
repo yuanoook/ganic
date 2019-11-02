@@ -13,7 +13,7 @@ const {
 
   useDebounce,
   useThrottle,
-} = require('./src/attach');
+} = require('./src/useX');
 
 module.exports = {
   // create an organSet from organSetDescription

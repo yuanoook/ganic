@@ -7,8 +7,8 @@ describe('attach in Ganic', () => {
     const organism1 = () => attach(1);
     const organism2 = () => attach(2);
 
-    const organ1 = live(organism1, 1);
-    const organ2 = live(organism2, 2);
+    const organ1 = live({organism: organism1, props: 1});
+    const organ2 = live({organism: organism2, props: 2});
 
     expect(organ1).not.toBe(organ2);
     expect(organ1.parasites[0]).not.toBe(organ2.parasites[0]);

@@ -23,7 +23,7 @@ describe('parasite async function', () => {
       lastSetstate = setState;
       return state;
     };
-    const organ = live(organism, 1);
+    const organ = live({organism, props: 1});
     const expectation = [
       [defaultProps.initState],
       [defaultProps.initState],
@@ -42,7 +42,7 @@ describe('parasite async function', () => {
       attachTimeout(() => setState(props.delayState), props.delay);
       return state;
     };
-    const organ = live(organism, defaultProps);
+    const organ = live({organism, props: defaultProps});
     const expectation = [[defaultProps.initState], [defaultProps.delayState]];
 
     checkAsyncExpectation({organ, expectation, done, mockFn});
@@ -54,7 +54,7 @@ describe('parasite async function', () => {
       attachInterval(() => setState(n => n + 1), props.delay);
       return state;
     };
-    const organ = live(organism, defaultProps);
+    const organ = live({organism, props: defaultProps});
     const expectation = [0, 1, 2, 3, 4, 5].map(i => [
       defaultProps.initState + i,
     ]);

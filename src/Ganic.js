@@ -13,7 +13,7 @@ const attach = function(parasitism, deps, firstExcrement) {
 const create = (organism, props) =>
   Klotho.spin({ organism, props }).receiveProps(props);
 
-const live = function(organism, props, parent, key) {
+const live = function({organism, props, parent, key}) {
   if (!parent) {
     return create(organism, props);
   }

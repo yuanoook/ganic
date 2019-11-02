@@ -22,7 +22,7 @@ describe('parasite attach & detach', () => {
   };
   const liveCheckWith3Randoms = (organism, expectation) => {
     const randoms = [0, 1, 2].map(() => Math.random());
-    live(organism, randoms[0]).receive(randoms[1]).receive(randoms[2]);
+    live({organism, props: randoms[0]}).receive(randoms[1]).receive(randoms[2]);
     const defaultExpectation = [0, 0, 1, 1, 2].map(ri => randoms[ri]);
     checkAttachDetachExpectation(expectation || defaultExpectation);
   };
@@ -46,7 +46,7 @@ describe('parasite attach & detach', () => {
   it('should attach & detach properly with useEffect with random deps', () => {
     const organism = props => attachEffect(parasitism, props);
     const depsList = [0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2];
-    const organ = live(organism, 0);
+    const organ = live({organism, props: 0});
     depsList.forEach(deps => organ.receive(deps));
     checkAttachDetachExpectation([0, 0, 1, 1, 2]);
   });

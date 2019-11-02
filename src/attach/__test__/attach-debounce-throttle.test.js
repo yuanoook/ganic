@@ -54,7 +54,7 @@ describe('attachDebounce & attachThrottle', () => {
       [{state: 4, debouncedState: 4, interval: null}],
     ];
 
-    const organ = live(organism);
+    const organ = live({organism});
     checkAsyncExpectation({organ, expectation, done, mockFn});
   });
 
@@ -86,7 +86,7 @@ describe('attachDebounce & attachThrottle', () => {
       [{state: 5, throttledState: 5}],
     ];
 
-    const organ = live(organism);
+    const organ = live({organism});
     checkAsyncExpectation({organ, expectation, done, mockFn});
   });
 });

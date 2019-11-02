@@ -7,7 +7,7 @@ const {
   useEffect,
 } = require('./base');
 const {useTimeout, useInterval} = require('./timer');
-const {useDebounce, useThrottle} = require('./flow');
+const {useDebounce, useThrottle} = require('./stream');
 
 module.exports = {
   useRef,

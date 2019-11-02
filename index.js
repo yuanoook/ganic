@@ -23,7 +23,7 @@ module.exports = {
   // attach, to design useX - Composite Parasite Maker
   attach,
 
-  // uuseX - Composite Parasite Maker, to design organism
+  // useX - Composite Parasite Maker, to design organism
   useRef,
   useMemo,
   useState,

@@ -23,7 +23,7 @@ Parasite.prototype = {
         ? excrement(this.latestExcrement)
         : excrement;
   },
-  firstGive: function(excrement) {
+  firstYield: function(excrement) {
     return this.hasExcreted ? this.latestExcrement : this.give(excrement);
   },
   give: function(excrement) {

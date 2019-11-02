@@ -2,7 +2,7 @@
 
 const {live} = require('../../Ganic');
 
-const {attach, attachEffect} = require('..');
+const {attach, useEffect} = require('..');
 
 describe('parasite attach & detach', () => {
   const mockFn = jest.fn();
@@ -33,18 +33,18 @@ describe('parasite attach & detach', () => {
   });
 
   it('should attach & detach properly with useEffect without deps', () => {
-    const organism = () => attachEffect(parasitism);
+    const organism = () => useEffect(parasitism);
     const expectation = [1, 2, 3, 4, 5];
     liveCheckWith3Randoms(organism, expectation.map(i => undefined));
   });
 
   it('should attach & detach properly with useEffect with random deps', () => {
-    const organism = props => attachEffect(parasitism, props);
+    const organism = props => useEffect(parasitism, props);
     liveCheckWith3Randoms(organism);
   });
 
   it('should attach & detach properly with useEffect with random deps', () => {
-    const organism = props => attachEffect(parasitism, props);
+    const organism = props => useEffect(parasitism, props);
     const depsList = [0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2];
     const organ = live({organism, props: 0});
     depsList.forEach(deps => organ.receive(deps));

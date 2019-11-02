@@ -2,7 +2,7 @@
 
 const {live} = require('../../Ganic');
 
-const {attachState, useTimeout, useInterval} = require('..');
+const {useState, useTimeout, useInterval} = require('..');
 
 const {checkAsyncExpectation} = require('./utils');
 
@@ -16,10 +16,10 @@ describe('parasite async function', () => {
 
   beforeEach(() => mockFn.mockReset());
 
-  it('should update state with attachState', done => {
+  it('should update state with useState', done => {
     let lastSetstate;
     const organism = () => {
-      let [state, setState] = attachState(defaultProps.initState);
+      let [state, setState] = useState(defaultProps.initState);
       lastSetstate = setState;
       return state;
     };
@@ -38,7 +38,7 @@ describe('parasite async function', () => {
 
   it('should call timeout with useTimeout', done => {
     const organism = props => {
-      const [state, setState] = attachState(props.initState);
+      const [state, setState] = useState(props.initState);
       useTimeout(() => setState(props.delayState), props.delay);
       return state;
     };
@@ -50,7 +50,7 @@ describe('parasite async function', () => {
 
   it('should call periodically with useInterval', done => {
     const organism = props => {
-      const [state, setState] = attachState(props.initState);
+      const [state, setState] = useState(props.initState);
       useInterval(() => setState(n => n + 1), props.delay);
       return state;
     };

@@ -3,27 +3,27 @@
 const {
   attach,
 
-  attachRef,
-  attachMemo,
-  attachState,
-  attachEffect,
+  useRef,
+  useMemo,
+  useState,
+  useEffect,
 } = require('./base');
 
 const {useTimeout, useInterval} = require('./time');
 
-const {attachDebounce, attachThrottle} = require('./times');
+const {useDebounce, useThrottle} = require('./times');
 
 module.exports = {
   attach,
 
-  attachRef,
-  attachMemo,
-  attachState,
-  attachEffect,
+  useRef,
+  useMemo,
+  useState,
+  useEffect,
 
   useTimeout,
   useInterval,
 
-  attachDebounce,
-  attachThrottle,
+  useDebounce,
+  useThrottle,
 };

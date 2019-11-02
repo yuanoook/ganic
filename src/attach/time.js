@@ -1,6 +1,6 @@
 'use strict';
 
-const {attach, attachRef} = require('./base');
+const {attach, useRef} = require('./base');
 
 const makeTimeParasitism = (setTimer, clearTimer) => {
   return ({delay, callbackRef}) => {
@@ -20,7 +20,7 @@ const timeoutParasitism = makeTimeParasitism(setTimeout, clearTimeout);
 const intervalParasitism = makeTimeParasitism(setInterval, clearInterval);
 
 const attachTimeParasitism = (parasitism, {callback, delay}) => {
-  const callbackRef = attachRef();
+  const callbackRef = useRef();
   callbackRef.current = callback;
   return attach(parasitism, {delay, callbackRef: callbackRef});
 };

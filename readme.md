@@ -18,8 +18,8 @@ const intervalParasitism = ({delay, callbackRef}) => {
 ## Organism function
 ```javascript
 const intervalOrganism = props => {
-  const [state, setState] = attachState(props.initState)
-  const callbackRef = attachRef()
+  const [state, setState] = useState(props.initState)
+  const callbackRef = useRef()
   callbackRef.current = () => setState(n => n + 1)
   attach(intervalParasitism, {delay: props.delay, callbackRef: callbackRef})
   return state

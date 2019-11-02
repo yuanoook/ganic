@@ -3,24 +3,24 @@
 const {live} = require('../../Ganic');
 
 const {
-  attachState,
+  useState,
   useInterval,
   useTimeout,
 
-  attachDebounce,
-  attachThrottle,
+  useDebounce,
+  useThrottle,
 } = require('..');
 
 const {checkAsyncExpectation} = require('./utils');
 
-describe('attachDebounce & attachThrottle', () => {
+describe('useDebounce & useThrottle', () => {
   const mockFn = jest.fn();
   beforeEach(() => mockFn.mockReset());
 
   it('should debounce state updates', done => {
     const organism = () => {
-      const [state, setState] = attachState(0);
-      const [interval, setInterval] = attachState(50);
+      const [state, setState] = useState(0);
+      const [interval, setInterval] = useState(50);
 
       // start updating the state every 50ms
       useInterval(() => setState(n => n + 1), interval);
@@ -31,7 +31,7 @@ describe('attachDebounce & attachThrottle', () => {
 
       // bring debouncedState, 60ms after the last state update
       // expect it will skip two updates, and bring out the final state
-      const debouncedState = attachDebounce(state, 60);
+      const debouncedState = useDebounce(state, 60);
       return {state, debouncedState, interval};
     };
 
@@ -60,9 +60,9 @@ describe('attachDebounce & attachThrottle', () => {
 
   it('should throttle state updates', done => {
     const organism = () => {
-      const [state, setState] = attachState(0);
+      const [state, setState] = useState(0);
       useInterval(() => setState(n => n + 1), 50);
-      const throttledState = attachThrottle(state, 135);
+      const throttledState = useThrottle(state, 135);
       return {state, throttledState};
     };
 

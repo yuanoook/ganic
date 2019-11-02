@@ -7,7 +7,7 @@ const debounceParasitism = ({value, idle}, give) => {
   return () => clearTimeout(timer);
 };
 
-const attachDebounce = (value, idle) =>
+const useDebounce = (value, idle) =>
   attach(debounceParasitism, {value, idle}, value);
 
 const throttleParasitism = ({value, idle}, give, {handover: lastTime = 0}) => {
@@ -25,10 +25,10 @@ const throttleParasitism = ({value, idle}, give, {handover: lastTime = 0}) => {
   };
 };
 
-const attachThrottle = (value, idle) =>
+const useThrottle = (value, idle) =>
   attach(throttleParasitism, {value, idle}, value);
 
 module.exports = {
-  attachDebounce,
-  attachThrottle,
+  useDebounce,
+  useThrottle,
 };

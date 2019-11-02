@@ -2,31 +2,31 @@
 
 const {live} = require('../../Ganic');
 
-const {attachRef, attachState} = require('..');
+const {useRef, useState} = require('..');
 
 describe('should always keep identity from parasite', () => {
-  it('should always get permanent unique setState from attachState', () => {
+  it('should always get permanent unique setState from useState', () => {
     let lastSetA;
     const organism = () => {
-      const [, setA] = attachState();
+      const [, setA] = useState();
       expect(!lastSetA || lastSetA === setA).toEqual(true);
       lastSetA = setA;
 
-      const [, setB] = attachState();
+      const [, setB] = useState();
       expect(setA === setB).toEqual(false);
     };
 
     live({organism, props: 1}).receive(2).receive(3);
   });
 
-  it('should always get permanent unique ref from attachRef', () => {
+  it('should always get permanent unique ref from useRef', () => {
     let lastARef;
     const organism = () => {
-      const aRef = attachRef();
+      const aRef = useRef();
       expect(!lastARef || lastARef === aRef).toEqual(true);
       lastARef = aRef;
 
-      const bRef = attachRef();
+      const bRef = useRef();
       expect(aRef === bRef).toEqual(false);
     };
 

@@ -12,7 +12,7 @@ const attach = function(parasitism, deps, firstExcrement) {
 };
 
 const create = ({organism, props, parent, key}) =>
-  Klotho.spin({organism, props, parent, key}).receiveProps(props);
+  Klotho.spin({organism, props, parent, key}).receive(props);
 
 module.exports = {
   create,

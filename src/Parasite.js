@@ -3,35 +3,51 @@
 const {shallowEqual} = require('./utils');
 const Lakhesis = require('./moirai/Lakhesis');
 
+const ASYNC_GIVE_AFTER_DETACH_ERROR_MESSAGE = `
+  This parasite has been detached from it's organ.
+  There should be no more giving behavior.
+  Clean job hasn't been set up properly in the parasitism.
+`;
+
 const Parasite = function({organ, index}) {
-  Object.assign(this, {
-    organ,
-    index,
-    deps: null,
-    hasExcreted: false,
-    attaching: false,
-    attached: false,
-    toDetach: null,
-    latestExcrement: null,
-  });
+  this.setUp({organ, index});
 };
 
 Parasite.prototype = {
-  setExcrement(excrement) {
+  setUp: function(props) {
+    Object.assign(this, {
+      organ: null,
+      index: null,
+      deps: null,
+      hasExcreted: false,
+      attaching: false,
+      attached: false,
+      toDetach: null,
+      lastExcrement: null,
+    }, props);
+  },
+  clearUp: function() {
+    this.setUp();
+  },
+
+  setExcrement: function(excrement) {
     this.hasExcreted = true;
-    this.latestExcrement =
+    this.lastExcrement =
       typeof excrement === 'function'
-        ? excrement(this.latestExcrement)
+        ? excrement(this.lastExcrement)
         : excrement;
   },
   firstGive: function(excrement) {
-    return this.hasExcreted ? this.latestExcrement : this.give(excrement);
+    return this.hasExcreted ? this.lastExcrement : this.give(excrement);
   },
   give: function(excrement) {
     this.setExcrement(excrement);
-    return this.latestExcrement;
+    return this.lastExcrement;
   },
   asyncGive: function(excrement) {
+    if (!this.organ) {
+      throw new Error(ASYNC_GIVE_AFTER_DETACH_ERROR_MESSAGE);
+    }
     this.setExcrement(excrement);
     if (!this.attaching) {
       Lakhesis.givingParasite = this;
@@ -40,6 +56,7 @@ Parasite.prototype = {
     }
     return this;
   },
+
   receiveDeps: function(deps) {
     this.attachable = !shallowEqual(deps, this.deps);
     this.deps = deps;
@@ -66,8 +83,14 @@ Parasite.prototype = {
       return this.toDetach();
     }
   },
+
+  shutdown: function() {
+    this.detach();
+    this.clearUp();
+  }
 };
 
 module.exports = {
   Parasite,
+  ASYNC_GIVE_AFTER_DETACH_ERROR_MESSAGE
 };

@@ -3,9 +3,10 @@
 const {shallowEqual} = require('./utils');
 const Lakhesis = require('./moirai/Lakhesis');
 
-const Parasite = function({organ}) {
+const Parasite = function({organ, index}) {
   Object.assign(this, {
     organ,
+    index,
     deps: null,
     hasExcreted: false,
     attaching: false,

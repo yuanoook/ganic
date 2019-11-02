@@ -45,7 +45,7 @@ Organ.prototype = {
     if (parasite) {
       return parasite;
     }
-    this.parasites[index] = new Parasite({organ: this});
+    this.parasites[index] = new Parasite({organ: this, index});
     return this.parasites[index];
   },
   take: function(deps) {

@@ -5,31 +5,33 @@ const { live } = require('./src/Ganic');
 const {
   attach,
 
-  attachRef,
-  attachMemo,
-  attachState,
-  attachEffect,
+  attachRef: useRef,
+  attachMemo: useMemo,
+  attachState: useState,
+  attachEffect: useEffect,
 
-  attachTimeout,
-  attachInterval,
+  attachTimeout: useTimeout,
+  attachInterval: useInterval,
 
-  attachDebounce,
-  attachThrottle,
+  attachDebounce: useDebounce,
+  attachThrottle: useThrottle,
 } = require('./src/attach');
 
 module.exports = {
   live,
-  // alias use*=attach*
-  use: attach,
 
-  useRef: attachRef,
-  useMemo: attachMemo,
-  useState: attachState,
-  useEffect: attachEffect,
+  // attach, to design useX - Composite Parasite Maker
+  attach,
 
-  useTimeout: attachTimeout,
-  useInterval: attachInterval,
+  // uuseX - Composite Parasite Maker, to design organism
+  useRef,
+  useMemo,
+  useState,
+  useEffect,
 
-  useDebounce: attachDebounce,
-  useThrottle: attachThrottle,
+  useTimeout,
+  useInterval,
+
+  useDebounce,
+  useThrottle,
 };

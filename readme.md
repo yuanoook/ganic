@@ -1,50 +1,182 @@
-# Think in Ganic
+# Ganic
+## Use Hooks without React.
+**Ganic** is a **React Hooks**-like javascript library.
 
-A component is an alive creature. It's is like a biological unit.
+You are not limited to only **use Hooks** in React UI development any more. Ganic could be well embeded in your old project, even backend.
 
-A component includes a set of children components.
+It's very tiny, but very powerful.
 
-## Parasitism function
+## Exmaples
+### useRef()
 ```javascript
-const intervalParasitism = ({delay, callbackRef}) => {
-  if (!delay) return
-  const timer = setInterval(() => {
-    callbackRef.current()
-  }, delay)
-  return () => {
-    clearInterval(timer);
-  }
-}
-```
+/**
+ * useRef to always get the same one object, in different update.
+ */
 
-## Organism function
-```javascript
-const intervalOrganism = props => {
-  const [state, setState] = useState(props.initState)
-  const callbackRef = useRef()
-  callbackRef.current = () => setState(n => n + 1)
-  attach(intervalParasitism, {delay: props.delay, callbackRef: callbackRef})
-  return state
-}
-```
+const = {create, useRef} = require('ganic');
+const organism = props => {
+  const ref = useRef();
+  ref.current = props;
+  return ref;
+};
+const organ = create({organism, props: 0});
 
-## Give the organism life
-```javascript
-const initProps = { delay: 1000, initState: 0 }
-const organ = create(intervalOrganism, initProps)
-
-organ.addListener(r => console.log('ex: ', r))
+organ.addListener(res => console.log(res));
+organ.receive(1);
+organ.receive(2); 
 
 // you'll get
-// > ex: 0
-// > ex: 1
-// > ex: 2
-// > ex: 3
-// > ...
+// > {current: 0}
+// > {current: 1}
+// > {current: 2}
+// > 
+
+/**
+ * When an organ receives new props,
+ * Ganic will call organism Function again,
+ * but you'll always get the same one object from useRef.
+ */
 ```
 
-## Todo
+### useMemo(function, dependencies)
+```javascript
+const = {create, useMemo} = require('ganic');
+const times2 = n => {
+  console.log('in times2');
+  return n * 2;
+};
+const organism = props => {
+  const res = useMemo(times2, props.b);
+  console.log('in organism');
+  return res;
+};
+const organ = create({organism, props: {a: 0, b: 1}});
 
-Nested async time-slice-able organs
+organ.addListener(res => console.log(res));
+organ.receive({a: 1, b: 1});
+organ.receive({a: 2, b: 1}); 
 
-Focus Points, In and Out
+// you'll get
+// > "in times2"
+// > "in organism"
+// > "in organism"
+// > "in organism"
+
+/**
+ * When an organ receives new props,
+ * Ganic will call organism Function again,
+ * if useMemo dependencies did not change (shallowEqual),
+ * useMemo won't call the its function again,
+ * you'll always get the same one result from useMemo.
+ */
+```
+
+### const [state, setState] = useState(initState|dependencies);
+```javascript
+const = {create, useState} = require('ganic');
+const organism = props => {
+  const [state, setState] = useState(props.b);
+  return state;
+};
+const organ = create({organism, props: {a: 0, b: 1}});
+
+organ.addListener(res => console.log(res));
+organ.receive({a: 0, b: 1});
+organ.receive({a: 0, b: 1}); 
+
+// you'll get
+// > 1
+// > 1
+// > 1
+//
+
+/**
+ * When an organ receives new props,
+ * Ganic will call organism Function again,
+ * if useState dependencies did not change (shallowEqual),
+ * you'll get the same sate, and setState.
+ * 
+ * You call setState to udpate the state,
+ * Ganic will automatically set it rightly.
+ */
+```
+
+... To explain ...
+### useEffect
+### useTimeout
+### useInterval
+### useDebounce
+### useThrottle
+
+
+# Advanced Key Concepts
+
+... To explain ...
+## Organ
+## Organism Function
+## Parasite
+## Parasitism Function
+
+# Make your own useX Hooks with `attach`
+... To explain ...
+
+
+# Think in Ganic
+
+A component is an alive creature. It's like a biological unit. To describe a component properly in programming language is one of the biggest challenges for all of us.
+
+Please enjoy the image!
+![Quantification of Cellular Organelle Size](quantification-of-cellular-organelle-size.jpg?raw=true "Quantification of Cellular Organelle Size")
+<sub>Thanks for the awesome image from https://meetings.ami.org/2018/project/quantification-of-cellular-organelle-size/</sub>
+
+## Principles For A Component
+
+1. A component is a child of its parent component;
+2. A component has a set of children components;
+3. A component contains **something** except its children.
+
+The **something** is the root cause of our challenge.
+
+A component does three tasks
+1. Be managed as a child;
+2. Manage its children components;
+3. Do its **own business**.
+
+A component is about to be unpredictable. We try to make it as predictable as possible. Data transparency makes things easy for us to develop, debug, maintain and make change.
+
+For a component, data comes all the way, all the time. Data management and data processing are our programming life.
+
+React Hooks is awesome. React Hooks are the things to describe a component's **own business (the something)** in a human understandable way.
+
+With Hooks, literally we **use** everything, to manage the data income and outcome from different worlds outside of the **components tree**. We have good collection of hooks, e.g. https://github.com/streamich/react-use
+
+I love React, and I love Hooks. I'm making Ganic, to make hooks available without React.
+
+# ON PLAN
+
+## OrganTree
+Nested, async, prioritize-able, time-slice-able tree of organSets
+
+## OrganSet
+To manage a set of organs
+
+## OrganSet Description
+Plain object structure, to create an organSet by the description
+### OrganSet Description JSX parser
+
+## Focus Point
+Focus points, dynamically prioritize organs in a tree, to improve tree update performance.
+
+## Ganic-UI
+Basic text, box, image organism to manage pure UI work
+
+## Ganic-DOM
+
+### Ganic-DOM-Organisms
+Organisms to present DOM Element in OrganSet Description
+
+### Ganic-DOM-Parasitisms
+Work inside DOM organisms, to conduct real DOM update with broswer API
+
+### Ganic-DOM-Render
+Manage a OrganSet, bring it to real UI world

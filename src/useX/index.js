@@ -6,10 +6,8 @@ const {
   useState,
   useEffect,
 } = require('./base');
-
-const {useTimeout, useInterval} = require('./time');
-
-const {useDebounce, useThrottle} = require('./times');
+const {useTimeout, useInterval} = require('./timer');
+const {useDebounce, useThrottle} = require('./flow');
 
 module.exports = {
   useRef,

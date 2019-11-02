@@ -1,6 +1,6 @@
 'use strict';
 
-const {create, attach} = require('../../Ganic');
+const {create, attach} = require('../Ganic');
 
 describe('attach in Ganic', () => {
   it('should get different parasite from different organism', () => {

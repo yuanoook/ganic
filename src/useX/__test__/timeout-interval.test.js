@@ -1,9 +1,7 @@
 'use strict';
 
 const {create} = require('../../Ganic');
-
 const {useState, useTimeout, useInterval} = require('..');
-
 const {checkAsyncExpectation} = require('./utils');
 
 describe('parasite async function', () => {

@@ -1,8 +1,7 @@
 'use strict';
 
-const {create, attach} = require('../../Ganic');
-
-const {useEffect} = require('..');
+const {create, attach} = require('../Ganic');
+const {useEffect} = require('../useX');
 
 describe('parasite attach & detach', () => {
   const mockFn = jest.fn();

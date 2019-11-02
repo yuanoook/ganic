@@ -1,6 +1,7 @@
 'use strict';
 
 const {shallowEqual} = require('./utils');
+const Lakhesis = require('./moirai/Lakhesis');
 
 const Parasite = function({organ}) {
   Object.assign(this, {
@@ -32,8 +33,11 @@ Parasite.prototype = {
   asyncGive: function(excrement) {
     this.setExcrement(excrement);
     if (!this.attaching) {
+      Lakhesis.givingParasite = this;
       this.organ.update();
+      Lakhesis.givingParasite = null;
     }
+    return this;
   },
   receiveDeps: function(deps) {
     this.attachable = !shallowEqual(deps, this.deps);

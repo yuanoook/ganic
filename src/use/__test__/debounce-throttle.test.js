@@ -13,6 +13,17 @@ const {
 
 const {checkAsyncExpectation} = require('./utils');
 
+/**
+ * WARNING:
+ *    This test may not pass,
+ *    because setInterval and setTimeout may not be precise due to their design.
+ *    Reference
+ *      - https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/setTimeout#Reasons_for_delays_longer_than_specified
+ *
+ * TODO:
+ *    Figure out a way to inspect which parasite made which update
+ */
+
 describe('useDebounce & useThrottle', () => {
   const mockFn = jest.fn();
   beforeEach(() => mockFn.mockReset());

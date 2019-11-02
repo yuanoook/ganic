@@ -2,4 +2,5 @@
 
 module.exports = {
   updatingOrgan: null,
+  givingParasite: null,
 };

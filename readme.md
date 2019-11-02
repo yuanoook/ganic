@@ -1,6 +1,8 @@
-# Ganic
+# Think in Ganic
 
-> ### Components should be acreate, Ganic makes it happen.
+A component is an alive creature. It's is like a biological unit.
+
+A component includes a set of children components.
 
 ## Parasitism function
 ```javascript

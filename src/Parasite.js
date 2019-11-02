@@ -30,7 +30,7 @@ Parasite.prototype = {
     this.setExcrement(excrement);
     return this.latestExcrement;
   },
-  asyncGive: function(excrement) {
+  asyncYield: function(excrement) {
     this.setExcrement(excrement);
     if (!this.attaching) {
       Lakhesis.givingParasite = this;
@@ -51,7 +51,7 @@ Parasite.prototype = {
     const handover = this.detach();
     this.attaching = true;
     if (typeof toAttach === 'function') {
-      this.toDetach = toAttach(this.deps, this.asyncGive.bind(this), {handover});
+      this.toDetach = toAttach(this.deps, this.asyncYield.bind(this), {handover});
     } else {
       this.setExcrement(toAttach);
       this.toDetach = () => this.setExcrement(null);

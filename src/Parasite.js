@@ -1,6 +1,6 @@
 'use strict';
 
-const {shallowEqual} = require('./moirai/utils');
+const {shallowEqual} = require('./utils');
 
 const Parasite = function({organ}) {
   Object.assign(this, {

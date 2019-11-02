@@ -1,7 +1,7 @@
 'use strict';
 
 const {Parasite} = require('./Parasite');
-const {shallowEqual} = require('./moirai/utils');
+const {shallowEqual} = require('./utils');
 const Lakhesis = require('./moirai/Lakhesis');
 
 const Organ = function({organism}) {

@@ -45,9 +45,11 @@ Parasite.prototype = {
     return this.lastExcrement;
   },
   asyncGive: function(excrement) {
+    // TODO: add detaching check here, stop asyncGive inside detaching
     if (!this.organ) {
       throw new Error(ASYNC_GIVE_AFTER_DETACH_ERROR_MESSAGE);
     }
+    // TODO: add shallowEqual check here, if it's shallowEqual, no organ update
     this.setExcrement(excrement);
     if (!this.attaching) {
       Lakhesis.givingParasite = this;

@@ -8,11 +8,11 @@ const {
 } = require('./base');
 const {useTimeout, useInterval} = require('./timer');
 const {useDebounce, useThrottle} = require('./sloth');
+const {useOrgan} = require('./async');
 
 // TODO: Add useOrgan, usePigeon, usePromise
 
 // const xResult = useOrgan(organism, props);
-
 // const msg = usePigeon(PIGEON_NAME, {receiver: true});
 // const sendMsg = usePigeon(PIGEON_NAME, {sender: true});
 
@@ -27,4 +27,6 @@ module.exports = {
 
   useDebounce,
   useThrottle,
+
+  useOrgan,
 };

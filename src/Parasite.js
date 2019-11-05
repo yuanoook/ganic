@@ -80,14 +80,16 @@ Parasite.prototype = {
     this.attached = true;
     return this;
   },
-  detach: function() {
+  detach: function({down = false} = {}) {
     if (typeof this.toDetach === 'function') {
-      return this.toDetach();
+      let result = this.toDetach({down});
+      this.toDetach = null;
+      return result;
     }
   },
 
   shutdown: function() {
-    this.detach();
+    this.detach({down: true});
     this.clearUp();
   },
 };

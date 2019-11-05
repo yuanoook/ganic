@@ -13,6 +13,8 @@ const {
 
   useDebounce,
   useThrottle,
+
+  useOrgan,
 } = require('./src/use');
 
 module.exports = {
@@ -33,4 +35,6 @@ module.exports = {
 
   useDebounce,
   useThrottle,
+
+  useOrgan,
 };

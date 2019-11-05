@@ -35,14 +35,14 @@ Organ.prototype = {
     return this;
   },
   update: function() {
-    Lakhesis.updatingOrgan = this;
+    Lakhesis.setUpdatingOrgan(this);
 
     this.parasiteCheckingIndex = 0;
     this.result = this.organism(this.props);
     this.subOrganSetDescription = this.result;
     this.wakeListeners();
 
-    Lakhesis.updatingOrgan = null;
+    Lakhesis.clearUpdatingOrgan(this);
     return this;
   },
 
@@ -68,7 +68,7 @@ Organ.prototype = {
   },
   removeAllParasites: function() {
     this.parasites.forEach(parasite => parasite.shutdown());
-    this.parasites = [];
+    this.parasites.length = 0;
   },
 
   addListener: function(func) {
@@ -84,12 +84,13 @@ Organ.prototype = {
     return this;
   },
   removeAllListners: function() {
-    this.listeners = [];
+    this.listeners.length = 0;
   },
 
   shutdown: function() {
     this.removeAllParasites();
     this.removeAllListners();
+    this.clearUp();
   },
 };
 

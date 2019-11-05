@@ -13,4 +13,6 @@ describe('attach in Ganic', () => {
     expect(organ1).not.toBe(organ2);
     expect(organ1.parasites[0]).not.toBe(organ2.parasites[0]);
   });
+
+  // TODO: no change detected in asyncGive
 });

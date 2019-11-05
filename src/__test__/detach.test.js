@@ -2,6 +2,7 @@
 
 const {create, attach} = require('../Ganic');
 const {useEffect} = require('../use');
+const {ASYNC_GIVE_IN_DETACH_ERROR_MESSAGE} = require('../Parasite');
 
 describe('parasite attach & detach', () => {
   const mockFn = jest.fn();
@@ -48,5 +49,19 @@ describe('parasite attach & detach', () => {
     const organ = create({organism, props: 0});
     depsList.forEach(deps => organ.receive(deps));
     checkAttachDetachExpectation([0, 0, 1, 1, 2]);
+  });
+
+  it('should throw Error with giving call in detach function', () => {
+    const catchErrorMockFn = jest.fn();
+    const badParasitism = (deps, give) => () => give();
+    const organism = () => attach(badParasitism);
+    try {
+      create({organism}).shutdown();
+    } catch (e) {
+      catchErrorMockFn(e.message);
+    }
+    expect(catchErrorMockFn.mock.calls).toEqual([
+      [ASYNC_GIVE_IN_DETACH_ERROR_MESSAGE],
+    ]);
   });
 });

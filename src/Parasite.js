@@ -9,6 +9,10 @@ const ASYNC_GIVE_AFTER_DETACH_ERROR_MESSAGE = `
   Clean job hasn't been set up properly in the parasitism.
 `;
 
+const ASYNC_GIVE_IN_DETACH_ERROR_MESSAGE = `
+  Don't call give inside detach function.
+`;
+
 const Parasite = function({organ, index}) {
   this.setUp({organ, index});
 };
@@ -23,6 +27,7 @@ Parasite.prototype = {
       attaching: false,
       attached: false,
       toDetach: null,
+      detaching: false,
       lastExcrement: null,
     }, props);
   },
@@ -45,13 +50,15 @@ Parasite.prototype = {
     return this.lastExcrement;
   },
   asyncGive: function(excrement) {
-    // TODO: add detaching check here, stop asyncGive inside detaching
     if (!this.organ) {
       throw new Error(ASYNC_GIVE_AFTER_DETACH_ERROR_MESSAGE);
     }
-    // TODO: add shallowEqual check here, if it's shallowEqual, no organ update
+    if (this.detaching) {
+      throw new Error(ASYNC_GIVE_IN_DETACH_ERROR_MESSAGE);
+    }
     this.setExcrement(excrement);
-    if (!this.attaching) {
+    const changeDetected = !shallowEqual(excrement, this.lastExcrement);
+    if (!this.attaching && changeDetected) {
       Lakhesis.givingParasite = this;
       this.organ.update();
       Lakhesis.givingParasite = null;
@@ -81,11 +88,14 @@ Parasite.prototype = {
     return this;
   },
   detach: function({down = false} = {}) {
+    let result;
+    this.detaching = true;
     if (typeof this.toDetach === 'function') {
-      let result = this.toDetach({down});
+      result = this.toDetach({down});
       this.toDetach = null;
-      return result;
     }
+    this.detaching = false;
+    return result;
   },
 
   shutdown: function() {
@@ -97,4 +107,5 @@ Parasite.prototype = {
 module.exports = {
   Parasite,
   ASYNC_GIVE_AFTER_DETACH_ERROR_MESSAGE,
+  ASYNC_GIVE_IN_DETACH_ERROR_MESSAGE,
 };

@@ -59,6 +59,8 @@ Parasite.prototype = {
     this.setExcrement(excrement);
 
     /**
+     * TODO: no change, no update :D
+     * 
      * All we care is CHANGE;
      * All we do is making CHANGE;
      * CHANGE = !shallowEqual(deps, newDeps);
@@ -66,8 +68,10 @@ Parasite.prototype = {
      * Data Smuggling
      * deps.smuggler.goods = somethingFresh;
      **/
-    const changeDetected = !shallowEqual(excrement, this.lastExcrement);
-    if (!this.attaching && changeDetected) {
+    // const changeDetected = !shallowEqual(excrement, this.lastExcrement);
+    // if (!this.attaching && changeDetected) {
+
+    if (!this.attaching) {
       Lakhesis.givingParasite = this;
       this.organ.update();
       Lakhesis.givingParasite = null;

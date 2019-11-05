@@ -57,6 +57,15 @@ Parasite.prototype = {
       throw new Error(ASYNC_GIVE_IN_DETACH_ERROR_MESSAGE);
     }
     this.setExcrement(excrement);
+
+    /**
+     * All we care is CHANGE;
+     * All we do is making CHANGE;
+     * CHANGE = !shallowEqual(deps, newDeps);
+     * 
+     * Data Smuggling
+     * deps.smuggler.goods = somethingFresh;
+     **/
     const changeDetected = !shallowEqual(excrement, this.lastExcrement);
     if (!this.attaching && changeDetected) {
       Lakhesis.givingParasite = this;

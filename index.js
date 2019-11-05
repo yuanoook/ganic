@@ -15,6 +15,7 @@ const {
   useThrottle,
 
   useOrgan,
+  usePromise,
 } = require('./src/use');
 
 module.exports = {
@@ -37,4 +38,5 @@ module.exports = {
   useThrottle,
 
   useOrgan,
+  usePromise,
 };

@@ -20,6 +20,31 @@ const useOrgan = (organism, props) => {
   }, props);
 };
 
+const promiseParasitism = ({promiseFn, props}, give) => {
+  let promising = true;
+
+  promiseFn(props).then(res => {
+    if (!promising) {
+      return;
+    }
+    give(res);
+  }).catch(error => {
+    if (!promising) {
+      return;
+    }
+    give(error);
+  });
+
+  return () => {
+    promising = false;
+  };
+};
+
+const usePromise = (promiseFn, props) => {
+  return attach(promiseParasitism, {promiseFn, props});
+};
+
 module.exports = {
   useOrgan,
+  usePromise,
 };

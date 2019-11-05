@@ -2,9 +2,9 @@
 
 const {create, shutdown} = require('../../Ganic');
 const {getUpdatingOrgan} = require('../../moirai/Lakhesis');
-const {useOrgan} = require('..');
+const {useOrgan, usePromise} = require('..');
 
-describe('useOrgan', () => {
+describe('useOrgan & usePromise', () => {
   it('should not report Error calling attach after useOrgan', () => {
     let organ0, organ1, organ2, organ3;
     const organism = () => {
@@ -32,5 +32,28 @@ describe('useOrgan', () => {
     expect(organ1.organism).toBe(null);
     expect(organ2.organism).toBe(null);
     expect(organ3.organism).toBe(null);
+  });
+
+  it('should get promise', done => {
+    const mockFn = jest.fn();
+    const checkExpectation = () => setTimeout(() => {
+      expect(mockFn.mock.calls).toEqual([
+        [undefined],
+        [1],
+      ]);
+      done();
+    });
+
+    const organism = () => {
+      const promiseRes = usePromise(() => new Promise(
+        resolve => setTimeout(() => {
+            resolve(1);
+            checkExpectation();
+        })),
+      );
+      return promiseRes;
+    };
+
+    create({organism}).addListener(mockFn);
   });
 });

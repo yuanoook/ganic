@@ -1,7 +1,7 @@
 'use strict';
 
-const shutdown = organ => organ.shutdown();
+const vanish = organ => organ.vanish();
 
 module.exports = {
-  shutdown,
+  vanish,
 };

@@ -7,22 +7,24 @@ const getAllTimeout = done => {
   return {
     setTimeout: (fn, delay) => (
       timerCount++,
-      setTimeout(
-        () => (
-          fn(),
-          checkDone()
-        ),
-        delay)
+      setTimeout(() => {
+          fn();
+          checkDone();
+      }, delay)
     ),
 
     /**
      *  Don't call clearTimeout right after setTimeout,
      *  Otherwise, you'll get done called immediately
      * */
-    clearTimeout: timer => timer && (
-      clearTimeout(timer),
-      checkDone()
-    ),
+    clearTimeout: timer => {
+      let result;
+      if (timer) {
+        result = clearTimeout(timer);
+        checkDone();
+      }
+      return result;
+    },
   };
 };
 

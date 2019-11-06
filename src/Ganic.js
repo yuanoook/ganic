@@ -2,7 +2,7 @@
 
 const Klotho = require('./moirai/Klotho');
 const Lakhesis = require('./moirai/Lakhesis');
-const { shutdown } = require('./moirai/Atropos');
+const { vanish } = require('./moirai/Atropos');
 
 const attach = function(parasitism, deps, firstExcrement) {
   const updatingOrgan = Lakhesis.getUpdatingOrgan();
@@ -18,5 +18,5 @@ const create = ({organism, props, parent, key}) =>
 module.exports = {
   create,
   attach,
-  shutdown,
+  vanish,
 };

@@ -84,7 +84,7 @@ Organ.prototype = {
       .firstGive(firstExcrement);
   },
   removeAllParasites: function() {
-    this.parasites.forEach(parasite => parasite.shutdown());
+    this.parasites.forEach(parasite => parasite.vanish());
     this.parasites.length = 0;
   },
 
@@ -104,7 +104,7 @@ Organ.prototype = {
     this.listeners.length = 0;
   },
 
-  shutdown: function() {
+  vanish: function() {
     this.removeAllParasites();
     this.removeAllListners();
     this.clearUp();

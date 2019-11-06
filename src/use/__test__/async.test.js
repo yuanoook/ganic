@@ -1,6 +1,6 @@
 'use strict';
 
-const {create, shutdown} = require('../../Ganic');
+const {create, vanish} = require('../../Ganic');
 const {getUpdatingOrgan} = require('../../moirai/Lakhesis');
 const {useOrgan, usePromise} = require('..');
 
@@ -27,7 +27,7 @@ describe('useOrgan & usePromise', () => {
     expect(organ1).not.toBe(organ2);
     expect(organ2).not.toBe(organ3);
 
-    shutdown(organ);
+    vanish(organ);
     expect(organ0.organism).toBe(null);
     expect(organ1.organism).toBe(null);
     expect(organ2.organism).toBe(null);

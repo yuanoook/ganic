@@ -4,7 +4,7 @@ const {create, attach} = require('../Ganic');
 const {ASYNC_GIVE_AFTER_DETACH_ERROR_MESSAGE} = require('../Parasite');
 const {getAllTimeout} = require('./utils');
 
-describe('shutdown', () => {
+describe('vanish', () => {
   it('should throw Error when call give after detach', done => {
     const catchErrorMockFn = jest.fn();
     const {setTimeout, clearTimeout} = getAllTimeout(() => {
@@ -23,7 +23,7 @@ describe('shutdown', () => {
       }
     });
     const badOrganism = () => attach(badParasitism);
-    create({organism: badOrganism}).shutdown();
+    create({organism: badOrganism}).vanish();
 
     // this parasitism is good, we do clearTimeout here
     const goodParasitism = (deps, give) => {
@@ -32,7 +32,9 @@ describe('shutdown', () => {
       return () => clearTimeout(timer);
     };
     const goodOrganism = () => attach(goodParasitism);
-    // we can shutdown this safely :D
-    create({organism: goodOrganism}).shutdown();
+    // we can vanish this safely :D
+    create({organism: goodOrganism}).vanish();
   });
+
+  // TODO: test LEAVE_HANDOVER_AT_THE_ENDING
 });

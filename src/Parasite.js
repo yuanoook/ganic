@@ -13,6 +13,10 @@ const ASYNC_GIVE_IN_DETACH_ERROR_MESSAGE = `
   Don't call give inside detach function.
 `;
 
+const LEAVE_HANDOVER_AT_THE_ENDING = `
+  Don't leave handover at the ending of a parasite.
+`;
+
 const Parasite = function({organ, index}) {
   this.setUp({organ, index});
 };
@@ -100,19 +104,22 @@ Parasite.prototype = {
     this.attached = true;
     return this;
   },
-  detach: function({down = false} = {}) {
-    let result;
+  detach: function({ending = false} = {}) {
+    let handover;
     this.detaching = true;
     if (typeof this.toDetach === 'function') {
-      result = this.toDetach({down});
+      handover = this.toDetach({ending});
       this.toDetach = null;
     }
     this.detaching = false;
-    return result;
+    return handover;
   },
 
-  shutdown: function() {
-    this.detach({down: true});
+  vanish: function() {
+    const handover = this.detach({ending: true});
+    if (handover !== undefined) {
+      throw new Error(LEAVE_HANDOVER_AT_THE_ENDING);
+    }
     this.clearUp();
   },
 };

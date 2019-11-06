@@ -10,9 +10,9 @@ const useOrgan = (organism, props) => {
       organ.receive(deps);
     }
 
-    return ({down}) => {
-      if (down) {
-        organ.shutdown();
+    return ({ending}) => {
+      if (ending) {
+        organ.vanish();
         return;
       }
       return organ;

@@ -56,7 +56,7 @@ describe('parasite attach & detach', () => {
     const badParasitism = (deps, give) => () => give();
     const organism = () => attach(badParasitism);
     try {
-      create({organism}).shutdown();
+      create({organism}).vanish();
     } catch (e) {
       catchErrorMockFn(e.message);
     }

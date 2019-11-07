@@ -1,7 +1,7 @@
 'use strict';
 
 const {shallowEqual} = require('./utils');
-const Lakhesis = require('./moirai/Lakhesis');
+const Lakhesis = require('../moirai/Lakhesis');
 
 const ASYNC_GIVE_AFTER_DETACH_ERROR_MESSAGE = `
   This parasite has been detached from it's organ.

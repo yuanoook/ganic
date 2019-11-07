@@ -1,6 +1,6 @@
 'use strict';
 
-const { create, attach } = require('./src/Ganic');
+const { create, attach } = require('./Ganic');
 
 const {
   useRef,
@@ -16,7 +16,7 @@ const {
 
   useOrgan,
   usePromise,
-} = require('./src/use');
+} = require('./use');
 
 module.exports = {
   // create an organSet from organSetDescription

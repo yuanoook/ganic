@@ -4,7 +4,7 @@ import nodeResolve from 'rollup-plugin-node-resolve';
 import minify from 'rollup-plugin-babel-minify';
 
 export default {
-  input: 'index.js',
+  input: './src/index.js',
   output: {
     file: './umd/ganic-production.min.js',
     format: 'umd',

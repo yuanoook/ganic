@@ -1,6 +1,6 @@
 'use strict';
 
-const {Organ} = require('../Organ');
+const {Organ} = require('../lab/Organ');
 
 const spin = organSetDescription => {
   const {organism} = organSetDescription;

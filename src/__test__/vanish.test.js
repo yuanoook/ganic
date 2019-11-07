@@ -1,7 +1,7 @@
 'use strict';
 
 const {create, attach} = require('../Ganic');
-const {ASYNC_GIVE_AFTER_DETACH_ERROR_MESSAGE} = require('../Parasite');
+const {ASYNC_GIVE_AFTER_DETACH_ERROR_MESSAGE} = require('../lab/Parasite');
 const {getAllTimeout} = require('./utils');
 
 describe('vanish', () => {

@@ -2,7 +2,7 @@
 
 const {create, attach} = require('../Ganic');
 const {useEffect} = require('../use');
-const {ASYNC_GIVE_IN_DETACH_ERROR_MESSAGE} = require('../Parasite');
+const {ASYNC_GIVE_IN_DETACH_ERROR_MESSAGE} = require('../lab/Parasite');
 
 describe('parasite attach & detach', () => {
   const mockFn = jest.fn();

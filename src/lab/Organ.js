@@ -39,13 +39,11 @@ Organ.prototype = {
 
     this.parasiteCheckingIndex = 0;
 
-    // const oldResult = this.result;
+    const oldResult = this.result;
     this.result = this.organism(this.props);
     this.subOrganSetDescription = this.result;
 
     /**
-     * TODO: add changeDetected here
-     * 
      * All we care is CHANGE;
      * All we do is making CHANGE;
      * CHANGE = !shallowEqual(deps, newDeps);
@@ -54,10 +52,10 @@ Organ.prototype = {
      * deps.smuggler.goods = somethingFresh;
      **/
 
-    // const changeDetected = !shallowEqual(oldResult, this.result);
-    // if (changeDetected) {
+    const changeDetected = !shallowEqual(oldResult, this.result);
+    if (changeDetected) {
       this.wakeListeners();
-    // }
+    }
 
     Lakhesis.clearUpdatingOrgan(this);
     return this;

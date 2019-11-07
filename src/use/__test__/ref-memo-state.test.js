@@ -14,18 +14,18 @@ describe('should always keep identity from parasite', () => {
       parasitismMockFn(result);
       return result;
     };
-    const organism = ({count}) => {
+    const organism = ({count, updateIndex}) => {
       const memorizedDoubleCountResult = useMemo(times2WithMockFn, count);
       expect(memorizedDoubleCountResult).toBe(times2(count));
-      return memorizedDoubleCountResult;
+      return [memorizedDoubleCountResult, updateIndex];
     };
 
     const organismMockFn = jest.fn();
-    create({organism, props: {count: 1, random: Math.random()}})
+    create({organism, props: {count: 1, updateIndex: 1}})
       .addListener(organismMockFn)
-      .receive({count: 1, random: Math.random()})
-      .receive({count: 1, random: Math.random()})
-      .receive({count: 2, random: Math.random()});
+      .receive({count: 1, updateIndex: 2})
+      .receive({count: 1, updateIndex: 3})
+      .receive({count: 2, updateIndex: 4});
 
     expect(parasitismMockFn.mock.calls).toEqual([
       [2],
@@ -33,10 +33,10 @@ describe('should always keep identity from parasite', () => {
     ]);
 
     expect(organismMockFn.mock.calls).toEqual([
-      [2],
-      [2],
-      [2],
-      [4],
+      [[2, 1]],
+      [[2, 2]],
+      [[2, 3]],
+      [[4, 4]],
     ]);
   });
 

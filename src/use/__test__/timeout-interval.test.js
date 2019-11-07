@@ -16,16 +16,16 @@ describe('parasite async function', () => {
 
   it('should update state with useState', done => {
     let lastSetstate;
-    const organism = () => {
+    const organism = props => {
       let [state, setState] = useState(defaultProps.initState);
       lastSetstate = setState;
-      return state;
+      return [state, props];
     };
     const organ = create({organism, props: 1});
     const expectation = [
-      [defaultProps.initState],
-      [defaultProps.initState],
-      [defaultProps.delayState],
+      [[defaultProps.initState, 1]],
+      [[defaultProps.initState, 2]],
+      [[defaultProps.delayState, 2]],
     ];
 
     checkAsyncExpectation({organ, expectation, done, mockFn});

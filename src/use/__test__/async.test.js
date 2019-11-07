@@ -44,15 +44,12 @@ describe('useOrgan & usePromise', () => {
       done();
     });
 
-    const organism = () => {
-      const promiseRes = usePromise(() => new Promise(
-        resolve => setTimeout(() => {
-            resolve(1);
-            checkExpectation();
-        })),
-      );
-      return promiseRes;
-    };
+    const organism = () => usePromise(() => new Promise(
+      resolve => setTimeout(() => {
+          resolve(1);
+          checkExpectation();
+      })),
+    );
 
     create({organism}).addListener(mockFn);
   });

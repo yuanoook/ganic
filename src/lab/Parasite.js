@@ -60,10 +60,9 @@ Parasite.prototype = {
     if (this.detaching) {
       throw new Error(ASYNC_GIVE_IN_DETACH_ERROR_MESSAGE);
     }
-    this.setExcrement(excrement);
 
     /**
-     * TODO: no change, no update :D
+     * NO CHANGE, NO UPDATE :D
      * 
      * All we care is CHANGE;
      * All we do is making CHANGE;
@@ -72,10 +71,12 @@ Parasite.prototype = {
      * Data Smuggling
      * deps.smuggler.goods = somethingFresh;
      **/
-    // const changeDetected = !shallowEqual(excrement, this.lastExcrement);
-    // if (!this.attaching && changeDetected) {
 
-    if (!this.attaching) {
+    const oldExcrement = this.lastExcrement;
+    this.setExcrement(excrement);
+
+    const organUpdateNeeded = !this.attaching && !shallowEqual(oldExcrement, this.lastExcrement);
+    if (organUpdateNeeded) {
       Lakhesis.givingParasite = this;
       this.organ.update();
       Lakhesis.givingParasite = null;

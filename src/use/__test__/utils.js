@@ -11,6 +11,7 @@ const checkAsyncExpectation = ({organ, expectation, done, mockFn}) => {
     mockFn(r);
     if (expectation.length === ++count) {
       checkExpectation();
+      organ.vanish();
     }
   });
 };

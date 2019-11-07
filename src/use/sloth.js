@@ -4,7 +4,9 @@ const {attach} = require('../Ganic');
 
 const debounceParasitism = ({value, idle}, give) => {
   const timer = setTimeout(() => give(value), idle);
-  return () => clearTimeout(timer);
+  return () => {
+    clearTimeout(timer);
+  };
 };
 
 const useDebounce = (value, idle) =>
@@ -17,9 +19,12 @@ const throttleParasitism = ({value, idle}, give, {handover: lastTime = 0}) => {
     give(value);
   };
   const timer = timeLeft <= 0 ? update() : setTimeout(update, timeLeft);
-  return () => {
+  return ({ending}) => {
     if (timer) {
       clearTimeout(timer);
+    }
+    if (ending) {
+      return;
     }
     return lastTime;
   };

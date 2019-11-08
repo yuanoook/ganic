@@ -7,6 +7,7 @@
 
 const OrganLeaf = function({value, parent, tree}) {
   this.setUp({value, parent, tree});
+  this.update();
 };
 
 OrganLeaf.prototype = {
@@ -20,10 +21,19 @@ OrganLeaf.prototype = {
   clearUp: function() {
     this.setUp();
   },
+  update: function() {
+    if (this.tree) {
+      this.tree.envUtils.updateLeaf(this);
+    }
+  },
   receive: function(value) {
     this.value = value;
+    this.update();
   },
   vanish: function() {
+    if (this.tree) {
+      this.tree.envUtils.removeLeaf(this);
+    }
     this.clearUp();
   },
 };

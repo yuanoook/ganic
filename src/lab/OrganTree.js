@@ -2,7 +2,7 @@
 
 const { Organ } = require('./Organ');
 const { OrganNode } = require('./OrganNode');
-const { basicUI } = require('../env/basicUI');
+const basicUI = require('../env/basic');
 
 /**
  * OrganTree connects the root OrganNode with the environment

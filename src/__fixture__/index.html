@@ -48,11 +48,14 @@
           useTimeout(() => setInterval(null), 60 * 1000);
 
           return [
-            content,
-            useThrottle(content, 100),
-            useThrottle(content, 1000),
-            useThrottle(content, 2000),
-            useThrottle(content, 5000)
+            {
+              organism: "h1",
+              props: { style: "background:gray; color:pink;", children: content }
+            },
+            { organism: "h2", props: { children: useThrottle(content, 100) } },
+            { organism: "h3", props: { children: useThrottle(content, 500) } },
+            { organism: "pre", props: { children: useThrottle(content, 1000) } },
+            { organism: "i", props: { children: useThrottle(content, 2000) } }
           ];
         };
 

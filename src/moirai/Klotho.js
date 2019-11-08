@@ -1,32 +1,21 @@
 'use strict';
 
-const {Organ} = require('../lab/Organ');
+const Lakhesis = require('./Lakhesis');
+const { Organ } = require('../lab/Organ');
 
-const spin = organSetDescription => {
-  const {organism} = organSetDescription;
+const create = ({ organism, props }) => {
+  return new Organ({organism, props});
+};
 
-  /*
-    TODO: be able to understand different organSetDescription
-
-    organSetDescription can be like
-
-      1. <organDescription> {
-          organism,
-          props: {
-            children: <organSetDescription>
-          },
-          parent,
-          key
-        }
-
-      2. [organSetDescription, organSetDescription]
-      3. null, undefined, string, number, function ...
-
-  */
-
-  return new Organ({organism});
+const attach = function(parasitism, deps, firstExcrement) {
+  const updatingOrgan = Lakhesis.getUpdatingOrgan();
+  if (!updatingOrgan) {
+    throw new Error("Don't use ATTACH outside of organism!");
+  }
+  return updatingOrgan.attach(parasitism, deps, firstExcrement);
 };
 
 module.exports = {
-  spin,
+  create,
+  attach,
 };

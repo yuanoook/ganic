@@ -60,16 +60,17 @@ Parasite.prototype = {
     if (this.detaching) {
       throw new Error(ASYNC_GIVE_IN_DETACH_ERROR_MESSAGE);
     }
+    Lakhesis.givingParasite = this;
 
     const oldExcrement = this.lastExcrement;
     this.setExcrement(excrement);
 
     const organUpdateNeeded = !this.attaching && !shallowEqual(oldExcrement, this.lastExcrement);
     if (organUpdateNeeded) {
-      Lakhesis.givingParasite = this;
       this.organ.update();
-      Lakhesis.givingParasite = null;
     }
+
+    Lakhesis.givingParasite = null;
     return this;
   },
 

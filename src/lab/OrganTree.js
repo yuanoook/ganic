@@ -1,26 +1,36 @@
 'use strict';
 
+const { Organ } = require('./Organ');
+const { OrganNode } = require('./OrganNode');
+const { basicUI } = require('../env/basicUI');
+
 /**
- * OrganTree connects the root OrganNode with the native environment
+ * OrganTree connects the root OrganNode with the environment
  * It takes environment configuration
  *    basic string-organism
- *    they native environment proxy
+ *    they environment proxy
  */
 
-const OrganTree = function({organDesc, root, getOrganism}) {
-  // TODO: accept organDesc
-  // TODO: use configurable string-organism
-
-  this.setUp({organDesc, root});
+const OrganTree = function({organDesc, envRoot, envUtils = basicUI}) {
+  this.setUp({organDesc, envRoot, envUtils});
+  this.grow();
 };
 
 OrganTree.prototype = {
   setUp: function(props) {
     Object.assign(this, {
       organDesc: null,
-      root: null,
+      trunkNode: null,
+      envRoot: null,
+      envUtils: null,
     }, props);
   },
+  grow: function() {
+    const {organism, props} = this.organDesc;
+    const organ = new Organ({organism}).receive(props);
+    this.trunkNode = new OrganNode({organ, tree: this});
+  },
+
   clearUp: function() {
     this.setUp();
   },

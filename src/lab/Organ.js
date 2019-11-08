@@ -4,11 +4,12 @@ const {Parasite} = require('./Parasite');
 const {shallowEqual} = require('./utils');
 const Lakhesis = require('../moirai/Lakhesis');
 
-const Organ = function({organism}) {
+const Organ = function({organism, props}) {
   if (typeof organism !== 'function') {
     throw new Error('To create an Organ, organism must be a function!');
   }
-  this.setUp({organism});
+  this.setUp({organism, props});
+  this.update();
 };
 
 Organ.prototype = {
@@ -29,7 +30,7 @@ Organ.prototype = {
   receive: function(props) {
     if (!shallowEqual(this.props, props)) {
       this.props = props;
-      this.update(); 
+      this.update();
     }
     return this;
   },

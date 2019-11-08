@@ -19,8 +19,6 @@ const getUpdatingOrgan = () => updatingOrgans[updatingOrgans.length - 1];
 module.exports = {
   setUpdatingOrgan,
   clearUpdatingOrgan,
-
   getUpdatingOrgan,
-
   givingParasite: null,
 };

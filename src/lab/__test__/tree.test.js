@@ -2,18 +2,61 @@
 
 const {attach} = require('../../Ganic');
 const {OrganTree} = require('../OrganTree');
+const {organDomMap} = require('../../env/basic/map');
 
 describe('organTree', () => {
   it('should new & vanish a OrganTree properly', () => {
     const content = '2';
-
-    const organism1 = () => ({organism: organism2, props: attach(1)});
     const organism2 = () => attach(content);
-
-    const organDesc = {organism: organism1, props: 1};
+    const organism1 = () => ({organism: organism2});
+    const organDesc = {organism: organism1};
     const envRoot = document.createElement('div');
     const tree = new OrganTree({organDesc, envRoot});
 
+    expect(envRoot.textContent).toBe(content);
+    tree.vanish();
+    expect(envRoot.textContent).toBe('');
+  });
+
+  it('should new & vanish a OrganTree properly with string TAG organism', () => {
+    const smile = ':D';
+    const organDesc = {
+      organism: 'box',
+      props: {
+        className: 'a-beautiful-box',
+        other: 'other-attr-value',
+        children: smile,
+      },
+    };
+    const envRoot = document.createElement('div');
+    const tree = new OrganTree({organDesc, envRoot});
+    const boxDom = organDomMap.get(tree.trunkNode.organ);
+
+    expect(boxDom.outerHTML).toBe(`<div class="a-beautiful-box" other="other-attr-value">${smile}</div>`);
+    expect(boxDom.parentElement).toBe(envRoot);
+    expect(envRoot.textContent).toBe(smile);
+    tree.vanish();
+    expect(envRoot.textContent).toBe('');
+  });
+
+  it('should new & vanish a OrganTree properly with nested string TAG organism', () => {
+    const content = '3';
+    const organism3 = () => attach(content);
+    const organism2 = () => ({organism: 'box', props: {
+      className: 'a-beautiful-box',
+      other: 'other-attr-value',
+      children: [
+        {
+          organism: organism3,
+        },
+      ],
+    }});
+    const organism1 = () => ({organism: organism2});
+    const organDesc = {organism: organism1};
+    const envRoot = document.createElement('div');
+    const tree = new OrganTree({organDesc, envRoot});
+
+    expect(envRoot.innerHTML).toBe(`<div class="a-beautiful-box" other="other-attr-value">${content}</div>`);
     expect(envRoot.textContent).toBe(content);
     tree.vanish();
     expect(envRoot.textContent).toBe('');

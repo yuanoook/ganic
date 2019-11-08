@@ -2,11 +2,11 @@
 
 const { organDomMap } = require('./map');
 
-const findEnvParent = node => {
-  if (node.parent) {
-    return organDomMap.get(node.parent.organ) || findEnvParent(node.parent);
-  } else if (node.tree) {
-    return node.tree.envRoot;
+const findEnvParent = organNode => {
+  if (organNode.parent) {
+    return organDomMap.get(organNode.parent.organ) || findEnvParent(organNode.parent);
+  } else if (organNode.tree) {
+    return organNode.tree.envRoot;
   }
   throw new Error(`Cannot find env parent`);
 };

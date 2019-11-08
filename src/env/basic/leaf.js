@@ -7,7 +7,7 @@ const updateLeaf = organLeaf => {
   let textNode = leafDomMap.get(organLeaf);
   if (!textNode) {
     textNode = document.createTextNode(organLeaf.value);
-    leafDomMap.set(leafDomMap, textNode);
+    leafDomMap.set(organLeaf, textNode);
 
     let parentDom = findEnvParent(organLeaf);
     parentDom.appendChild(textNode);
@@ -20,10 +20,11 @@ const updateLeaf = organLeaf => {
   }
 };
 
-const removeLeaf = leafNode => {
-  const textNode = leafDomMap.get(leafDomMap);
+const removeLeaf = organLeaf => {
+  const textNode = leafDomMap.get(organLeaf);
   if (textNode) {
     textNode.remove();
+    leafDomMap.delete(organLeaf);
   }
 };
 

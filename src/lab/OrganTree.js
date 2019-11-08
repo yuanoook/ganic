@@ -2,6 +2,7 @@
 
 const { Organ } = require('./Organ');
 const { OrganNode } = require('./OrganNode');
+const { getOrganismByDesc } = require('./utils');
 const basicUI = require('../env/basic');
 
 /**
@@ -26,8 +27,8 @@ OrganTree.prototype = {
     }, config);
   },
   grow: function() {
-    const {organism, props} = this.organDesc;
-    const organ = new Organ({organism, props});
+    const organism = getOrganismByDesc(this.organDesc, this);
+    const organ = new Organ({organism, props: this.organDesc.props});
     this.trunkNode = new OrganNode({organ, tree: this});
   },
 

@@ -3,7 +3,7 @@
 
 const { Organ } = require('./Organ');
 const { OrganLeaf } = require('./OrganLeaf');
-const { flat } = require('./utils');
+const { flat, getOrganismByDesc } = require('./utils');
 
 /**
  * OrganNode is the wrapper for one organ
@@ -16,6 +16,9 @@ const OrganNode = function({organ, parent, tree}) {
   this.update = this.update.bind(this);
   this.vanishChildByKey = this.vanishChildByKey.bind(this);
   organ.addListener(this.update);
+  if (this.tree) {
+    this.tree.envUtils.setUpNode(this);
+  }
 };
 
 OrganNode.prototype = {
@@ -68,11 +71,10 @@ OrganNode.prototype = {
   },
   createChildByKey: function(key) {
     const desc = this.getDescByKey(key);
-    const isDescNode = desc && desc.organism && typeof desc.organism === 'function';
+    const organism = getOrganismByDesc(desc, this.tree);
     this.vanishChildByKey(key);
-    if (isDescNode) { // create new organNode
-      const {organism, props} = desc;
-      const organ = new Organ({organism, props, node: this});
+    if (organism) { // create new organNode
+      const organ = new Organ({organism, props: desc.props});
       this.children[key] = new OrganNode({organ, parent: this, tree: this.tree});
     } else {          // create new organLeaf
       this.children[key] = new OrganLeaf({value: desc, parent: this, tree: this.tree});
@@ -80,18 +82,17 @@ OrganNode.prototype = {
   },
   updateChildByKey: function(key) {
     const desc = this.getDescByKey(key);
-    const {organism, props} = desc || {};
-    const isDescNode = typeof organism === 'function';
-    const isDescLeaf = !isDescNode;
+    const organism = this.getOrganismByDesc(desc, this.tree);
+    const isDescLeaf = !organism;
   
     const child = this.children[key];
     const isChildNode = child instanceof OrganNode;
     const isChildLeaf = child instanceof OrganLeaf;
 
-    if (isChildNode && isDescNode && child.organ.organism === organism) {
-      child.organ.receive(props); // update existing same type organNode
+    if (isChildNode && organism && child.organ.organism === organism) {
+      child.organ.receive(desc.props); // update existing same type organNode
     } else if (isChildLeaf && isDescLeaf) {
-      child.receive(desc);        // update existing organLeaf
+      child.receive(desc);             // update existing organLeaf
     } else {
       this.createChildByKey(key);
     }

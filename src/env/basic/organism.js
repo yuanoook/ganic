@@ -32,13 +32,13 @@ const boxOrganism = props => {
   return children;
 };
 
-const organismMap = {
+const organisms = {
   box: boxOrganism,
 };
 
 const getOrganismByTag = tagName => {
-  if (organismMap[tagName]) {
-    return organDomMap[tagName];
+  if (organisms[tagName]) {
+    return organisms[tagName];
   }
   throw new Error(`Cannot find tag: ${tagName}`);
 };

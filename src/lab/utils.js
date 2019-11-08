@@ -22,7 +22,17 @@ const flat = (array, depth) => {
   }, []) : Array.prototype.slice.call(array);
 };
 
+const getOrganismByDesc = ({ organism } = {}, tree) => {
+  if (typeof organism === 'function') {
+    return organism;
+  }
+  if (tree && typeof organism === 'string') {
+    return tree.envUtils.getOrganismByTag(organism);
+  }
+};
+
 module.exports = {
   shallowEqual,
   flat,
+  getOrganismByDesc,
 };

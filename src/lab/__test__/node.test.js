@@ -6,8 +6,8 @@ const {OrganLeaf} = require('../OrganLeaf');
 
 describe('organNode', () => {
   it('should new & vanish a OrganNode properly', () => {
-    const organism1 = () => ({organism: organism2, props: attach(1)});
     const organism2 = () => attach(2);
+    const organism1 = () => ({organism: organism2, props: attach(1)});
 
     const organ1 = create({organism: organism1, props: 1});
     const node1 = new OrganNode({organ: organ1});

@@ -7,7 +7,7 @@ const { basicUI } = require('../env/basicUI');
 /**
  * OrganTree connects the root OrganNode with the environment
  * It takes environment configuration
- *    basic string-organism
+ *    basic platform-native-organism
  *    they environment proxy
  */
 

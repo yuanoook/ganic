@@ -6,7 +6,9 @@ const divParasitism = (attrs, give, { handover: div }) => {
   if (!div) {
     div = document.createElement('div');
   }
-  //TODO: apply attrs, can be async :D
+
+  // TODO: apply attrs, can be async :D
+
   give(div);
   return ({ ending }) => {
     if (ending) {
@@ -17,7 +19,11 @@ const divParasitism = (attrs, give, { handover: div }) => {
   };
 };
 
-const boxOrganism = props => attach(divParasitism, props);
+const boxOrganism = props => {
+  const {children, ...attrs} = props;
+  attach(divParasitism, attrs);
+  return children;
+};
 
 const organismMap = {
   box: boxOrganism,

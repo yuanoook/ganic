@@ -11,20 +11,21 @@ const { flat } = require('./utils');
  * It manages the update of its children
  */
 
-const OrganNode = function({organ, parent}) {
-  this.setUp({organ, parent});
+const OrganNode = function({organ, parent, tree}) {
+  this.setUp({organ, parent, tree});
   this.update = this.update.bind(this);
   this.vanishChildByKey = this.vanishChildByKey.bind(this);
   organ.addListener(this.update);
 };
 
 OrganNode.prototype = {
-  setUp: function(props) {
+  setUp: function(config) {
     Object.assign(this, {
       organ: null,
       parent: null,
+      tree: null,
       children: {},
-    }, props);
+    }, config);
   },
   clearUp: function() {
     this.setUp();
@@ -71,10 +72,10 @@ OrganNode.prototype = {
     this.vanishChildByKey(key);
     if (isDescNode) { // create new organNode
       const {organism, props} = desc;
-      const organ = new Organ({organism}).receive(props);
-      this.children[key] = new OrganNode({organ, parent: this});
+      const organ = new Organ({organism, props, node: this});
+      this.children[key] = new OrganNode({organ, parent: this, tree: this.tree});
     } else {          // create new organLeaf
-      this.children[key] = new OrganLeaf({value: desc, parent: this});
+      this.children[key] = new OrganLeaf({value: desc, parent: this, tree: this.tree});
     }
   },
   updateChildByKey: function(key) {

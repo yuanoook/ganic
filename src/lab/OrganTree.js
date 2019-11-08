@@ -17,17 +17,17 @@ const OrganTree = function({organDesc, envRoot, envUtils = basicUI}) {
 };
 
 OrganTree.prototype = {
-  setUp: function(props) {
+  setUp: function(config) {
     Object.assign(this, {
       organDesc: null,
       trunkNode: null,
       envRoot: null,
       envUtils: null,
-    }, props);
+    }, config);
   },
   grow: function() {
     const {organism, props} = this.organDesc;
-    const organ = new Organ({organism}).receive(props);
+    const organ = new Organ({organism, props});
     this.trunkNode = new OrganNode({organ, tree: this});
   },
 

@@ -5,16 +5,17 @@
  * It's the end node for a non-organ-desc variable
  */
 
-const OrganLeaf = function({value, parent}) {
-  this.setUp({value, parent});
+const OrganLeaf = function({value, parent, tree}) {
+  this.setUp({value, parent, tree});
 };
 
 OrganLeaf.prototype = {
-  setUp: function(props) {
+  setUp: function(config) {
     Object.assign(this, {
       value: null,
       parent: null,
-    }, props);
+      tree: null,
+    }, config);
   },
   clearUp: function() {
     this.setUp();

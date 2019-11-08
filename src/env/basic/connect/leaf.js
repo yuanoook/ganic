@@ -1,7 +1,7 @@
 'use strict';
 
+const { findEnvParent } = require('./utils');
 const { leafDomMap } = require('./map');
-const { findEnvParent } = require('./relationship');
 
 const updateLeaf = organLeaf => {
   let textNode = leafDomMap.get(organLeaf);

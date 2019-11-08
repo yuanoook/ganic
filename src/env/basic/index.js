@@ -1,8 +1,8 @@
 'use strict';
 
 const { getOrganismByTag } = require('./organism');
-const { updateLeaf, removeLeaf } = require('./leaf');
-const { setUpNode } = require('./node');
+const { updateLeaf, removeLeaf } = require('./connect/leaf');
+const { setUpNode } = require('./connect/node');
 
 module.exports = {
   getOrganismByTag,

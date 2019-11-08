@@ -1,6 +1,6 @@
 'use strict';
+const { attrNameMap: nameMap } = require('./attribute');
 
-const { attrNameMap: nameMap } = require('./map');
 const getAttrName = name => nameMap[name] || name;
 
 const applyAttrs = (node, attrs) => {

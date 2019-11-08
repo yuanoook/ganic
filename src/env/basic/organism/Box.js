@@ -1,9 +1,9 @@
 'use strict';
 
-const { attach } = require('../../moirai/Klotho');
-const { getUpdatingOrgan } = require('../../moirai/Lakhesis');
-const { applyAttrs } = require('./attribute');
-const { organDomMap } = require('./map');
+const { attach } = require('../../../moirai/Klotho');
+const { getUpdatingOrgan } = require('../../../moirai/Lakhesis');
+const { applyAttrs } = require('./utils');
+const { organDomMap } = require('../connect/map');
 
 const divParasitism = attrs => {
   let organ = getUpdatingOrgan();
@@ -26,23 +26,12 @@ const divParasitism = attrs => {
   };
 };
 
-const boxOrganism = props => {
+const Box = props => {
   const {children, ...attrs} = props;
   attach(divParasitism, attrs);
   return children;
 };
 
-const organisms = {
-  box: boxOrganism,
-};
-
-const getOrganismByTag = tagName => {
-  if (organisms[tagName]) {
-    return organisms[tagName];
-  }
-  throw new Error(`Cannot find tag: ${tagName}`);
-};
-
 module.exports = {
-  getOrganismByTag,
+  Box,
 };

@@ -2,7 +2,7 @@
 
 const {attach} = require('../../Ganic');
 const {OrganTree} = require('../OrganTree');
-const {organDomMap} = require('../../env/basic/map');
+const {organDomMap} = require('../../env/basic/connect/map');
 
 describe('organTree', () => {
   it('should new & vanish a OrganTree properly', () => {

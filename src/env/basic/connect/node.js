@@ -1,6 +1,6 @@
 'use strict';
 
-const { findEnvParent } = require('./relationship');
+const { findEnvParent } = require('./utils');
 const { organDomMap } = require('./map');
 
 const setUpNode = organNode => {

@@ -5,6 +5,12 @@ const { Organ } = require('./Organ');
 const { OrganLeaf } = require('./OrganLeaf');
 const { flat } = require('./utils');
 
+/**
+ * OrganNode is the wrapper for one organ
+ * It handles the parent - children relationship things
+ * It manages the update of its children
+ */
+
 const OrganNode = function({organ, parent}) {
   this.setUp({organ, parent});
   this.update = this.update.bind(this);

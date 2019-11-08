@@ -1,16 +1,16 @@
 'use strict';
 
-const { Box } = require('./Box');
+const { organismFactory } = require('./dom');
 
 const organisms = {
-  box: Box,
+  box: organismFactory('div'),
 };
 
 const getOrganismByTag = tagName => {
   if (organisms[tagName]) {
     return organisms[tagName];
   }
-  throw new Error(`Cannot find tag: ${tagName}`);
+  return organismFactory(tagName);
 };
 
 module.exports = {

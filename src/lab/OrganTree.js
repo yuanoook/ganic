@@ -3,7 +3,6 @@
 const { Organ } = require('./Organ');
 const { OrganNode } = require('./OrganNode');
 const { getOrganismByDesc } = require('./utils');
-const basicUI = require('../env/basic');
 
 /**
  * OrganTree connects the root OrganNode with the environment
@@ -12,7 +11,7 @@ const basicUI = require('../env/basic');
  *    they environment proxy
  */
 
-const OrganTree = function({organDesc, envRoot, envUtils = basicUI}) {
+const OrganTree = function({organDesc, envRoot, envUtils}) {
   this.setUp({organDesc, envRoot, envUtils});
   this.grow();
 };

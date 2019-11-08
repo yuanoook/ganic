@@ -1,6 +1,6 @@
 'use strict';
 
-const { create, attach } = require('./Ganic');
+const { create, attach, render } = require('./Ganic');
 
 const {
   useRef,
@@ -19,8 +19,8 @@ const {
 } = require('./use');
 
 module.exports = {
-  // create an organSet from organSetDescription
   create,
+  render,
 
   // attach, to design useX - Composite Parasite Maker
   attach,

@@ -1,7 +1,6 @@
 'use strict';
 
-const { attach } = require('../../../moirai/Klotho');
-const { getUpdatingOrgan } = require('../../../moirai/Lakhesis');
+const { getUpdatingOrgan, attach } = require('../../../moirai/Lakhesis');
 const { applyAttrs } = require('./utils');
 const { organDomMap } = require('../connect/map');
 

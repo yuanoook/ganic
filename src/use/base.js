@@ -1,6 +1,6 @@
 'use strict';
 
-const {attach} = require('../Ganic');
+const { attach } = require('../moirai/Lakhesis');
 
 const useRef = () => attach({});
 

@@ -1,6 +1,6 @@
 'use strict';
 
-const {attach} = require('../../Ganic');
+const {render, attach} = require('../../Ganic');
 const {OrganTree} = require('../OrganTree');
 const {organDomMap} = require('../../env/basic/connect/map');
 
@@ -11,7 +11,7 @@ describe('organTree', () => {
     const organism1 = () => ({organism: organism2});
     const organDesc = {organism: organism1};
     const envRoot = document.createElement('div');
-    const tree = new OrganTree({organDesc, envRoot});
+    const tree = render({organDesc, envRoot});
 
     expect(envRoot.textContent).toBe(content);
     tree.vanish();
@@ -29,7 +29,7 @@ describe('organTree', () => {
       },
     };
     const envRoot = document.createElement('div');
-    const tree = new OrganTree({organDesc, envRoot});
+    const tree = render({organDesc, envRoot});
     const boxDom = organDomMap.get(tree.trunkNode.organ);
 
     expect(boxDom.outerHTML).toBe(`<div class="a-beautiful-box" other="other-attr-value">${smile}</div>`);
@@ -54,7 +54,7 @@ describe('organTree', () => {
     const organism1 = () => ({organism: organism2});
     const organDesc = {organism: organism1};
     const envRoot = document.createElement('div');
-    const tree = new OrganTree({organDesc, envRoot});
+    const tree = render({organDesc, envRoot});
 
     expect(envRoot.innerHTML).toBe(`<div class="a-beautiful-box" other="other-attr-value">${content}</div>`);
     expect(envRoot.textContent).toBe(content);

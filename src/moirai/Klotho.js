@@ -1,21 +1,16 @@
 'use strict';
 
-const Lakhesis = require('./Lakhesis');
 const { Organ } = require('../lab/Organ');
+const { OrganTree } = require('../lab/OrganTree');
+const basicUI = require('../env/basic');
 
-const create = ({ organism, props }) => {
-  return new Organ({organism, props});
-};
+const render = ({organDesc, envRoot, envUtils = basicUI}) =>
+  new OrganTree({organDesc, envRoot, envUtils});
 
-const attach = function(parasitism, deps, firstExcrement) {
-  const updatingOrgan = Lakhesis.getUpdatingOrgan();
-  if (!updatingOrgan) {
-    throw new Error("Don't use ATTACH outside of organism!");
-  }
-  return updatingOrgan.attach(parasitism, deps, firstExcrement);
-};
+const create = ({organism, props}) =>
+  new Organ({organism, props});
 
 module.exports = {
+  render,
   create,
-  attach,
 };

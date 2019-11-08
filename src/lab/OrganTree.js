@@ -36,6 +36,7 @@ OrganTree.prototype = {
   },
 
   vanish: function() {
+    this.trunkNode.vanish();
     this.clearUp();
   },
 };

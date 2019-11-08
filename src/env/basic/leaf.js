@@ -5,7 +5,7 @@ const { findEnvParent } = require('./relationship');
 
 const updateLeaf = organLeaf => {
   let textNode = leafDomMap.get(organLeaf);
-  if (textNode) {
+  if (!textNode) {
     textNode = document.createTextNode(organLeaf.value);
     leafDomMap.set(leafDomMap, textNode);
 

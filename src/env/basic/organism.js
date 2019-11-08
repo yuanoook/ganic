@@ -2,7 +2,7 @@
 
 const { attach } = require('../../moirai/Klotho');
 const { getUpdatingOrgan } = require('../../moirai/Lakhesis');
-const { applyAttrs } = require('./attr');
+const { applyAttrs } = require('./attribute');
 const { organDomMap } = require('./map');
 
 const divParasitism = attrs => {

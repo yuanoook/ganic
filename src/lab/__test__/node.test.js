@@ -14,14 +14,17 @@ describe('organNode', () => {
 
     expect(node1.organ).toBe(organ1);
     expect(node1.organ.organism).toBe(organism1);
+    expect(node1.parent).toBe(undefined);
 
     const node2 = node1.children[0];
     expect(node2 instanceof OrganNode).toBe(true);
     expect(node2.organ.organism).toBe(organism2);
+    expect(node2.parent).toBe(node1);
   
     const leaf = node2.children[0];
     expect(leaf instanceof OrganLeaf).toBe(true);
     expect(leaf.value).toBe(2);
+    expect(leaf.parent).toBe(node2);
 
     node1.vanish();
 

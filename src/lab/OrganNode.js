@@ -68,7 +68,7 @@ OrganNode.prototype = {
       const organ = new Organ({organism}).receive(props);
       this.children[key] = new OrganNode({organ, parent: this});
     } else {          // create new organLeaf
-      this.children[key] = new OrganLeaf({value: desc});
+      this.children[key] = new OrganLeaf({value: desc, parent: this});
     }
   },
   updateChildByKey: function(key) {

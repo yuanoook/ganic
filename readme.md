@@ -186,6 +186,23 @@ With Hooks, literally we **use** everything, to manage the data income and outco
 
 I love React, and I love Hooks. I'm making Ganic, to make hooks available without React.
 
+# All we care is CHANGE
+
+All we care is CHANGE;
+
+All we do is making CHANGE;
+
+CHANGE = !shallowEqual(deps, newDeps);
+
+NO CHANGE, NO UPDATE, NO NOTIFICATION!
+
+We allow update secretly by **Data Smuggling**
+``` javascript
+// no listener will be waken up
+deps.smuggler.goods = somethingFresh;
+```
+
+
 # Big Plan
 
 ## OrganTree

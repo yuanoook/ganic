@@ -61,17 +61,6 @@ Parasite.prototype = {
       throw new Error(ASYNC_GIVE_IN_DETACH_ERROR_MESSAGE);
     }
 
-    /**
-     * NO CHANGE, NO UPDATE :D
-     * 
-     * All we care is CHANGE;
-     * All we do is making CHANGE;
-     * CHANGE = !shallowEqual(deps, newDeps);
-     * 
-     * Data Smuggling
-     * deps.smuggler.goods = somethingFresh;
-     **/
-
     const oldExcrement = this.lastExcrement;
     this.setExcrement(excrement);
 

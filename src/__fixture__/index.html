@@ -1,0 +1,70 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0,viewport-fit=cover" />
+    <title>Rango Yuan - Code Tells</title>
+  </head>
+  <body style="font-family: arial,sans-serif;">
+    <center>
+      <div id="app" style=" min-height: 250px;
+                            margin-top: 20px;
+                            text-align: right;
+                            padding-right: 20px;">
+      </div>
+    </center>
+    <div style="position: fixed; top: 0px; left: 10px;">
+      <h1>Rango Yuan</h1>
+      <h2>Code Tells</h2>
+      <a target="_blank" href="https://github.com/yuanoook/ganic">https://github.com/yuanoook/ganic</a><br/><br/>
+      <a target="_blank" href="https://codesandbox.io/s/ganic-hb2r1">https://codesandbox.io/s/ganic-hb2r1</a><br/><br/>
+      <a target="_blank" href="https://twitter.com/YuanRango">@YuanRango</a>
+    </div>
+    <script style="display: block;
+                   white-space: pre;
+                   max-height: 500px;
+                   overflow: auto;
+                   background: lightslategray;
+                   color: ghostwhite;
+                   font-size: 18px;
+                   line-height: 24px;">
+      // Let's use hooks without React
+ 
+      window.addEventListener('DOMContentLoaded', (event) => {
+        const {
+          render,
+          useState,
+          useInterval,
+          useThrottle,
+          useTimeout
+        } = Ganic;
+
+        const organism = () => {
+          const [content, setContent] = useState("");
+          const [interval, setInterval] = useState(10);
+          useInterval(() => setContent(Date.now()), interval);
+          useTimeout(() => setInterval(null), 60 * 1000);
+
+          return [
+            content,
+            useThrottle(content, 100),
+            useThrottle(content, 1000),
+            useThrottle(content, 2000),
+            useThrottle(content, 5000)
+          ];
+        };
+
+        const tree = render({
+          organDesc: { organism },
+          envRoot: document.getElementById("app")
+        });
+
+        setTimeout(() => tree.vanish(), 6 * 1010);
+      });
+    </script>
+    <script src="https://unpkg.com/ganic/umd/ganic-production.min.js"></script>
+  </body>
+</html>
+

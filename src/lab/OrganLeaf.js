@@ -32,7 +32,7 @@ OrganLeaf.prototype = {
   },
   vanish: function() {
     if (this.tree) {
-      this.tree.envUtils.removeLeaf(this);
+      this.tree.envUtils.vanishLeaf(this);
     }
     this.clearUp();
   },

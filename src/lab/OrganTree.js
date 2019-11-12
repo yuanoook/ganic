@@ -2,7 +2,8 @@
 
 const { Organ } = require('./Organ');
 const { OrganNode } = require('./OrganNode');
-const { getOrganismByDesc } = require('./utils');
+const { OrganLeaf } = require('./OrganLeaf');
+const { createNode } = require('./utils');
 
 /**
  * OrganTree connects the root OrganNode with the environment
@@ -26,9 +27,19 @@ OrganTree.prototype = {
     }, config);
   },
   grow: function() {
-    const organism = getOrganismByDesc(this.organDesc, this);
-    const organ = new Organ({organism, props: this.organDesc.props});
-    this.trunkNode = new OrganNode({organ, tree: this});
+    const {node, onReady} = createNode({
+      constructors: {
+        Organ,
+        OrganNode,
+        OrganLeaf,
+      },
+      desc: this.organDesc,
+      tree: this,
+    });
+    this.trunkNode = node;
+    if (typeof onReady === 'function') {
+      onReady(node);
+    }
   },
 
   clearUp: function() {

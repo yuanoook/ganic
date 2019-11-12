@@ -22,17 +22,39 @@ const flat = (array, depth) => {
   }, []) : Array.prototype.slice.call(array);
 };
 
-const getOrganismByDesc = ({ organism } = {}, tree) => {
+const getUtilsByDesc = ({ organism } = {}, tree) => {
   if (typeof organism === 'function') {
-    return organism;
+    return { organism };
   }
   if (tree && typeof organism === 'string') {
-    return tree.envUtils.getOrganismByTag(organism);
+    return tree.envUtils.getTagUtils(organism);
   }
+};
+
+const createNode = ({
+  constructors: {
+    Organ,
+    OrganNode,
+    OrganLeaf,
+  },
+  desc,
+  tree,
+  parent,
+}) => {
+  const { organism, onReady } = getUtilsByDesc(desc, tree) || {};
+  const node = organism
+    ? new OrganNode({
+        organ: new Organ({organism, props: desc.props}),
+        parent,
+        tree,
+      })
+    : new OrganLeaf({value: desc, parent, tree});
+  return {node, onReady};
 };
 
 module.exports = {
   shallowEqual,
   flat,
-  getOrganismByDesc,
+  getUtilsByDesc,
+  createNode,
 };

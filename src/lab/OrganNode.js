@@ -3,7 +3,7 @@
 
 const { Organ } = require('./Organ');
 const { OrganLeaf } = require('./OrganLeaf');
-const { flat, getOrganismByDesc } = require('./utils');
+const { flat, getUtilsByDesc, createNode } = require('./utils');
 
 /**
  * OrganNode is the wrapper for one organ
@@ -16,9 +16,6 @@ const OrganNode = function({organ, parent, tree}) {
   this.update = this.update.bind(this);
   this.vanishChildByKey = this.vanishChildByKey.bind(this);
   organ.addListener(this.update);
-  if (this.tree) {
-    this.tree.envUtils.setUpNode(this);
-  }
 };
 
 OrganNode.prototype = {
@@ -70,19 +67,26 @@ OrganNode.prototype = {
     childrenKeys.forEach(key => this.vanishChildByKey(key));
   },
   createChildByKey: function(key) {
-    const desc = this.getDescByKey(key);
-    const organism = getOrganismByDesc(desc, this.tree);
     this.vanishChildByKey(key);
-    if (organism) { // create new organNode
-      const organ = new Organ({organism, props: desc.props});
-      this.children[key] = new OrganNode({organ, parent: this, tree: this.tree});
-    } else {          // create new organLeaf
-      this.children[key] = new OrganLeaf({value: desc, parent: this, tree: this.tree});
+    const desc = this.getDescByKey(key);
+    const {node, onReady} = createNode({
+      constructors: {
+        Organ,
+        OrganNode,
+        OrganLeaf,
+      },
+      desc,
+      parent: this,
+      tree: this.tree,
+    });
+    this.children[key] = node;
+    if (typeof onReady === 'function') {
+      onReady(node);
     }
   },
   updateChildByKey: function(key) {
     const desc = this.getDescByKey(key);
-    const organism = this.getOrganismByDesc(desc, this.tree);
+    const { organism } = getUtilsByDesc(desc, this.tree);
     const isDescLeaf = !organism;
   
     const child = this.children[key];

@@ -61,4 +61,15 @@ describe('organTree', () => {
     tree.vanish();
     expect(envRoot.textContent).toBe('');
   });
+
+  it('should new & vanish a single OrganLeaf properly under a tree', () => {
+    const content = '3';
+    const envRoot = document.createElement('div');
+    const tree = render({organDesc: content, envRoot});
+
+    expect(envRoot.innerHTML).toBe(`3`);
+    expect(envRoot.textContent).toBe(content);
+    tree.vanish();
+    expect(envRoot.textContent).toBe('');
+  });
 });

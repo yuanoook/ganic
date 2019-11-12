@@ -34,7 +34,7 @@ const parasitismFactory = tagName => {
 };
 
 const newOrganismByTag = tagName => props => {
-  const {children, ...attrs} = props;
+  const {children, ...attrs} = props || {};
   const parasitism = parasitismFactory(tagName);
   attach(parasitism, attrs);
   return children;

@@ -4,16 +4,20 @@ const { findEnvParent } = require('./utils');
 const { leafDomMap } = require('./map');
 
 const updateLeaf = organLeaf => {
+  const value = (organLeaf.value === undefined || organLeaf.value === null)
+    ? ''
+    : organLeaf.value;
+
   let textNode = leafDomMap.get(organLeaf);
   if (!textNode) {
-    textNode = document.createTextNode(organLeaf.value);
+    textNode = document.createTextNode(value);
     leafDomMap.set(organLeaf, textNode);
     const parentDom = findEnvParent(organLeaf);
     parentDom.appendChild(textNode);
     return;
   }
 
-  const newContent = document.createTextNode(organLeaf.value).textContent;
+  const newContent = document.createTextNode(value).textContent;
   if (textNode.textContent !== newContent) {
     textNode.textContent = newContent;
   }

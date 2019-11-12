@@ -4,6 +4,7 @@
   "description": "A cool organic programming javascript library",
   "main": "src/index.js",
   "devDependencies": {
+    "@babel/plugin-transform-react-jsx": "^7.7.0",
     "babel-eslint": "^10.0.3",
     "chalk": "^2.4.2",
     "eslint": "^6.6.0",

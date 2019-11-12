@@ -122,4 +122,10 @@ module.exports = {
     __EXPERIMENTAL__: true,
     trustedTypes: true,
   },
+
+  settings: {
+    react: {
+      pragma: 'Ganic'
+    }
+  }
 };

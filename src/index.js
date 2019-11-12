@@ -18,7 +18,12 @@ const {
   usePromise,
 } = require('./use');
 
+const { Fragment, createElement } = require('./lab/JSXparser');
+
 module.exports = {
+  Fragment,
+  createElement,
+
   create,
   render,
 

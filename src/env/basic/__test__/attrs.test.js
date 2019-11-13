@@ -146,6 +146,7 @@ describe('should always keep identity from parasite', () => {
     envRoot.querySelector('button').dispatchEvent(new MouseEvent('click'));
     expect(mockFn.mock.calls.length).toBe(1);
     expect(envRoot.textContent).toBe('012');
+    expect(envRoot.innerHTML).toBe('<span>0</span><span>1</span><span>2</span><input value="3"><button></button>');
     tree.vanish();
   });
 

@@ -1,7 +1,7 @@
 'use strict';
 
 const { getUpdatingOrgan, attach } = require('../../../moirai/Lakhesis');
-const { applyAttrs } = require('./utils');
+const { applyAttrs } = require('./attrs');
 const { organDomMap } = require('../connect/map');
 
 const newParasitismByTag = tagName => attrs => {

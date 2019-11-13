@@ -36,7 +36,9 @@ const applySimpleAttr = (node, name, value) => {
 };
 
 const applyAttr = (node, name, value) => {
-  if (name === 'ref') {
+  if (name === 'key') {
+    return;
+  } else if (name === 'ref') {
     applyRef(node, value);
   } else if (/^on[A-Z][a-zA-Z]*/.test(name)) {
     applyEventListener(node, name, value);

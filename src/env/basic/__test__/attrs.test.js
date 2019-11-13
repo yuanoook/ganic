@@ -111,4 +111,43 @@ describe('should always keep identity from parasite', () => {
     expect(envRoot.textContent).toBe('3');
     tree.vanish();
   });
+
+  it('should keep the same input with key', () => {
+    const mockFn = jest.fn();
+    const envRoot = document.createElement('div');
+    const App = () => {
+      const [count, setCount] = useState(1);
+      const onButtonClick = () => setCount(n => n + 1);
+      const inputRef = useMemo(() => {
+        const fn = value => {
+          mockFn();
+          fn.current = value;
+        };
+        fn.current = null;
+        return fn;
+      });
+      const list = new Array(count).join(',').split(',').map((x, i) => <span>{i}</span>);
+
+      return <>
+        { list }
+        <input ref={inputRef} value={count} key="input"/>
+        <button onClick={onButtonClick}/>
+      </>;
+    };
+
+    const tree = render({organDesc: <App />, envRoot});
+    expect(mockFn.mock.calls.length).toBe(1);
+    expect(envRoot.textContent).toBe('0');
+
+    envRoot.querySelector('button').dispatchEvent(new MouseEvent('click'));
+    expect(mockFn.mock.calls.length).toBe(1);
+    expect(envRoot.textContent).toBe('01');
+
+    envRoot.querySelector('button').dispatchEvent(new MouseEvent('click'));
+    expect(mockFn.mock.calls.length).toBe(1);
+    expect(envRoot.textContent).toBe('012');
+    tree.vanish();
+  });
+
+  // TODO: Support style object :D
 });

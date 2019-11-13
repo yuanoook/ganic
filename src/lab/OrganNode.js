@@ -50,10 +50,16 @@ OrganNode.prototype = {
     return flat(descs, Infinity);
   },
   getDescKeys: function() {
-    return this.descs.map(({key} = {}, index) => (key !== undefined && key !== null) ? key : String(index));
+    return this.descs.map((desc, index) => {
+      const key = desc && desc.props && desc.props.key;
+      return (key !== undefined && key !== null) ? key : String(index);
+    });
   },
   getDescByKey: function(key) {
-    return this.descs.find(({key: descKey} = {}, index) => key === descKey || key === String(index));
+    return this.descs.find((desc, index) => {
+      const descKey = desc && desc.props && desc.props.key;
+      return key === descKey || key === String(index);
+    });
   },
 
   vanishChildByKey: function(key) {

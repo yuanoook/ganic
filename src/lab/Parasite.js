@@ -41,10 +41,7 @@ Parasite.prototype = {
 
   setExcrement: function(excrement) {
     this.hasExcreted = true;
-    this.lastExcrement =
-      typeof excrement === 'function'
-        ? excrement(this.lastExcrement)
-        : excrement;
+    this.lastExcrement = excrement;
   },
   firstGive: function(excrement) {
     return this.hasExcreted ? this.lastExcrement : this.give(excrement);

@@ -6,6 +6,8 @@ const attributeMap = {
 
 const getAttrName = name => attributeMap[name] || name;
 
+const applyRef = (node, ref) => ref(node);
+
 const applyEventListener = (node, name, listener) => {
   const eventName = name.replace(/^on/, '').toLowerCase();
   node.addEventListener(eventName, listener);
@@ -22,7 +24,9 @@ const applySimpleAttr = (node, name, value) => {
 
 const applyAttr = (node, name, value) => {
   const isAboutEvent = /^on[A-Z][a-zA-Z]*/.test(name);
-  if (isAboutEvent) {
+  if (name === 'ref') {
+    applyRef(node, value);
+  } else if (isAboutEvent) {
     applyEventListener(node, name, value);
   } else {
     applySimpleAttr(node, name, value);

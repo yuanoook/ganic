@@ -2,7 +2,11 @@
 
 const { attach } = require('../moirai/Lakhesis');
 
-const useRef = () => attach({});
+const useRef = () => useMemo(() => {
+  const fn = value => (fn.current = value);
+  fn.current = null;
+  return fn;
+});
 
 const useMemo = (fn, dependencies) => {
   const parasitism = (deps, give) => give(fn(deps));

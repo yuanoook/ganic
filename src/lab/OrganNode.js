@@ -50,10 +50,10 @@ OrganNode.prototype = {
     return flat(descs, Infinity);
   },
   getDescKeys: function() {
-    return this.descs.map(({key} = {}, index) => (key !== undefined && key !== null) ? key : index);
+    return this.descs.map(({key} = {}, index) => (key !== undefined && key !== null) ? key : String(index));
   },
   getDescByKey: function(key) {
-    return this.descs.find(({key: descKey} = {}, index) => key === descKey || key === index);
+    return this.descs.find(({key: descKey} = {}, index) => key === descKey || key === String(index));
   },
 
   vanishChildByKey: function(key) {
@@ -86,7 +86,7 @@ OrganNode.prototype = {
   },
   updateChildByKey: function(key) {
     const desc = this.getDescByKey(key);
-    const { organism } = getUtilsByDesc(desc, this.tree);
+    const { organism } = getUtilsByDesc(desc, this.tree) || {};
     const isDescLeaf = !organism;
   
     const child = this.children[key];

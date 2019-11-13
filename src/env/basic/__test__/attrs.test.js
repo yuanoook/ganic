@@ -51,4 +51,28 @@ describe('should always keep identity from parasite', () => {
     tree.vanish();
     expect(envRoot.textContent).toBe('');
   });
+
+  it('should keep the same dom ref.current with the same key', () => {
+    const envRoot = document.createElement('div');
+    let lastInput = null;
+    const App = () => {
+      const [count, setCount] = useState(1);
+      const onButtonClick = () => setCount(n => n + 1);
+      return <>
+        <input ref={el => {
+          if (lastInput) {
+            expect(lastInput).toBe(el);
+          }
+          lastInput = el;
+        }}/>
+        <button onClick={onButtonClick}>{count}</button>
+      </>;
+    };
+
+    const tree = render({organDesc: <App />, envRoot});
+    const input = envRoot.querySelector('input');
+    envRoot.querySelector('button').dispatchEvent(new MouseEvent('click'));
+    expect(envRoot.querySelector('input')).toBe(input);
+    tree.vanish();
+  });
 });

@@ -8,7 +8,7 @@ describe('JSX parser', () => {
     const content = '3';
     const Organism3 = () => attach(content);
     const Organism2 = () => (
-      <box className="a-beautiful-box" other="other-attr-value">
+      <box class="a-beautiful-box" other="other-attr-value">
         <Organism3/>
       </box>
     );

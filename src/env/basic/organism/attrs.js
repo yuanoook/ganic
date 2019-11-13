@@ -1,42 +1,57 @@
 'use strict';
 
-const attributeMap = {
-  className: 'class',
-};
+const attrsKey = Symbol();
+const listenersKey = Symbol();
 
-const getAttrName = name => attributeMap[name] || name;
-
-const applyRef = (node, ref) => ref(node);
+const applyRef = (node, ref) => ref ? ref(node) : null;
 
 const applyEventListener = (node, name, listener) => {
   const eventName = name.replace(/^on/, '').toLowerCase();
-  node.addEventListener(eventName, listener);
+  if (!node[listenersKey]) {
+    node[listenersKey] = {};
+  }
+  if (!node[listenersKey][eventName]) {
+    node[listenersKey][eventName] = {};
+  }
+
+  const bindInfo = node[listenersKey][eventName];
+  bindInfo.listener = listener;
+
+  if (!bindInfo.bound) {
+    node.addEventListener(eventName, e => {
+      if (typeof bindInfo.listener === 'function') {
+        bindInfo.listener(e);
+      }
+    });
+    bindInfo.bound = true;
+  }
 };
 
 const applySimpleAttr = (node, name, value) => {
-  const attrName = getAttrName(name);
   if (value === null || value === undefined) {
-    node.removeAttribute(attrName);
+    node.removeAttribute(name);
   } else {
-    node.setAttribute(attrName, value);
+    node.setAttribute(name, value);
   }
 };
 
 const applyAttr = (node, name, value) => {
-  const isAboutEvent = /^on[A-Z][a-zA-Z]*/.test(name);
   if (name === 'ref') {
     applyRef(node, value);
-  } else if (isAboutEvent) {
+  } else if (/^on[A-Z][a-zA-Z]*/.test(name)) {
     applyEventListener(node, name, value);
   } else {
     applySimpleAttr(node, name, value);
   }
 };
 
-const applyAttrs = (node, attrs) =>
-  Object.keys(attrs).forEach(
-    name => applyAttr(node, name, attrs[name]),
+const applyAttrs = (node, attrs) => {
+  const oldAttrs = node[attrsKey] || {};
+  Object.keys({...oldAttrs, ...attrs}).forEach(
+    name => oldAttrs[name] !== attrs[name] && applyAttr(node, name, attrs[name]),
   );
+  node[attrsKey] = {...attrs};
+};
 
 module.exports = {
   applyAttrs,

@@ -23,7 +23,7 @@ describe('organTree', () => {
     const organDesc = {
       organism: 'box',
       props: {
-        className: 'a-beautiful-box',
+        class: 'a-beautiful-box',
         other: 'other-attr-value',
         children: smile,
       },
@@ -43,7 +43,7 @@ describe('organTree', () => {
     const content = '3';
     const organism3 = () => attach(content);
     const organism2 = () => ({organism: 'box', props: {
-      className: 'a-beautiful-box',
+      class: 'a-beautiful-box',
       other: 'other-attr-value',
       children: [
         {

@@ -1,7 +1,7 @@
 'use strict';
 
 const Ganic = require('../../../index');
-const {render, useState, useRef} = Ganic;
+const {render, useState, useRef, useMemo} = Ganic;
 
 describe('should always keep identity from parasite', () => {
   it('should handle onClick event properly', () => {
@@ -73,6 +73,42 @@ describe('should always keep identity from parasite', () => {
     const input = envRoot.querySelector('input');
     envRoot.querySelector('button').dispatchEvent(new MouseEvent('click'));
     expect(envRoot.querySelector('input')).toBe(input);
+    tree.vanish();
+  });
+
+  it('should add event, call the same ref only once', () => {
+    const mockFn = jest.fn();
+    const envRoot = document.createElement('div');
+    const App = () => {
+      const [count, setCount] = useState(1);
+      const onButtonClick = () => setCount(n => n + 1);
+
+      const inputRef = useMemo(() => {
+        const fn = value => {
+          mockFn();
+          fn.current = value;
+        };
+        fn.current = null;
+        return fn;
+      });
+
+      return <>
+        <input ref={inputRef} value={count}/>
+        <button onClick={onButtonClick}>{count}</button>
+      </>;
+    };
+
+    const tree = render({organDesc: <App />, envRoot});
+    expect(mockFn.mock.calls.length).toBe(1);
+    expect(envRoot.textContent).toBe('1');
+
+    envRoot.querySelector('button').dispatchEvent(new MouseEvent('click'));
+    expect(mockFn.mock.calls.length).toBe(1);
+    expect(envRoot.textContent).toBe('2');
+
+    envRoot.querySelector('button').dispatchEvent(new MouseEvent('click'));
+    expect(mockFn.mock.calls.length).toBe(1);
+    expect(envRoot.textContent).toBe('3');
     tree.vanish();
   });
 });

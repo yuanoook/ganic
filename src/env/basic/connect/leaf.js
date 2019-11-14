@@ -1,6 +1,6 @@
 'use strict';
 
-const { findEnvParent } = require('./utils');
+const { insertDom } = require('./utils');
 const { leafDomMap } = require('./map');
 
 const updateLeaf = organLeaf => {
@@ -12,8 +12,7 @@ const updateLeaf = organLeaf => {
   if (!textNode) {
     textNode = document.createTextNode(value);
     leafDomMap.set(organLeaf, textNode);
-    const parentDom = findEnvParent(organLeaf);
-    parentDom.appendChild(textNode);
+    insertDom(textNode, organLeaf);
     return;
   }
 

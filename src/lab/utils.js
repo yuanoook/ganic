@@ -47,15 +47,19 @@ const createNode = ({
   isLast,
   preSibling,
 }) => {
-  const { organism, onReady } = getUtilsByDesc(desc, tree) || {};
-  const node = organism
-    ? new OrganNode({
-        organ: new Organ({organism, props: desc.props}),
-        parent,
-        tree,
-        key,
-      })
-    : new OrganLeaf({value: desc, parent, tree, key});
+  let { organism, onReady } = getUtilsByDesc(desc, tree) || {};
+  let node;
+  if (organism) {
+    node = new OrganNode({
+      organ: new Organ({organism, props: desc.props}),
+      parent,
+      tree,
+      key,
+    });
+  } else {
+    node = new OrganLeaf({value: desc, parent, tree, key});
+    onReady = () => node.update();
+  }
   node.buildRelationship({isFirst, isLast, preSibling});
   return {node, onReady};
 };

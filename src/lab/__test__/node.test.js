@@ -80,4 +80,41 @@ describe('organNode', () => {
 
     tree.vanish();
   });
+
+  it('should build the right relationship for leaf', () => {
+    const envRoot = document.createElement('div');
+    const A = () => {
+      return [1, 2, 3, 4];
+    };
+    const App = () => <A/>;
+    const tree = render({organDesc: <App />, envRoot});
+    const aNode = tree.trunkNode.children['0'];
+
+    const testRelationship = () => {
+      Object.keys(aNode.children).map(key => aNode.children[key]).forEach((leaf, index, list) => {
+        if (index === 0) {
+          expect(aNode.firstChild).toBe(leaf);
+          expect(leaf.preSibling).toBe(null);
+        } else {
+          expect(leaf.preSibling).toBe(list[index - 1]);
+        }
+  
+        if (index === list.length - 1) {
+          expect(aNode.lastChild).toBe(leaf);
+          expect(leaf.nextSibling).toBe(null);
+        } else {
+          expect(leaf.nextSibling).toBe(list[index + 1]);
+        }
+      });
+    };
+
+    testRelationship();
+    expect(envRoot.textContent).toBe('1234');
+
+    aNode.children['1'].vanish();
+    testRelationship();
+    expect(envRoot.textContent).toBe('134');
+
+    tree.vanish();
+  });
 });

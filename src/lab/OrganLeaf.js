@@ -9,7 +9,6 @@ const { buildRelationship, vanishRelationship } = require('./utils');
 
 const OrganLeaf = function({value, parent, tree, key}) {
   this.setUp({value, parent, tree, key});
-  this.update();
 };
 
 OrganLeaf.prototype = {

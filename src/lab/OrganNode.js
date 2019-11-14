@@ -46,6 +46,7 @@ OrganNode.prototype = {
     this.descKeys = this.getDescKeys();
     const childrenKeys = Object.keys(this.children);
     const toVanishKeys = childrenKeys.filter(x => !this.descKeys.includes(x));
+
     toVanishKeys.forEach(this.vanishChild);
     this.descs.forEach(this.updateChild);
   },
@@ -55,19 +56,21 @@ OrganNode.prototype = {
     return flat(descs, Infinity);
   },
   getDescKeys: function() {
-    return this.descs.map(this.getKeyByDesc);
-  },
-  getKeyByDesc: function(desc, index) {
-    const key = desc && desc.props && desc.props.key;
-    return (key !== undefined && key !== null) ? key : String(index);
+    return this.descs.map((desc, index) => {
+      const hasKey = desc
+        && desc.props
+        && desc.props.hasOwnProperty('key')
+        && desc.props.key !== undefined
+        && desc.props.key !== null;
+      return hasKey ? String(desc.props.key) : String(index);
+    });
   },
   getChildPreSibling: function(index) {
     const preIndex = index - 1;
     if (preIndex < 0) {
       return null;
     }
-    const preDesc = this.descs[preIndex];
-    const preKey = this.getKeyByDesc(preDesc, preIndex);
+    const preKey = this.descKeys[preIndex];
     return this.children[preKey];
   },
 
@@ -90,10 +93,13 @@ OrganNode.prototype = {
     const isChildLeaf = child instanceof OrganLeaf;
 
     if (isChildNode && organism && child.organ.organism === organism) {
+      debugger;
       child.organ.receive(desc.props); // update existing same type organNode
     } else if (isChildLeaf && isDescLeaf) {
+      debugger;
       child.receive(desc);             // update existing organLeaf
     } else {
+      debugger;
       child = this.createChild(desc, index);
     }
     // TODO: relocation check

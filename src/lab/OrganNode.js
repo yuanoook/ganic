@@ -95,7 +95,6 @@ OrganNode.prototype = {
       this.relocateChild(child, index);
       child.organ.receive(desc.props); // update existing same type organNode
     } else if (isChildLeaf && isDescLeaf) {
-      this.relocateChild(child, index);
       child.receive(desc);             // update existing organLeaf
     } else {
       child = this.createChild(desc, index);
@@ -130,7 +129,8 @@ OrganNode.prototype = {
     return node;
   },
   relocateChild: function(child, index) {
-    const preSibling = this.getChildPreSibling(index);
+    const isFirst = index === 0;
+    const preSibling = isFirst ? null : this.getChildPreSibling(index);
     if (child.preSibling !== preSibling) {
       child.vanishRelationship();
       child.buildRelationship({

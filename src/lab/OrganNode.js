@@ -93,13 +93,10 @@ OrganNode.prototype = {
     const isChildLeaf = child instanceof OrganLeaf;
 
     if (isChildNode && organism && child.organ.organism === organism) {
-      debugger;
       child.organ.receive(desc.props); // update existing same type organNode
     } else if (isChildLeaf && isDescLeaf) {
-      debugger;
       child.receive(desc);             // update existing organLeaf
     } else {
-      debugger;
       child = this.createChild(desc, index);
     }
     // TODO: relocation check

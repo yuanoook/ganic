@@ -35,14 +35,9 @@ OrganNode.prototype = {
     this.descs = this.parseDescs();
     const descKeys = this.getDescKeys();
     const childrenKeys = Object.keys(this.children);
-
-    const toUpdateKeys = descKeys.filter(x => childrenKeys.includes(x));
-    const toCreateKeys = descKeys.filter(x => !toUpdateKeys.includes(x));
-    const toVanishKeys = childrenKeys.filter(x => !toUpdateKeys.includes(x));
-
+    const toVanishKeys = childrenKeys.filter(x => !descKeys.includes(x));
     toVanishKeys.forEach(key => this.vanishChildByKey(key));
-    toUpdateKeys.forEach(key => this.updateChildByKey(key));
-    toCreateKeys.forEach(key => this.createChildByKey(key));
+    descKeys.forEach(key => this.updateChildByKey(key));
   },
 
   parseDescs: function() {
@@ -72,6 +67,23 @@ OrganNode.prototype = {
     const childrenKeys = Object.keys(this.children);
     childrenKeys.forEach(key => this.vanishChildByKey(key));
   },
+  updateChildByKey: function(key) {
+    const desc = this.getDescByKey(key);
+    const { organism } = getUtilsByDesc(desc, this.tree) || {};
+    const isDescLeaf = !organism;
+  
+    const child = this.children[key];
+    const isChildNode = child instanceof OrganNode;
+    const isChildLeaf = child instanceof OrganLeaf;
+
+    if (isChildNode && organism && child.organ.organism === organism) {
+      child.organ.receive(desc.props); // update existing same type organNode
+    } else if (isChildLeaf && isDescLeaf) {
+      child.receive(desc);             // update existing organLeaf
+    } else {
+      this.createChildByKey(key);
+    }
+  },
   createChildByKey: function(key) {
     this.vanishChildByKey(key);
     const desc = this.getDescByKey(key);
@@ -88,23 +100,6 @@ OrganNode.prototype = {
     this.children[key] = node;
     if (typeof onReady === 'function') {
       onReady(node);
-    }
-  },
-  updateChildByKey: function(key) {
-    const desc = this.getDescByKey(key);
-    const { organism } = getUtilsByDesc(desc, this.tree) || {};
-    const isDescLeaf = !organism;
-  
-    const child = this.children[key];
-    const isChildNode = child instanceof OrganNode;
-    const isChildLeaf = child instanceof OrganLeaf;
-
-    if (isChildNode && organism && child.organ.organism === organism) {
-      child.organ.receive(desc.props); // update existing same type organNode
-    } else if (isChildLeaf && isDescLeaf) {
-      child.receive(desc);             // update existing organLeaf
-    } else {
-      this.createChildByKey(key);
     }
   },
 

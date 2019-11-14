@@ -32,6 +32,21 @@ const findLastChildDom = node => {
   }
 };
 
+const findUnderDoms = node => {
+  const dom = findDom(node);
+  if (dom) {
+    return [dom];
+  }
+
+  let child = node.firstChild;
+  let doms = [];
+  do {
+    doms = doms.concat(findDom(child) || findUnderDoms(child));
+    child = child.nextSibling;
+  } while (child);
+  return doms;
+};
+
 const findPreDom = node => {
   if (node.preSibling) {
     return findDom(node.preSibling)
@@ -56,7 +71,7 @@ const insertDom = (dom, node) => {
 
   const preDom = findPreDom(node);
   if (!preDom) {
-    parentDom.appendChild(dom);
+    parentDom.insertBefore(dom, parentDom.firstChild);
     return;
   }
 
@@ -67,7 +82,33 @@ const insertDom = (dom, node) => {
   parentDom.insertBefore(dom, preDom.nextSibling);
 };
 
+const relocate = node => {
+  const parentDom = findEnvParent(node);
+  if (!parentDom) {
+    return;
+  }
+
+  const preDom = findPreDom(node);
+  const doms = findUnderDoms(node);
+
+  doms.forEach((dom, index) => {
+    console.log('relocating: ', dom.textContent, dom.outerHTML);
+
+    if (index === 0) {
+      if (!preDom) {
+        parentDom.insertBefore(dom, parentDom.firstChild);
+      } else {
+        parentDom.insertBefore(dom, preDom.nextSibling);
+      }
+    } else {
+      const pre = doms[index - 1];
+      parentDom.insertBefore(dom, pre.nextSibling);
+    }
+  });
+};
+
 module.exports = {
   findEnvParent,
   insertDom,
+  relocate,
 };

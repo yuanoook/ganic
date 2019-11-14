@@ -1,6 +1,6 @@
 'use strict';
 
-const { insertDom } = require('./utils');
+const { insertDom, relocate } = require('./utils');
 const { organDomMap } = require('./map');
 
 const setUpNode = node => {
@@ -10,4 +10,5 @@ const setUpNode = node => {
 
 module.exports = {
   setUpNode,
+  relocate,
 };

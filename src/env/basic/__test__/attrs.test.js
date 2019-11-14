@@ -112,7 +112,7 @@ describe('should always keep identity from parasite', () => {
     tree.vanish();
   });
 
-  it('should keep the same input with key', () => {
+  it('should keep the same key-ed input with dynamic elements before', () => {
     const mockFn = jest.fn();
     const envRoot = document.createElement('div');
     const App = () => {
@@ -148,6 +148,72 @@ describe('should always keep identity from parasite', () => {
     envRoot.querySelector('button').dispatchEvent(new MouseEvent('click'));
     expect(mockFn.mock.calls.length).toBe(1);
     expect(envRoot.innerHTML).toBe('012<span>0</span><span>1</span><span>2</span><input value="3"><button></button>');
+
+    tree.vanish();
+  });
+
+  it('should keep the same input with key', () => {
+    const mockFn = jest.fn();
+    const envRoot = document.createElement('div');
+    const App = () => {
+      const [count, setCount] = useState(1);
+      const onButtonClick = () => setCount(n => n + 1);
+      const inputRefs = [useMemo(() => {
+        const fn = value => {
+          mockFn();
+          fn.current = value;
+        };
+        fn.current = null;
+        return fn;
+      }), useMemo(() => {
+        const fn = value => {
+          mockFn();
+          fn.current = value;
+        };
+        fn.current = null;
+        return fn;
+      })];
+      const numbers = new Array(count).join(',').split(',').map((x, i) => i);
+      const list = numbers.map(i => <span>{i}</span>);
+
+      const switchIndexs = [(list.length + 1) % 2, list.length % 2];
+      console.log('switchIndexs: ', switchIndexs);
+
+      return <>
+        { numbers }
+        <input ref={inputRefs[switchIndexs[0]]} value={switchIndexs[0]} key={`input-${switchIndexs[0]}`}/>
+        { list }
+        <input ref={inputRefs[switchIndexs[1]]} value={switchIndexs[1]} key={`input-${switchIndexs[1]}`}/>
+        <button onClick={onButtonClick}/>
+      </>;
+    };
+
+    const tree = render({organDesc: <App />, envRoot});
+    expect(mockFn.mock.calls.length).toBe(2);
+    expect(envRoot.innerHTML).toBe('0'
+      + '<input value="0">'
+      + '<span>0</span>'
+      + '<input value="1">'
+      + '<button></button>',
+    );
+
+    envRoot.querySelector('button').dispatchEvent(new MouseEvent('click'));
+    expect(mockFn.mock.calls.length).toBe(2);
+    expect(envRoot.innerHTML).toBe('01'
+      + '<input value="1">'
+      + '<span>0</span><span>1</span>'
+      + '<input value="0">'
+      + '<button></button>',
+    );
+
+    envRoot.querySelector('button').dispatchEvent(new MouseEvent('click'));
+    expect(mockFn.mock.calls.length).toBe(2);
+    expect(envRoot.innerHTML).toBe('012'
+      + '<input value="0">'
+      + '<span>0</span><span>1</span><span>2</span>'
+      + '<input value="1">'
+      + '<button></button>',
+    );
 
     tree.vanish();
   });

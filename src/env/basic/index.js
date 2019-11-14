@@ -1,7 +1,7 @@
 'use strict';
 
 const { getOrganismByTag } = require('./organism');
-const { setUpNode } = require('./connect/node');
+const { setUpNode, relocate } = require('./connect/node');
 const { updateLeaf, vanishLeaf } = require('./connect/leaf');
 
 const getTagUtils = tagName => {
@@ -20,7 +20,10 @@ const onUpdated = () => {
 
 module.exports = {
   getTagUtils,
-  onUpdated,
+
   updateLeaf,
   vanishLeaf,
+
+  onUpdated,
+  relocate,
 };

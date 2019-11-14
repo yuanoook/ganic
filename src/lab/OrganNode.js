@@ -91,15 +91,15 @@ OrganNode.prototype = {
     let child = this.children[key];
     const isChildNode = child instanceof OrganNode;
     const isChildLeaf = child instanceof OrganLeaf;
-
     if (isChildNode && organism && child.organ.organism === organism) {
+      this.relocateChild(child, index);
       child.organ.receive(desc.props); // update existing same type organNode
     } else if (isChildLeaf && isDescLeaf) {
+      this.relocateChild(child, index);
       child.receive(desc);             // update existing organLeaf
     } else {
       child = this.createChild(desc, index);
     }
-    // TODO: relocation check
 
     return child;
   },
@@ -128,6 +128,18 @@ OrganNode.prototype = {
       onReady(node);
     }
     return node;
+  },
+  relocateChild: function(child, index) {
+    const preSibling = this.getChildPreSibling(index);
+    if (child.preSibling !== preSibling) {
+      child.vanishRelationship();
+      child.buildRelationship({
+        isFirst: index === 0,
+        isLast: index === this.descKeys.length - 1,
+        preSibling,
+      });
+      this.tree.envUtils.relocate(child);
+    }
   },
 
   buildRelationship: function(relationship) {

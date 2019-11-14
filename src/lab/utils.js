@@ -70,6 +70,9 @@ const buildRelationship = (node, {isFirst, isLast, preSibling}) => {
   if (preSibling) {
     node.nextSibling = preSibling.nextSibling;
     preSibling.nextSibling = node;
+    if (node.nextSibling) {
+      node.nextSibling.preSibling = node;
+    }
   }
   if (isFirst && node.parent) {
     node.parent.firstChild = node;
@@ -91,10 +94,10 @@ const vanishRelationship = node => {
     return;
   }
 
-  if (node.parent.firstChild === this) {
+  if (node.parent.firstChild === node) {
     node.parent.firstChild = node.nextSibling;
   }
-  if (node.parent.lastChild === this) {
+  if (node.parent.lastChild === node) {
     node.parent.lastChild = node.preSibling;
   }
   if (node.parent.children[node.key] === node) {

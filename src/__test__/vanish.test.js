@@ -1,7 +1,9 @@
 'use strict';
 
-const {create, attach} = require('../Ganic');
-const {ASYNC_GIVE_AFTER_DETACH_ERROR_MESSAGE} = require('../lab/Parasite');
+const Ganic = require('../index');
+const {create, attach} = Ganic;
+
+const {ASYNC_GIVE_AFTER_DETACH_ERROR_MESSAGE, LEAVE_HANDOVER_AT_THE_ENDING} = require('../lab/Parasite');
 const {getAllTimeout} = require('./utils');
 
 describe('vanish', () => {
@@ -36,5 +38,17 @@ describe('vanish', () => {
     create({organism: goodOrganism}).vanish();
   });
 
-  // TODO: test LEAVE_HANDOVER_AT_THE_ENDING
+  it('should throw Error when leave handover at the ending', () => {
+    const catchErrorMockFn = jest.fn();
+    const badParasitism = () => () => 1;
+    const App = () => attach(badParasitism);
+    try {
+      create(<App/>).vanish();
+    } catch (e) {
+      catchErrorMockFn(e.message);
+    }
+    expect(catchErrorMockFn.mock.calls).toEqual([
+      [LEAVE_HANDOVER_AT_THE_ENDING],
+    ]);
+  });
 });

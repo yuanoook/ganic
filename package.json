@@ -30,6 +30,7 @@
   },
   "scripts": {
     "test": "jest",
+    "test:debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand",
     "prepublishOnly": "jest & yarn lint & rollup -c",
     "postpack": "rm -rf ./umd",
     "watch": "jest --watchAll",

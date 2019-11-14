@@ -1,6 +1,7 @@
 'use strict';
 
-const {create, attach} = require('../../Ganic');
+const Ganic = require('../../index');
+const {render, create, attach} = Ganic;
 const {OrganNode} = require('../OrganNode');
 const {OrganLeaf} = require('../OrganLeaf');
 
@@ -38,5 +39,45 @@ describe('organNode', () => {
     
     expect(leaf.value).toBe(null);
     expect(leaf.parent).toBe(null);
+  });
+
+  it('should build the right relationship', () => {
+    const envRoot = document.createElement('div');
+    const A = () => {};
+    const B = () => {};
+    const C = () => {};
+    const D = () => {};
+    const App = () => <><A/><B/><C/><D/></>;
+    const tree = render({organDesc: <App />, envRoot});
+
+    const testTrunkRelationship = trunkNode => {
+      Object.keys(trunkNode.children).map(key => trunkNode.children[key]).forEach((node, index, list) => {
+        if (index === 0) {
+          expect(trunkNode.firstChild).toBe(node);
+          expect(node.preSibling).toBe(null);
+        } else {
+          expect(node.preSibling).toBe(list[index - 1]);
+        }
+  
+        if (index === list.length - 1) {
+          expect(trunkNode.lastChild).toBe(node);
+          expect(node.nextSibling).toBe(null);
+        } else {
+          expect(node.nextSibling).toBe(list[index + 1]);
+        }
+  
+        const leaf = node.children['0'];
+        expect(node.firstChild).toBe(leaf);
+        expect(node.lastChild).toBe(leaf);
+      });
+    };
+
+    testTrunkRelationship(tree.trunkNode);
+    tree.trunkNode.children['1'].vanish();
+    testTrunkRelationship(tree.trunkNode);
+    tree.trunkNode.children['2'].vanish();
+    testTrunkRelationship(tree.trunkNode);
+
+    tree.vanish();
   });
 });

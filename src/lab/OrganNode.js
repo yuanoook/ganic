@@ -3,7 +3,7 @@
 
 const { Organ } = require('./Organ');
 const { OrganLeaf } = require('./OrganLeaf');
-const { flat, getUtilsByDesc, createNode } = require('./utils');
+const { flat, getUtilsByDesc, createNode, buildRelationship, vanishRelationship } = require('./utils');
 
 /**
  * OrganNode is the wrapper for one organ
@@ -11,10 +11,11 @@ const { flat, getUtilsByDesc, createNode } = require('./utils');
  * It manages the update of its children
  */
 
-const OrganNode = function({organ, parent, tree}) {
-  this.setUp({organ, parent, tree});
+const OrganNode = function({organ, parent, tree, key}) {
+  this.setUp({organ, parent, tree, key});
   this.update = this.update.bind(this);
-  this.vanishChildByKey = this.vanishChildByKey.bind(this);
+  this.vanishChild = this.vanishChild.bind(this);
+  this.updateChild = this.updateChild.bind(this);
   organ.addListener(this.update);
 };
 
@@ -24,7 +25,16 @@ OrganNode.prototype = {
       organ: null,
       parent: null,
       tree: null,
+      key: null,
+
+      descs: [],
+      descKeys: [],
       children: {},
+
+      preSibling: null,
+      nextSibling: null,
+      firstChild: null,
+      lastChild: null,
     }, config);
   },
   clearUp: function() {
@@ -33,11 +43,11 @@ OrganNode.prototype = {
 
   update: function() {
     this.descs = this.parseDescs();
-    const descKeys = this.getDescKeys();
+    this.descKeys = this.getDescKeys();
     const childrenKeys = Object.keys(this.children);
-    const toVanishKeys = childrenKeys.filter(x => !descKeys.includes(x));
-    toVanishKeys.forEach(key => this.vanishChildByKey(key));
-    descKeys.reduce((previousSibling, key) => this.updateChildByKey(key, previousSibling));
+    const toVanishKeys = childrenKeys.filter(x => !this.descKeys.includes(x));
+    toVanishKeys.forEach(this.vanishChild);
+    this.descs.forEach(this.updateChild);
   },
 
   parseDescs: function() {
@@ -45,65 +55,70 @@ OrganNode.prototype = {
     return flat(descs, Infinity);
   },
   getDescKeys: function() {
-    return this.descs.map((desc, index) => {
-      const key = desc && desc.props && desc.props.key;
-      return (key !== undefined && key !== null) ? key : String(index);
-    });
+    return this.descs.map(this.getKeyByDesc);
   },
-  getDescByKey: function(key) {
-    return this.descs.find((desc, index) => {
-      const descKey = desc && desc.props && desc.props.key;
-      return key === descKey || key === String(index);
-    });
+  getKeyByDesc: function(desc, index) {
+    const key = desc && desc.props && desc.props.key;
+    return (key !== undefined && key !== null) ? key : String(index);
+  },
+  getChildPreSibling: function(index) {
+    const preIndex = index - 1;
+    if (preIndex < 0) {
+      return null;
+    }
+    const preDesc = this.descs[preIndex];
+    const preKey = this.getKeyByDesc(preDesc, preIndex);
+    return this.children[preKey];
   },
 
-  vanishChildByKey: function(key) {
+  vanishChild: function(key) {
     if (this.children[key]) {
       this.children[key].vanish();
-      this.children[key] = null;
     }
   },
   vanishAllChildren: function() {
     const childrenKeys = Object.keys(this.children);
-    childrenKeys.forEach(key => this.vanishChildByKey(key));
+    childrenKeys.forEach(key => this.vanishChild(key));
   },
-  updateChildByKey: function(key, previousSibling) {
-    const desc = this.getDescByKey(key);
+  updateChild: function(desc, index) {
+    const key = this.descKeys[index];
     const { organism } = getUtilsByDesc(desc, this.tree) || {};
     const isDescLeaf = !organism;
 
     let child = this.children[key];
     const isChildNode = child instanceof OrganNode;
     const isChildLeaf = child instanceof OrganLeaf;
-    const relocated = child && child.previousSibling !== previousSibling;
 
     if (isChildNode && organism && child.organ.organism === organism) {
       child.organ.receive(desc.props); // update existing same type organNode
     } else if (isChildLeaf && isDescLeaf) {
       child.receive(desc);             // update existing organLeaf
     } else {
-      child = this.createChildByKey(key, previousSibling);
+      child = this.createChild(desc, index);
     }
-
-    if (relocated && typeof (this.tree && this.tree.envUtils && this.tree.envUtils.relocateNode) === 'function') {
-      // TODO: add relocation function
-      this.tree.envUtils.relocateNode(child);
-    }
+    // TODO: relocation check
 
     return child;
   },
-  createChildByKey: function(key) {
-    this.vanishChildByKey(key);
-    const desc = this.getDescByKey(key);
+  createChild: function(desc, index) {
+    const key = this.descKeys[index];
+    this.vanishChild(key);
+    const isFirst = index === 0;
     const {node, onReady} = createNode({
       constructors: {
         Organ,
         OrganNode,
         OrganLeaf,
       },
+
       desc,
       parent: this,
       tree: this.tree,
+      key,
+
+      isFirst: isFirst,
+      isLast: index === this.descKeys.length - 1,
+      preSibling: isFirst ? null : this.getChildPreSibling(index),
     });
     this.children[key] = node;
     if (typeof onReady === 'function') {
@@ -112,9 +127,18 @@ OrganNode.prototype = {
     return node;
   },
 
+  buildRelationship: function(relationship) {
+    buildRelationship(this, relationship);
+  },
+
+  vanishRelationship: function() {
+    vanishRelationship(this);
+  },
+
   vanish: function() {
     this.organ.vanish();
     this.vanishAllChildren();
+    this.vanishRelationship();
     this.clearUp();
   },
 };

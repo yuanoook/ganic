@@ -37,9 +37,15 @@ const createNode = ({
     OrganNode,
     OrganLeaf,
   },
+
   desc,
   tree,
   parent,
+  key,
+
+  isFirst,
+  isLast,
+  preSibling,
 }) => {
   const { organism, onReady } = getUtilsByDesc(desc, tree) || {};
   const node = organism
@@ -47,9 +53,49 @@ const createNode = ({
         organ: new Organ({organism, props: desc.props}),
         parent,
         tree,
+        key,
       })
-    : new OrganLeaf({value: desc, parent, tree});
+    : new OrganLeaf({value: desc, parent, tree, key});
+  node.buildRelationship({isFirst, isLast, preSibling});
   return {node, onReady};
+};
+
+// TODO: make a class treeNode, let OrganNode/OrganLeaf extend it
+const buildRelationship = (node, {isFirst, isLast, preSibling}) => {
+  node.preSibling = preSibling || null;
+  if (preSibling) {
+    node.nextSibling = preSibling.nextSibling;
+    preSibling.nextSibling = node;
+  }
+  if (isFirst && node.parent) {
+    node.parent.firstChild = node;
+  }
+  if (isLast && node.parent) {
+    node.parent.lastChild = node;
+  }
+};
+
+const vanishRelationship = node => {
+  if (node.preSibling) {
+    node.preSibling.nextSibling = node.nextSibling;
+  }
+  if (node.nextSibling) {
+    node.nextSibling.preSibling = node.preSibling;
+  }
+
+  if (!node.parent) {
+    return;
+  }
+
+  if (node.parent.firstChild === this) {
+    node.parent.firstChild = node.nextSibling;
+  }
+  if (node.parent.lastChild === this) {
+    node.parent.lastChild = node.preSibling;
+  }
+  if (node.parent.children[node.key] === node) {
+    delete node.parent.children[node.key];
+  }
 };
 
 module.exports = {
@@ -57,4 +103,6 @@ module.exports = {
   flat,
   getUtilsByDesc,
   createNode,
+  buildRelationship,
+  vanishRelationship,
 };

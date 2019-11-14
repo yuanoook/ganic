@@ -88,7 +88,7 @@ OrganNode.prototype = {
     const { organism } = getUtilsByDesc(desc, this.tree) || {};
     const isDescLeaf = !organism;
 
-    let child = this.children[key];
+    const child = this.children[key];
     const isChildNode = child instanceof OrganNode;
     const isChildLeaf = child instanceof OrganLeaf;
     if (isChildNode && organism && child.organ.organism === organism) {
@@ -97,10 +97,8 @@ OrganNode.prototype = {
     } else if (isChildLeaf && isDescLeaf) {
       child.receive(desc);             // update existing organLeaf
     } else {
-      child = this.createChild(desc, index);
+      this.createChild(desc, index);
     }
-
-    return child;
   },
   createChild: function(desc, index) {
     const key = this.descKeys[index];
@@ -122,11 +120,9 @@ OrganNode.prototype = {
       isLast: index === this.descKeys.length - 1,
       preSibling: isFirst ? null : this.getChildPreSibling(index),
     });
-    this.children[key] = node;
     if (typeof onReady === 'function') {
       onReady(node);
     }
-    return node;
   },
   relocateChild: function(child, index) {
     const isFirst = index === 0;
@@ -134,6 +130,7 @@ OrganNode.prototype = {
     if (child.preSibling !== preSibling) {
       child.vanishRelationship();
       child.buildRelationship({
+        parent: this,
         isFirst: index === 0,
         isLast: index === this.descKeys.length - 1,
         preSibling,

@@ -175,9 +175,7 @@ describe('should always keep identity from parasite', () => {
       })];
       const numbers = new Array(count).join(',').split(',').map((x, i) => i);
       const list = numbers.map(i => <span>{i}</span>);
-
       const switchIndexs = [(list.length + 1) % 2, list.length % 2];
-      console.log('switchIndexs: ', switchIndexs);
 
       return <>
         { numbers }
@@ -199,6 +197,7 @@ describe('should always keep identity from parasite', () => {
 
     envRoot.querySelector('button').dispatchEvent(new MouseEvent('click'));
     expect(mockFn.mock.calls.length).toBe(2);
+
     expect(envRoot.innerHTML).toBe('01'
       + '<input value="1">'
       + '<span>0</span><span>1</span>'

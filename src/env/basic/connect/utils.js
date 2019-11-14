@@ -40,10 +40,10 @@ const findUnderDoms = node => {
 
   let child = node.firstChild;
   let doms = [];
-  do {
+  while (child) {
     doms = doms.concat(findDom(child) || findUnderDoms(child));
     child = child.nextSibling;
-  } while (child);
+  }
   return doms;
 };
 
@@ -92,8 +92,6 @@ const relocate = node => {
   const doms = findUnderDoms(node);
 
   doms.forEach((dom, index) => {
-    console.log('relocating: ', dom.textContent, dom.outerHTML);
-
     if (index === 0) {
       if (!preDom) {
         parentDom.insertBefore(dom, parentDom.firstChild);

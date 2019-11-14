@@ -60,12 +60,12 @@ const createNode = ({
     node = new OrganLeaf({value: desc, parent, tree, key});
     onReady = () => node.update();
   }
-  node.buildRelationship({isFirst, isLast, preSibling});
+  node.buildRelationship({parent, isFirst, isLast, preSibling});
   return {node, onReady};
 };
 
 // TODO: make a class treeNode, let OrganNode/OrganLeaf extend it
-const buildRelationship = (node, {isFirst, isLast, preSibling}) => {
+const buildRelationship = (node, {parent, isFirst, isLast, preSibling}) => {
   node.preSibling = preSibling || null;
   if (preSibling) {
     node.nextSibling = preSibling.nextSibling;
@@ -74,11 +74,14 @@ const buildRelationship = (node, {isFirst, isLast, preSibling}) => {
       node.nextSibling.preSibling = node;
     }
   }
-  if (isFirst && node.parent) {
-    node.parent.firstChild = node;
-  }
-  if (isLast && node.parent) {
-    node.parent.lastChild = node;
+  if (parent) {
+    parent.children[node.key] = node;
+    if (isFirst) {
+      node.parent.firstChild = node;
+    }
+    if (isLast) {
+      node.parent.lastChild = node;
+    }
   }
 };
 

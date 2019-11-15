@@ -30,7 +30,7 @@ describe('organTree', () => {
     };
     const envRoot = document.createElement('div');
     const tree = render({organDesc, envRoot});
-    const boxDom = organDomMap.get(tree.trunkNode.organ);
+    const boxDom = organDomMap.get(tree.trunkNode.firstChild.organ);
 
     expect(boxDom.outerHTML).toBe(`<div class="a-beautiful-box" other="other-attr-value">${smile}</div>`);
     expect(boxDom.parentElement).toBe(envRoot);
@@ -86,5 +86,12 @@ describe('organTree', () => {
     expect(envRoot.textContent).toBe('');
   });
 
-  // TO TEST: tree re-render
+  it('should render the same tree on the same envRoot', () => {
+    const A = () => {};
+    const envRoot = document.createElement('div');
+    const tree = render({organDesc: <A/>, envRoot});
+    const tree2 = render({organDesc: <A/>, envRoot});
+    expect(tree).toBe(tree2);
+    tree.vanish();
+  });
 });

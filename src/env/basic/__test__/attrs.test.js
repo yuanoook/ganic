@@ -233,13 +233,14 @@ describe('should always keep identity from parasite', () => {
       return <div style={{testStyle: n}}/>;
     };
     const tree = render({organDesc: <App n={1} />, envRoot});
+    const appNode = tree.trunkNode.firstChild;
 
     envRoot.firstChild.style.__defineSetter__('testStyle', mockFn);
-    tree.trunkNode.organ.receive({n: 2});
+    appNode.organ.receive({n: 2});
     expect(mockFn.mock.calls.length).toBe(1);
-    tree.trunkNode.organ.receive({n: 2});
+    appNode.organ.receive({n: 2});
     expect(mockFn.mock.calls.length).toBe(1);
-    tree.trunkNode.organ.receive({n: 3});
+    appNode.organ.receive({n: 3});
     expect(mockFn.mock.calls.length).toBe(2);
 
     tree.vanish();

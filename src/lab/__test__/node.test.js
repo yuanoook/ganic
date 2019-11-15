@@ -49,18 +49,19 @@ describe('organNode', () => {
     const D = () => {};
     const App = () => <><A/><B/><C/><D/></>;
     const tree = render({organDesc: <App />, envRoot});
+    const appNode = tree.trunkNode.firstChild;
 
-    const testTrunkRelationship = trunkNode => {
-      Object.keys(trunkNode.children).map(key => trunkNode.children[key]).forEach((node, index, list) => {
+    const testRelationship = parentNode => {
+      Object.keys(parentNode.children).map(key => parentNode.children[key]).forEach((node, index, list) => {
         if (index === 0) {
-          expect(trunkNode.firstChild).toBe(node);
+          expect(parentNode.firstChild).toBe(node);
           expect(node.preSibling).toBe(null);
         } else {
           expect(node.preSibling).toBe(list[index - 1]);
         }
   
         if (index === list.length - 1) {
-          expect(trunkNode.lastChild).toBe(node);
+          expect(parentNode.lastChild).toBe(node);
           expect(node.nextSibling).toBe(null);
         } else {
           expect(node.nextSibling).toBe(list[index + 1]);
@@ -70,35 +71,34 @@ describe('organNode', () => {
       });
     };
 
-    testTrunkRelationship(tree.trunkNode);
-    tree.trunkNode.children['1'].vanish();
-    testTrunkRelationship(tree.trunkNode);
-    tree.trunkNode.children['2'].vanish();
-    testTrunkRelationship(tree.trunkNode);
+    testRelationship(appNode);
+    appNode.children['1'].vanish();
+    testRelationship(appNode);
+    appNode.children['2'].vanish();
+    testRelationship(appNode);
 
     tree.vanish();
   });
 
   it('should build the right relationship for leaf', () => {
     const envRoot = document.createElement('div');
-    const A = () => {
+    const App = () => {
       return [1, 2, 3, 4];
     };
-    const App = () => <A/>;
     const tree = render({organDesc: <App />, envRoot});
-    const aNode = tree.trunkNode.children['0'];
+    const appNode = tree.trunkNode.firstChild;
 
     const testRelationship = () => {
-      Object.keys(aNode.children).map(key => aNode.children[key]).forEach((leaf, index, list) => {
+      Object.keys(appNode.children).map(key => appNode.children[key]).forEach((leaf, index, list) => {
         if (index === 0) {
-          expect(aNode.firstChild).toBe(leaf);
+          expect(appNode.firstChild).toBe(leaf);
           expect(leaf.preSibling).toBe(null);
         } else {
           expect(leaf.preSibling).toBe(list[index - 1]);
         }
   
         if (index === list.length - 1) {
-          expect(aNode.lastChild).toBe(leaf);
+          expect(appNode.lastChild).toBe(leaf);
           expect(leaf.nextSibling).toBe(null);
         } else {
           expect(leaf.nextSibling).toBe(list[index + 1]);
@@ -109,7 +109,7 @@ describe('organNode', () => {
     testRelationship();
     expect(envRoot.textContent).toBe('1234');
 
-    aNode.children['1'].vanish();
+    appNode.children['1'].vanish();
     testRelationship();
     expect(envRoot.textContent).toBe('134');
 

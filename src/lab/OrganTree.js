@@ -14,7 +14,7 @@ const { createNode, List } = require('./utils');
 
 const OrganTree = function({organDesc, envRoot, envUtils}) {
   this.setUp({
-    organDesc: !Array.isArray(organDesc) ? organDesc : {organism: List, props: organDesc},
+    organDesc,
     envRoot,
     envUtils,
   });
@@ -30,14 +30,19 @@ OrganTree.prototype = {
       envUtils: null,
     }, config);
   },
+  update: function(organDesc) {
+    this.organDesc = organDesc;
+    this.trunkNode.organ.receive(organDesc);
+  },
   grow: function() {
+    const trunkDesc = {organism: List, props: this.organDesc};
     const {node, onReady} = createNode({
       constructors: {
         Organ,
         OrganNode,
         OrganLeaf,
       },
-      desc: this.organDesc,
+      desc: trunkDesc,
       tree: this,
     });
     this.trunkNode = node;

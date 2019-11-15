@@ -27,6 +27,21 @@ const applyEventListener = (node, name, listener) => {
   }
 };
 
+const applyStyle = (node, style) => {
+  const oldStyle = node[attrsKey] && node[attrsKey].style;
+  if (typeof style === 'object') {
+    const checkOldStyle = typeof oldStyle === 'object';
+    Object.keys(style).forEach(key => {
+      if (checkOldStyle ? oldStyle[key] !== style[key] : true) {
+        node.style[key] = style[key];
+      }
+    });
+  }
+  if (typeof style === 'string' && oldStyle !== style) {
+    node.setAttribute('style', style);
+  }
+};
+
 const applySimpleAttr = (node, name, value) => {
   if (value === null || value === undefined) {
     node.removeAttribute(name);
@@ -42,6 +57,8 @@ const applyAttr = (node, name, value) => {
     applyRef(node, value);
   } else if (/^on[A-Z][a-zA-Z]*/.test(name)) {
     applyEventListener(node, name, value);
+  } else if (name === 'style') {
+    applyStyle(node, value);
   } else {
     applySimpleAttr(node, name, value);
   }

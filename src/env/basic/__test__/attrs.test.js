@@ -217,5 +217,31 @@ describe('should always keep identity from parasite', () => {
     tree.vanish();
   });
 
-  // TODO: Support style object :D
+  it('should accept object for style', () => {
+    const envRoot = document.createElement('div');
+    const borderWidth = '5px';
+    const App = () => <div style={{borderWidth}}/>;
+    const tree = render({organDesc: <App />, envRoot});
+    expect(envRoot.firstChild.style.borderBottomWidth).toBe(borderWidth);
+    tree.vanish();
+  });
+
+  it('should update unchanged style only for once', () => {
+    const mockFn = jest.fn();
+    const envRoot = document.createElement('div');
+    const App = ({n}) => {
+      return <div style={{testStyle: n}}/>;
+    };
+    const tree = render({organDesc: <App n={1} />, envRoot});
+
+    envRoot.firstChild.style.__defineSetter__('testStyle', mockFn);
+    tree.trunkNode.organ.receive({n: 2});
+    expect(mockFn.mock.calls.length).toBe(1);
+    tree.trunkNode.organ.receive({n: 2});
+    expect(mockFn.mock.calls.length).toBe(1);
+    tree.trunkNode.organ.receive({n: 3});
+    expect(mockFn.mock.calls.length).toBe(2);
+
+    tree.vanish();
+  });
 });

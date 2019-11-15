@@ -85,4 +85,6 @@ describe('organTree', () => {
     tree.vanish();
     expect(envRoot.textContent).toBe('');
   });
+
+  // TO TEST: tree re-render
 });

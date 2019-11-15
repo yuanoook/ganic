@@ -213,7 +213,6 @@ describe('should always keep identity from parasite', () => {
       + '<input value="1">'
       + '<button></button>',
     );
-    debugger;
 
     tree.vanish();
   });

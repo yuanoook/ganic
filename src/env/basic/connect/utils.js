@@ -88,8 +88,16 @@ const relocate = node => {
     return;
   }
 
-  const preDom = findPreDom(node);
   const doms = findUnderDoms(node);
+  if (!doms.length) {
+    return;
+  }
+
+  const preDom = findPreDom(node);
+
+  if (preDom ? preDom.nextSibling === doms[0] : parentDom.firstChild === doms[0]) {
+    return;
+  }
 
   doms.forEach((dom, index) => {
     if (index === 0) {

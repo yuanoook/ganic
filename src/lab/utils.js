@@ -66,11 +66,19 @@ const buildRelationship = (node, {parent, isFirst, isLast, preSibling} = {}) => 
   }
   if (parent) {
     parent.children[node.key] = node;
-    if (isFirst) {
-      node.parent.firstChild = node;
+    if (isFirst && parent.firstChild !== node) {
+      const oldFirstChild = parent.firstChild;
+      parent.firstChild = node;
+      if (oldFirstChild) {
+        oldFirstChild.preSibling = node;
+      }
     }
-    if (isLast) {
-      node.parent.lastChild = node;
+    if (isLast && parent.lastChild !== node) {
+      const oldLastChild = parent.lastChild;
+      parent.lastChild = node;
+      if (oldLastChild) {
+        oldLastChild.nextSibling = node;
+      }
     }
   }
 };

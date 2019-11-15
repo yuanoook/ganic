@@ -80,6 +80,46 @@ class Connector {
     this.parent = null;
   }
 
+  findOnes(find) {
+    const one = find(this);
+    if (one) {
+      return [one];
+    }
+
+    let child = this.firstChild;
+    let ones = [];
+    while (child) {
+      ones = ones.concat(child.findOnes(find));
+      child = child.nextSibling;
+    }
+    return ones;
+  }
+
+  findPre(find) {
+    if (this.preSibling) {
+      return this.preSibling.findBackward(find) || this.preSibling.findPre(find);
+    }
+    if (this.parent) {
+      return find(this.parent) ? null : this.parent.findPre(find);
+    }
+  }
+
+  findBackward(find) {
+    let one = find(this);
+    if (one) {
+      return one;
+    }
+
+    let child = this.lastChild;
+    while (child) {
+      one = child.findBackward(find);
+      if (one) {
+        return one;
+      }
+      child = child.preSibling;
+    }
+  }
+
   vanish() {
     this.vanishRelationship();
     this.clearUp();

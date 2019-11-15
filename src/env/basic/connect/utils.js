@@ -1,5 +1,7 @@
 'use strict';
 
+const { OrganNode } = require('../../../lab/OrganNode');
+const { OrganLeaf } = require('../../../lab/OrganLeaf');
 const { organDomMap, leafDomMap } = require('./map');
 
 const findEnvParent = organNode => {
@@ -11,10 +13,10 @@ const findEnvParent = organNode => {
   throw new Error(`Cannot find env parent`);
 };
 
-const isTag = node => organDomMap.has(node.organ);
+const isTag = node => node instanceof OrganNode && organDomMap.has(node.organ);
 const getTagDom = node => organDomMap.get(node.organ);
 
-const isLeaf = node => leafDomMap.has(node);
+const isLeaf = node => node instanceof OrganLeaf && leafDomMap.has(node);
 const getText = node => leafDomMap.get(node);
 
 const findDom = node => {
@@ -24,39 +26,6 @@ const findDom = node => {
   if (isLeaf(node)) {
     return getText(node);
   }
-};
-
-const findLastUnderDom = node => {
-  if (node.lastChild) {
-    return findDom(node.lastChild) || findLastUnderDom(node.lastChild) || findPreDom(node.lastChild);
-  }
-};
-
-const findUnderDoms = node => {
-  const dom = findDom(node);
-  if (dom) {
-    return [dom];
-  }
-
-  let child = node.firstChild;
-  let doms = [];
-  while (child) {
-    doms = doms.concat(findDom(child) || findUnderDoms(child));
-    child = child.nextSibling;
-  }
-  return doms;
-};
-
-const findPreDom = node => {
-  if (node.preSibling) {
-    return findDom(node.preSibling)
-      || findLastUnderDom(node.preSibling)
-      || findPreDom(node.preSibling);
-  }
-  if (node.parent) {
-    return isTag(node.parent) ? null : findPreDom(node.parent);
-  }
-  return null;
 };
 
 const insertDom = (dom, node) => {
@@ -69,7 +38,7 @@ const insertDom = (dom, node) => {
     return;
   }
 
-  const preDom = findPreDom(node);
+  const preDom = node.findPre(findDom);
   if (!preDom) {
     parentDom.insertBefore(dom, parentDom.firstChild);
     return;
@@ -87,14 +56,12 @@ const relocate = node => {
   if (!parentDom) {
     return;
   }
-
-  const doms = findUnderDoms(node);
+  const doms = node.findOnes(findDom);
   if (!doms.length) {
     return;
   }
 
-  const preDom = findPreDom(node);
-
+  const preDom = node.findPre(findDom);
   if (preDom ? preDom.nextSibling === doms[0] : parentDom.firstChild === doms[0]) {
     return;
   }

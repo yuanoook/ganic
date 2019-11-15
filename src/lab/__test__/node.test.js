@@ -1,7 +1,7 @@
 'use strict';
 
 const Ganic = require('../../index');
-const {render, create, attach} = Ganic;
+const {render, create, attach, useState, useMemo} = Ganic;
 const {OrganNode} = require('../OrganNode');
 const {OrganLeaf} = require('../OrganLeaf');
 
@@ -115,4 +115,35 @@ describe('organNode', () => {
 
     tree.vanish();
   });
+
+  it('should keep the same input with dynamic list above', () => {
+    const mockFn = jest.fn();
+    const envRoot = document.createElement('div');
+    const App = () => {
+      const [count, setCount] = useState(1);
+      const onButtonClick = () => setCount(n => n + 1);
+      const inputRef = useMemo(() => {
+        const fn = value => {
+          mockFn();
+          fn.current = value;
+        };
+        fn.current = null;
+        return fn;
+      });
+      const numbers = new Array(count).join(',').split(',').map((x, i) => i);
+
+      return <>
+        { numbers }
+        <input ref={inputRef} value={count}/>
+        <button onClick={onButtonClick}/>
+      </>;
+    };
+
+    const tree = render({organDesc: <App />, envRoot});
+    envRoot.querySelector('button').dispatchEvent(new MouseEvent('click'));
+    expect(mockFn.mock.calls.length).toBe(1);
+
+    tree.vanish();
+  });
+
 });

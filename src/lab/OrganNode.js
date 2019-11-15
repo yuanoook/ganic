@@ -3,7 +3,8 @@
 
 const { Organ } = require('./Organ');
 const { OrganLeaf } = require('./OrganLeaf');
-const { flat, getUtilsByDesc, createNode, buildRelationship, vanishRelationship } = require('./utils');
+const { getUtilsByDesc, createNode, buildRelationship, vanishRelationship } = require('./utils');
+const List = props => props;
 
 /**
  * OrganNode is the wrapper for one organ
@@ -11,11 +12,12 @@ const { flat, getUtilsByDesc, createNode, buildRelationship, vanishRelationship 
  * It manages the update of its children
  */
 
-const OrganNode = function({organ, parent, tree, key}) {
+const OrganNode = function({organ, parent, tree, key, relationship}) {
   this.setUp({organ, parent, tree, key});
   this.update = this.update.bind(this);
   this.vanishChild = this.vanishChild.bind(this);
   this.updateChild = this.updateChild.bind(this);
+  this.buildRelationship(relationship);
   organ.addListener(this.update);
 };
 
@@ -53,7 +55,9 @@ OrganNode.prototype = {
 
   parseDescs: function() {
     const descs = Array.isArray(this.organ.result) ? this.organ.result : [this.organ.result];
-    return flat(descs, Infinity).filter(d => d !== null && d !== undefined);
+    return descs.filter(d => d !== undefined).map(desc => 
+      !Array.isArray(desc) ? desc : {organism: List, props: desc},
+    );
   },
   getDescKeys: function() {
     return this.descs.map((desc, index) => {
@@ -116,9 +120,12 @@ OrganNode.prototype = {
       tree: this.tree,
       key,
 
-      isFirst: isFirst,
-      isLast: index === this.descKeys.length - 1,
-      preSibling: isFirst ? null : this.getChildPreSibling(index),
+      relationship: {
+        parent: this,
+        isFirst: isFirst,
+        isLast: index === this.descKeys.length - 1,
+        preSibling: isFirst ? null : this.getChildPreSibling(index),
+      },
     });
     if (typeof onReady === 'function') {
       onReady(node);

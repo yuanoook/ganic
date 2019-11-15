@@ -7,8 +7,9 @@ const { buildRelationship, vanishRelationship } = require('./utils');
  * It's the end node for a non-organ-desc variable
  */
 
-const OrganLeaf = function({value, parent, tree, key}) {
+const OrganLeaf = function({value, parent, tree, key, relationship}) {
   this.setUp({value, parent, tree, key});
+  this.buildRelationship(relationship);
 };
 
 OrganLeaf.prototype = {

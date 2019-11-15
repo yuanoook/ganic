@@ -42,10 +42,7 @@ const createNode = ({
   tree,
   parent,
   key,
-
-  isFirst,
-  isLast,
-  preSibling,
+  relationship,
 }) => {
   let { organism, onReady } = getUtilsByDesc(desc, tree) || {};
   let node;
@@ -55,17 +52,23 @@ const createNode = ({
       parent,
       tree,
       key,
+      relationship,
     });
   } else {
-    node = new OrganLeaf({value: desc, parent, tree, key});
+    node = new OrganLeaf({
+      value: desc,
+      parent,
+      tree,
+      key,
+      relationship,
+    });
     onReady = () => node.update();
   }
-  node.buildRelationship({parent, isFirst, isLast, preSibling});
   return {node, onReady};
 };
 
 // TODO: make a class treeNode, let OrganNode/OrganLeaf extend it
-const buildRelationship = (node, {parent, isFirst, isLast, preSibling}) => {
+const buildRelationship = (node, {parent, isFirst, isLast, preSibling} = {}) => {
   node.preSibling = preSibling || null;
   if (preSibling) {
     node.nextSibling = preSibling.nextSibling;

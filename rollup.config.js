@@ -1,6 +1,7 @@
 // rollup.config.js
 import commonjs from 'rollup-plugin-commonjs';
 import nodeResolve from 'rollup-plugin-node-resolve';
+import babel from 'rollup-plugin-babel';
 import minify from 'rollup-plugin-babel-minify';
 
 export default {
@@ -11,6 +12,10 @@ export default {
     name: 'Ganic'
   },
   plugins: [
+    babel({
+      exclude: 'node_modules/**'
+    }),
+
     minify({
       removeConsole: true,
       removeDebugger: true,
@@ -31,7 +36,7 @@ export default {
 
       // search for files other than .js files (must already
       // be transpiled by a previous plugin!)
-      extensions: [ '.js', '.coffee' ],  // Default: [ '.js' ]
+      extensions: [ '.js' ],  // Default: [ '.js' ]
 
       // if true then uses of `global` won't be dealt with by this plugin
       ignoreGlobal: false,  // Default: false

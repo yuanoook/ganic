@@ -11,20 +11,19 @@ const { List, getUtilsByDesc, createNode, buildRelationship, vanishRelationship 
  * It manages the update of its children
  */
 
-const OrganNode = function({organ, parent, tree, key, relationship}) {
-  this.setUp({organ, parent, tree, key});
-  this.update = this.update.bind(this);
-  this.vanishChild = this.vanishChild.bind(this);
-  this.updateChild = this.updateChild.bind(this);
-  this.buildRelationship(relationship);
-  organ.addListener(this.update);
-};
+class OrganNode {
+  constructor({organ, parent, tree, key, relationship}) {
+    this.setUp({organ, parent, tree, key});
+    this.update = this.update.bind(this);
+    this.vanishChild = this.vanishChild.bind(this);
+    this.updateChild = this.updateChild.bind(this);
+    this.buildRelationship(relationship);
+    organ.addListener(this.update);
+  }
 
-OrganNode.prototype = {
-  setUp: function(config) {
+  setUp(config) {
     Object.assign(this, {
       organ: null,
-      parent: null,
       tree: null,
       key: null,
 
@@ -32,17 +31,19 @@ OrganNode.prototype = {
       descKeys: [],
       children: {},
 
+      parent: null,
       preSibling: null,
       nextSibling: null,
       firstChild: null,
       lastChild: null,
     }, config);
-  },
-  clearUp: function() {
-    this.setUp();
-  },
+  }
 
-  update: function() {
+  clearUp() {
+    this.setUp();
+  }
+
+  update() {
     this.descs = this.parseDescs();
     this.descKeys = this.getDescKeys();
     const childrenKeys = Object.keys(this.children);
@@ -50,15 +51,16 @@ OrganNode.prototype = {
 
     toVanishKeys.forEach(this.vanishChild);
     this.descs.forEach(this.updateChild);
-  },
+  }
 
-  parseDescs: function() {
+  parseDescs() {
     const descs = Array.isArray(this.organ.result) ? this.organ.result : [this.organ.result];
     return descs.filter(d => d !== undefined).map(desc => 
       !Array.isArray(desc) ? desc : {organism: List, props: desc},
     );
-  },
-  getDescKeys: function() {
+  }
+
+  getDescKeys() {
     return this.descs.map((desc, index) => {
       const hasKey = desc
         && desc.props
@@ -67,26 +69,29 @@ OrganNode.prototype = {
         && desc.props.key !== null;
       return hasKey ? String(desc.props.key) : String(index);
     });
-  },
-  getChildPreSibling: function(index) {
+  }
+
+  getChildPreSibling(index) {
     const preIndex = index - 1;
     if (preIndex < 0) {
       return null;
     }
     const preKey = this.descKeys[preIndex];
     return this.children[preKey];
-  },
+  }
 
-  vanishChild: function(key) {
+  vanishChild(key) {
     if (this.children[key]) {
       this.children[key].vanish();
     }
-  },
-  vanishAllChildren: function() {
+  }
+
+  vanishAllChildren() {
     const childrenKeys = Object.keys(this.children);
     childrenKeys.forEach(key => this.vanishChild(key));
-  },
-  updateChild: function(desc, index) {
+  }
+
+  updateChild(desc, index) {
     const key = this.descKeys[index];
     const { organism } = getUtilsByDesc(desc, this.tree) || {};
     const isDescLeaf = !organism;
@@ -102,8 +107,9 @@ OrganNode.prototype = {
     } else {
       this.createChild(desc, index);
     }
-  },
-  createChild: function(desc, index) {
+  }
+
+  createChild(desc, index) {
     const key = this.descKeys[index];
     this.vanishChild(key);
     const isFirst = index === 0;
@@ -129,8 +135,9 @@ OrganNode.prototype = {
     if (typeof onReady === 'function') {
       onReady(node);
     }
-  },
-  relocateChild: function(child, index) {
+  }
+
+  relocateChild(child, index) {
     const isFirst = index === 0;
     const preSibling = isFirst ? null : this.getChildPreSibling(index);
     if (child.preSibling !== preSibling) {
@@ -143,23 +150,23 @@ OrganNode.prototype = {
       });
       this.tree.envUtils.relocate(child);
     }
-  },
+  }
 
-  buildRelationship: function(relationship) {
+  buildRelationship(relationship) {
     buildRelationship(this, relationship);
-  },
+  }
 
-  vanishRelationship: function() {
+  vanishRelationship() {
     vanishRelationship(this);
-  },
+  }
 
-  vanish: function() {
+  vanish() {
     this.organ.vanish();
     this.vanishAllChildren();
     this.vanishRelationship();
     this.clearUp();
-  },
-};
+  }
+}
 
 module.exports = {
   OrganNode,

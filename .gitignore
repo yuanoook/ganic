@@ -1,3 +1,4 @@
 build/
+umd/
 node_modules/
 *.lock

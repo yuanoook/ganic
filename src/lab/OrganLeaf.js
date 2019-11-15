@@ -7,13 +7,13 @@ const { buildRelationship, vanishRelationship } = require('./utils');
  * It's the end node for a non-organ-desc variable
  */
 
-const OrganLeaf = function({value, parent, tree, key, relationship}) {
-  this.setUp({value, parent, tree, key});
-  this.buildRelationship(relationship);
-};
+class OrganLeaf {
+  constructor({value, parent, tree, key, relationship}) {
+    this.setUp({value, parent, tree, key});
+    this.buildRelationship(relationship);
+  }
 
-OrganLeaf.prototype = {
-  setUp: function(config) {
+  setUp(config) {
     Object.assign(this, {
       value: null,
       parent: null,
@@ -21,38 +21,38 @@ OrganLeaf.prototype = {
       preSibling: null,
       nextSibling: null,
     }, config);
-  },
-  clearUp: function() {
+  }
+  clearUp() {
     this.setUp();
-  },
-  update: function() {
+  }
+  update() {
     if (this.tree) {
       this.tree.envUtils.updateLeaf(this);
     }
-  },
-  receive: function(value) {
+  }
+  receive(value) {
     if (this.value !== value) {
       this.value = value;
       this.update();
     }
-  },
+  }
 
-  buildRelationship: function(relationship) {
+  buildRelationship(relationship) {
     buildRelationship(this, relationship);
-  },
+  }
 
-  vanishRelationship: function() {
+  vanishRelationship() {
     vanishRelationship(this);
-  },
+  }
 
-  vanish: function() {
+  vanish() {
     if (this.tree) {
       this.tree.envUtils.vanishLeaf(this);
     }
     this.vanishRelationship();
     this.clearUp();
-  },
-};
+  }
+}
 
 module.exports = {
   OrganLeaf,

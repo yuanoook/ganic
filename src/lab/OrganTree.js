@@ -12,29 +12,29 @@ const { createNode, List } = require('./utils');
  *    they environment proxy
  */
 
-const OrganTree = function({organDesc, envRoot, envUtils}) {
-  this.setUp({
-    organDesc,
-    envRoot,
-    envUtils,
-  });
-  this.grow();
-};
+class OrganTree {
+  constructor({organDesc, envRoot, envUtils}) {
+    this.setUp({
+      organDesc,
+      envRoot,
+      envUtils,
+    });
+    this.grow();
+  }
 
-OrganTree.prototype = {
-  setUp: function(config) {
+  setUp(config) {
     Object.assign(this, {
       organDesc: null,
       trunkNode: null,
       envRoot: null,
       envUtils: null,
     }, config);
-  },
-  update: function(organDesc) {
+  }
+  update(organDesc) {
     this.organDesc = organDesc;
     this.trunkNode.organ.receive(organDesc);
-  },
-  grow: function() {
+  }
+  grow() {
     const trunkDesc = {organism: List, props: this.organDesc};
     const {node, onReady} = createNode({
       constructors: {
@@ -49,17 +49,17 @@ OrganTree.prototype = {
     if (typeof onReady === 'function') {
       onReady(node);
     }
-  },
+  }
 
-  clearUp: function() {
+  clearUp() {
     this.setUp();
-  },
+  }
 
-  vanish: function() {
+  vanish() {
     this.trunkNode.vanish();
     this.clearUp();
-  },
-};
+  }
+}
 
 module.exports = {
   OrganTree,

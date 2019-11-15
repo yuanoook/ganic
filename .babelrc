@@ -5,5 +5,13 @@
       "pragmaFrag": "Ganic.Fragment",
       "throwIfNamespace": false
     }]
+  ],
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "targets": "> 0.25%, not dead"
+      }
+    ]
   ]
 }

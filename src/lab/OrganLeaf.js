@@ -31,8 +31,10 @@ OrganLeaf.prototype = {
     }
   },
   receive: function(value) {
-    this.value = value;
-    this.update();
+    if (this.value !== value) {
+      this.value = value;
+      this.update()
+    }
   },
 
   buildRelationship: function(relationship) {

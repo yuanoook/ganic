@@ -1,7 +1,6 @@
 'use strict';
 
 const {render, attach} = require('../../Ganic');
-const {OrganTree} = require('../OrganTree');
 const {organDomMap} = require('../../env/basic/connect/map');
 
 describe('organTree', () => {

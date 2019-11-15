@@ -10,7 +10,7 @@ describe('relocate', () => {
     const App = () => {
       const [count, setCount] = useState(1);
       const plus = useMemo(() => () => setCount(n => n + 1));
-      const numbers = new Array(count).join(",").split(",").map((x, i) => i);
+      const numbers = new Array(count).join().split(',').map((x, i) => i);
       const list = numbers.reverse().map(i => <i key={i}>{i}</i>);
 
       return (

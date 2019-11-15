@@ -1,25 +1,23 @@
 'use strict';
 
-const { buildRelationship, vanishRelationship } = require('./utils');
+const { Connector } = require('./Connector');
 
 /**
  * OrganLeaf does not have any children
  * It's the end node for a non-organ-desc variable
  */
 
-class OrganLeaf {
-  constructor({value, parent, tree, key, relationship}) {
-    this.setUp({value, parent, tree, key});
-    this.buildRelationship(relationship);
+class OrganLeaf extends Connector {
+  constructor({value, tree, key, relationship}) {
+    super({key, ...relationship});
+    this.setUp({value, tree});
   }
 
   setUp(config) {
     Object.assign(this, {
       value: null,
-      parent: null,
       tree: null,
-      preSibling: null,
-      nextSibling: null,
+      children: null,
     }, config);
   }
   clearUp() {
@@ -37,19 +35,11 @@ class OrganLeaf {
     }
   }
 
-  buildRelationship(relationship) {
-    buildRelationship(this, relationship);
-  }
-
-  vanishRelationship() {
-    vanishRelationship(this);
-  }
-
   vanish() {
     if (this.tree) {
       this.tree.envUtils.vanishLeaf(this);
     }
-    this.vanishRelationship();
+    super.vanish();
     this.clearUp();
   }
 }

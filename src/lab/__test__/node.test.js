@@ -59,7 +59,7 @@ describe('organNode', () => {
         } else {
           expect(node.preSibling).toBe(list[index - 1]);
         }
-  
+
         if (index === list.length - 1) {
           expect(parentNode.lastChild).toBe(node);
           expect(node.nextSibling).toBe(null);

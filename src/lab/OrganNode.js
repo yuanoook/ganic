@@ -1,9 +1,10 @@
 'use strict';
 /* eslint-disable no-multi-spaces */
 
+const { Connector } = require('./Connector');
 const { Organ } = require('./Organ');
 const { OrganLeaf } = require('./OrganLeaf');
-const { List, getUtilsByDesc, createNode, buildRelationship, vanishRelationship } = require('./utils');
+const { List, getUtilsByDesc, createNode } = require('./utils');
 
 /**
  * OrganNode is the wrapper for one organ
@@ -11,13 +12,15 @@ const { List, getUtilsByDesc, createNode, buildRelationship, vanishRelationship 
  * It manages the update of its children
  */
 
-class OrganNode {
-  constructor({organ, parent, tree, key, relationship}) {
-    this.setUp({organ, parent, tree, key});
+class OrganNode extends Connector {
+  constructor({organ, tree, key, relationship}) {
+    super({key, ...relationship});
+    this.setUp({organ, tree});
+
     this.update = this.update.bind(this);
     this.vanishChild = this.vanishChild.bind(this);
     this.updateChild = this.updateChild.bind(this);
-    this.buildRelationship(relationship);
+
     organ.addListener(this.update);
   }
 
@@ -25,17 +28,9 @@ class OrganNode {
     Object.assign(this, {
       organ: null,
       tree: null,
-      key: null,
-
+      children: {},
       descs: [],
       descKeys: [],
-      children: {},
-
-      parent: null,
-      preSibling: null,
-      nextSibling: null,
-      firstChild: null,
-      lastChild: null,
     }, config);
   }
 
@@ -143,6 +138,7 @@ class OrganNode {
     if (child.preSibling !== preSibling) {
       child.vanishRelationship();
       child.buildRelationship({
+        key: this.descKeys[index],
         parent: this,
         isFirst: index === 0,
         isLast: index === this.descKeys.length - 1,
@@ -152,18 +148,10 @@ class OrganNode {
     }
   }
 
-  buildRelationship(relationship) {
-    buildRelationship(this, relationship);
-  }
-
-  vanishRelationship() {
-    vanishRelationship(this);
-  }
-
   vanish() {
     this.organ.vanish();
     this.vanishAllChildren();
-    this.vanishRelationship();
+    super.vanish();
     this.clearUp();
   }
 }

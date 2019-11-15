@@ -55,7 +55,7 @@ const applyAttr = (node, name, value) => {
     return;
   } else if (name === 'ref') {
     applyRef(node, value);
-  } else if (/^on[A-Z][a-zA-Z]*/.test(name)) {
+  } else if (/^on[A-Z][a-zA-Z]*$/.test(name)) {
     applyEventListener(node, name, value);
   } else if (name === 'style') {
     applyStyle(node, value);

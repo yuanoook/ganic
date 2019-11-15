@@ -1,4 +1,4 @@
 build/
-umd/
 node_modules/
 *.lock
+*.min.js

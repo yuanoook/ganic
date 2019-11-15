@@ -1,6 +1,6 @@
 {
   "name": "ganic",
-  "version": "1.4.6",
+  "version": "1.4.7",
   "description": "A cool organic programming javascript library",
   "main": "src/index.js",
   "devDependencies": {
@@ -33,7 +33,7 @@
   "scripts": {
     "test": "jest",
     "debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand",
-    "prepublishOnly": "jest && yarn lint && rollup -c --m",
+    "prepublishOnly": "jest && yarn lint && rollup -c --m && rollup -c",
     "watch": "jest --watchAll",
     "linc": "node ./scripts/tasks/linc.js",
     "lint": "node ./scripts/tasks/eslint.js",

@@ -9,8 +9,25 @@
 </head>
 
 <body>
+  <p style="text-align: right;">
+    Test 
+    <select id="select">
+      <option value="https://unpkg.com/ganic/umd/ganic-production.js">https://unpkg.com/ganic/umd/ganic-production.js</option>
+      <option value="https://unpkg.com/ganic/umd/ganic-production.min.js">https://unpkg.com/ganic/umd/ganic-production.min.js</option>
+      <option value="./ganic-production.js">./ganic-production.js</option>
+      <option value="./ganic-production.min.js">./ganic-production.js</option>
+    </select>
+  </p>
+
   <div id="app"></div>
-  <script src='./ganic-production.js'></script>
+  <script>
+    window.select.value = localStorage.script || window.select.value;
+    window.select.onchange = function() {
+      localStorage.script = window.select.value;
+      window.location.reload();
+    };
+    document.write(`<script src='${localStorage.script || window.select.value}'><\/script>`);
+  </script>
   <script>
     const App = () => {
       const [count, setCount] = Ganic.useState(1);

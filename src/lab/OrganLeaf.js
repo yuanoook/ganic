@@ -32,7 +32,7 @@ OrganLeaf.prototype = {
   },
   receive: function(value) {
     if (this.value !== value) {
-      this.value = value
+      this.value = value;
       this.update();
     }
   },

@@ -1,7 +1,7 @@
 'use strict';
 
 const Ganic = require('../../../index');
-const {render, useState, useRef, useMemo} = Ganic;
+const {render, useState, useMemo} = Ganic;
 
 describe('relocate', () => {
   it('should affect minimum siblings during relocation', () => {

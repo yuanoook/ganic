@@ -64,10 +64,10 @@ Organ.prototype = {
 
     return parasite;
   },
-  attach: function(parasitism, deps, firstExcrement) {
+  attach: function(parasitism, deps, firstValue) {
     return this.take(deps)
       .attach(parasitism)
-      .firstGive(firstExcrement);
+      .firstGive(firstValue);
   },
   removeAllParasites: function() {
     this.parasites.forEach(parasite => parasite.vanish());

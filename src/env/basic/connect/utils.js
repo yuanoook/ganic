@@ -26,9 +26,9 @@ const findDom = node => {
   }
 };
 
-const findLastChildDom = node => {
+const findLastUnderDom = node => {
   if (node.lastChild) {
-    return findDom(node.lastChild) || findLastChildDom(node.lastChild);
+    return findDom(node.lastChild) || findLastUnderDom(node.lastChild) || findPreDom(node.lastChild);
   }
 };
 
@@ -50,7 +50,7 @@ const findUnderDoms = node => {
 const findPreDom = node => {
   if (node.preSibling) {
     return findDom(node.preSibling)
-      || findLastChildDom(node.preSibling)
+      || findLastUnderDom(node.preSibling)
       || findPreDom(node.preSibling);
   }
   if (node.parent) {

@@ -65,10 +65,8 @@ describe('organNode', () => {
         } else {
           expect(node.nextSibling).toBe(list[index + 1]);
         }
-  
-        const leaf = node.children['0'];
-        expect(node.firstChild).toBe(leaf);
-        expect(node.lastChild).toBe(leaf);
+        expect(node.firstChild).toBe(null);
+        expect(node.lastChild).toBe(null);
       });
     };
 

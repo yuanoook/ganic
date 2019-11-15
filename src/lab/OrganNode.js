@@ -53,7 +53,7 @@ OrganNode.prototype = {
 
   parseDescs: function() {
     const descs = Array.isArray(this.organ.result) ? this.organ.result : [this.organ.result];
-    return flat(descs, Infinity);
+    return flat(descs, Infinity).filter(d => d !== null && d !== undefined);
   },
   getDescKeys: function() {
     return this.descs.map((desc, index) => {

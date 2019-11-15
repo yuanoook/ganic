@@ -27,30 +27,32 @@ Parasite.prototype = {
       organ: null,
       index: null,
       deps: null,
-      hasExcreted: false,
+
+      hasSet: false,
       attaching: false,
       attached: false,
       toDetach: null,
       detaching: false,
-      lastExcrement: null,
+
+      value: null,
     }, props);
   },
   clearUp: function() {
     this.setUp();
   },
 
-  setExcrement: function(excrement) {
-    this.hasExcreted = true;
-    this.lastExcrement = excrement;
+  setValue: function(value) {
+    this.hasSet = true;
+    this.value = value;
   },
-  firstGive: function(excrement) {
-    return this.hasExcreted ? this.lastExcrement : this.give(excrement);
+  firstGive: function(value) {
+    return this.hasSet ? this.value : this.give(value);
   },
-  give: function(excrement) {
-    this.setExcrement(excrement);
-    return this.lastExcrement;
+  give: function(value) {
+    this.setValue(value);
+    return this.value;
   },
-  asyncGive: function(excrement) {
+  asyncGive: function(value) {
     if (!this.organ) {
       throw new Error(ASYNC_GIVE_AFTER_DETACH_ERROR_MESSAGE);
     }
@@ -59,10 +61,10 @@ Parasite.prototype = {
     }
     Lakhesis.givingParasite = this;
 
-    const oldExcrement = this.lastExcrement;
-    this.setExcrement(excrement);
+    const oldValue = this.value;
+    this.setValue(value);
 
-    const organUpdateNeeded = !this.attaching && !shallowEqual(oldExcrement, this.lastExcrement);
+    const organUpdateNeeded = !this.attaching && !shallowEqual(oldValue, this.value);
     if (organUpdateNeeded) {
       this.organ.update();
     }
@@ -85,8 +87,8 @@ Parasite.prototype = {
     if (typeof toAttach === 'function') {
       this.toDetach = toAttach(this.deps, this.asyncGive.bind(this), {handover});
     } else {
-      this.setExcrement(toAttach);
-      this.toDetach = () => this.setExcrement(null);
+      this.setValue(toAttach);
+      this.toDetach = () => this.setValue(null);
     }
     this.attaching = false;
     this.attached = true;

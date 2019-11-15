@@ -3,7 +3,7 @@
 const { Organ } = require('./Organ');
 const { OrganNode } = require('./OrganNode');
 const { OrganLeaf } = require('./OrganLeaf');
-const { createNode } = require('./utils');
+const { createNode, List } = require('./utils');
 
 /**
  * OrganTree connects the root OrganNode with the environment
@@ -13,7 +13,11 @@ const { createNode } = require('./utils');
  */
 
 const OrganTree = function({organDesc, envRoot, envUtils}) {
-  this.setUp({organDesc, envRoot, envUtils});
+  this.setUp({
+    organDesc: !Array.isArray(organDesc) ? organDesc : {organism: List, props: organDesc},
+    envRoot,
+    envUtils,
+  });
   this.grow();
 };
 

@@ -1,6 +1,7 @@
 'use strict';
 
-const {render, attach} = require('../../Ganic');
+const Ganic = require('../../index');
+const {render, attach} = Ganic;
 const {organDomMap} = require('../../env/basic/connect/map');
 
 describe('organTree', () => {
@@ -68,6 +69,19 @@ describe('organTree', () => {
 
     expect(envRoot.innerHTML).toBe(`3`);
     expect(envRoot.textContent).toBe(content);
+    tree.vanish();
+    expect(envRoot.textContent).toBe('');
+  });
+
+  it('should accept Fragment to build a tree', () => {
+    const A = () => 1;
+    const B = () => 2;
+    const C = () => 3;
+    const envRoot = document.createElement('div');
+    const tree = render({organDesc: <>
+      <A/><B/><C/>
+    </>, envRoot});
+    expect(envRoot.innerHTML).toBe(`123`);
     tree.vanish();
     expect(envRoot.textContent).toBe('');
   });

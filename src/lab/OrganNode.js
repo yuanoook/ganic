@@ -3,8 +3,7 @@
 
 const { Organ } = require('./Organ');
 const { OrganLeaf } = require('./OrganLeaf');
-const { getUtilsByDesc, createNode, buildRelationship, vanishRelationship } = require('./utils');
-const List = props => props;
+const { List, getUtilsByDesc, createNode, buildRelationship, vanishRelationship } = require('./utils');
 
 /**
  * OrganNode is the wrapper for one organ

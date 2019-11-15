@@ -10,23 +10,45 @@
 
 <body>
   <div id="app"></div>
-  <script src='./ganic-production.min.js'></script>
+  <script src='./ganic-production.js'></script>
   <script>
-    Ganic.render({
-      organDesc:
-      {
-        organism: () => {
-          const [count, setCount] = Ganic.useState(1);
-          Ganic.useInterval(() => setCount(n => n + 1), 1000);
-          const numbers = new Array(count).join().split(',').map((x, i) => i);
-          const list = numbers.reverse().map(i => ({
-            organism: 'i',
-            props: {key: i, children: i}
-          }));
-          return [numbers.reverse(), {organism: 'br'}, list];
+    const App = () => {
+      const [count, setCount] = Ganic.useState(1);
+      const [interval, setInterval] = Ganic.useState(100);
+      Ganic.useInterval(() => {
+        setCount(n => n + 1);
+        setInterval(n => n * 2);
+      }, interval);
+      const numbers = new Array(count >= 0 ? count : 0).join().split(',').map((x, i) => i);
+      const list = numbers.reverse().map(i => ({
+        organism: 'i',
+        props: { key: i, children: i }
+      }));
+      return [
+        numbers.reverse(),
+        { organism: 'br' },
+        list,
+        { organism: 'h1', props: {children: count}},
+        {
+          organism: 'button',
+          props: {
+            onClick: () => setCount(n => n + 1),
+            children: '+1'
+          }
+        },
+        {
+          organism: 'button',
+          props: {
+            onClick: () => setCount(n => n - 1),
+            children: '-1'
+          }
         }
-      }, envRoot: window.app
-    })
+      ];
+    };
+    Ganic.render({
+      organDesc: { organism: App },
+      envRoot: window.app
+    });
   </script>
 </body>
 

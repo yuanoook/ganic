@@ -33,8 +33,7 @@
   "scripts": {
     "test": "jest",
     "debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand",
-    "prepublishOnly": "jest && yarn lint && rollup -c",
-    "postpack": "rm -rf ./umd/*.js",
+    "prepublishOnly": "jest && yarn lint && rollup -c --m",
     "watch": "jest --watchAll",
     "linc": "node ./scripts/tasks/linc.js",
     "lint": "node ./scripts/tasks/eslint.js",

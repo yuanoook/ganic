@@ -49,8 +49,11 @@ class OrganNode extends Connector {
   }
 
   parseDescs() {
+    if (this.organ.result === undefined || this.organ.result === null) {
+      return [];
+    }
     const descs = Array.isArray(this.organ.result) ? this.organ.result : [this.organ.result];
-    return descs.filter(d => d !== undefined).map(desc => 
+    return descs.map(desc => 
       !Array.isArray(desc) ? desc : {organism: List, props: desc},
     );
   }

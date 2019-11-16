@@ -3,15 +3,7 @@
 const { OrganNode } = require('../../../lab/OrganNode');
 const { OrganLeaf } = require('../../../lab/OrganLeaf');
 const { organDomMap, leafDomMap } = require('./map');
-
-const findEnvParent = organNode => {
-  if (organNode.parent) {
-    return organDomMap.get(organNode.parent.organ) || findEnvParent(organNode.parent);
-  } else if (organNode.tree) {
-    return organNode.tree.envRoot;
-  }
-  throw new Error(`Cannot find env parent`);
-};
+const { findParent, findPre, findOnes } = require('../../utils');
 
 const isTag = node => node instanceof OrganNode && organDomMap.has(node.organ);
 const getTagDom = node => organDomMap.get(node.organ);
@@ -33,12 +25,12 @@ const insertDom = (dom, node) => {
     return;
   }
 
-  const parentDom = findEnvParent(node);
+  const parentDom = findParent(node, findDom);
   if (!parentDom) {
     return;
   }
 
-  const preDom = node.findPre(findDom);
+  const preDom = findPre(node, findDom);
   if (!preDom) {
     parentDom.insertBefore(dom, parentDom.firstChild);
     return;
@@ -52,16 +44,16 @@ const insertDom = (dom, node) => {
 };
 
 const relocate = node => {
-  const parentDom = findEnvParent(node);
+  const parentDom = findParent(node, findDom);
   if (!parentDom) {
     return;
   }
-  const doms = node.findOnes(findDom);
+  const doms = findOnes(node, findDom);
   if (!doms.length) {
     return;
   }
 
-  const preDom = node.findPre(findDom);
+  const preDom = findPre(node, findDom);
   if (preDom ? preDom.nextSibling === doms[0] : parentDom.firstChild === doms[0]) {
     return;
   }
@@ -81,7 +73,6 @@ const relocate = node => {
 };
 
 module.exports = {
-  findEnvParent,
   insertDom,
   relocate,
 };

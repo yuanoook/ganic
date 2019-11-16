@@ -2,14 +2,11 @@
 
 class Connector {
   constructor(relationship = {}) {
-    this.setUp({
-      firstChild: null,
-      lastChild: null,
-    });
+    this.setUpRelationship();
     this.buildRelationship(relationship);
   }
 
-  setUp(config) {
+  setUpRelationship(config) {
     Object.assign(this, {
       key: null,
       parent: null,
@@ -23,21 +20,21 @@ class Connector {
     }, config);
   }
 
-  clearUp() {
-    this.setUp();
+  clearUpRelationship() {
+    this.setUpRelationship();
   }
 
   buildRelationship({key, parent, isFirst, isLast, preSibling} = {}) {
-    this.key = key;
-    this.preSibling = preSibling || null;
     if (preSibling) {
-      this.nextSibling = preSibling.nextSibling || null;
+      this.preSibling = preSibling;
+      this.nextSibling = preSibling.nextSibling;
       preSibling.nextSibling = this;
       if (this.nextSibling) {
         this.nextSibling.preSibling = this;
       }
     }
     if (parent) {
+      this.key = key;
       this.parent = parent;
       parent.children[key] = this;
       if (isFirst && parent.firstChild !== this) {
@@ -65,7 +62,6 @@ class Connector {
       this.nextSibling.preSibling = this.preSibling;
     }
     if (!this.parent) {
-      this.parent = null;
       return;
     }
     if (this.parent.firstChild === this) {
@@ -80,49 +76,9 @@ class Connector {
     this.parent = null;
   }
 
-  findOnes(find) {
-    const one = find(this);
-    if (one) {
-      return [one];
-    }
-
-    let child = this.firstChild;
-    let ones = [];
-    while (child) {
-      ones = ones.concat(child.findOnes(find));
-      child = child.nextSibling;
-    }
-    return ones;
-  }
-
-  findPre(find) {
-    if (this.preSibling) {
-      return this.preSibling.findBackward(find) || this.preSibling.findPre(find);
-    }
-    if (this.parent) {
-      return find(this.parent) ? null : this.parent.findPre(find);
-    }
-  }
-
-  findBackward(find) {
-    let one = find(this);
-    if (one) {
-      return one;
-    }
-
-    let child = this.lastChild;
-    while (child) {
-      one = child.findBackward(find);
-      if (one) {
-        return one;
-      }
-      child = child.preSibling;
-    }
-  }
-
   vanish() {
     this.vanishRelationship();
-    this.clearUp();
+    this.clearUpRelationship();
   }
 }
 

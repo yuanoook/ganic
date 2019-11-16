@@ -15,7 +15,7 @@ describe('organNode', () => {
 
     expect(node1.organ).toBe(organ1);
     expect(node1.organ.organism).toBe(organism1);
-    expect(node1.parent).toBe(undefined);
+    expect(node1.parent).toBe(null);
 
     const node2 = node1.children[0];
     expect(node2 instanceof OrganNode).toBe(true);

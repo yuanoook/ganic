@@ -33,13 +33,13 @@
   "scripts": {
     "test": "jest",
     "debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand",
-    "prepublishOnly": "jest && yarn lint && rollup -c --m && rollup -c",
+    "prepublishOnly": "jest && yarn lint && yarn build",
     "watch": "jest --watchAll",
     "linc": "node ./scripts/tasks/linc.js",
     "lint": "node ./scripts/tasks/eslint.js",
     "prettier": "node ./scripts/prettier/index.js write-changed",
     "prettier-all": "node ./scripts/prettier/index.js write",
-    "build": "rollup -c"
+    "build": "rollup -c --m && rollup -c"
   },
   "pre-commit": "lint",
   "repository": {

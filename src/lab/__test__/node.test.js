@@ -146,4 +146,37 @@ describe('organNode', () => {
     tree.vanish();
   });
 
+  it('should relocate rightly with dynamic reversed list', () => {
+    const envRoot = document.createElement('div');
+    const App = () => {
+      const [count, setCount] = useState(0);
+      const minus = () => setCount(n => n - 1);
+      const plus = () => setCount(n => n + 1);
+      const absCount = Math.max(count, 0);
+      const groups = [...Array(absCount).keys()].reverse().map(n => <div key={n}>{n}</div>);
+
+      return <>
+        <h1>:D</h1>
+        { groups }
+        <button class="minus" onClick={minus}/>
+        <button class="plus" onClick={plus}/>
+      </>;
+    };
+
+    const plusOne = () =>
+      envRoot.querySelector('button.plus').dispatchEvent(new MouseEvent('click'));
+    const minusOne = () =>
+      envRoot.querySelector('button.minus').dispatchEvent(new MouseEvent('click'));
+
+    const tree = render({organDesc: <App />, envRoot});
+    plusOne();
+    plusOne();
+    plusOne();
+    expect(envRoot.textContent).toBe(':D210');
+    minusOne();
+    expect(envRoot.textContent).toBe(':D10');
+
+    tree.vanish();
+  });
+
 });

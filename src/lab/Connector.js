@@ -42,6 +42,7 @@ class Connector {
         parent.firstChild = this;
         if (oldFirstChild) {
           oldFirstChild.preSibling = this;
+          this.nextSibling = oldFirstChild;
         }
       }
       if (isLast && parent.lastChild !== this) {
@@ -49,6 +50,7 @@ class Connector {
         parent.lastChild = this;
         if (oldLastChild) {
           oldLastChild.nextSibling = this;
+          this.preSibling = oldLastChild;
         }
       }
     }

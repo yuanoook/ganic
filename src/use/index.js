@@ -3,6 +3,7 @@
 const {
   useRef,
   useMemo,
+  useCallback,
   useState,
   useEffect,
 } = require('./base');
@@ -12,12 +13,13 @@ const {useOrgan, usePromise} = require('./async');
 
 // TODO: Add usePigeon
 
-// const msg = usePigeon(PIGEON_NAME, {receiver: true});
+// const msg = usePigeon(PIGEON_NAME, {receiver: true, filter});
 // const sendMsg = usePigeon(PIGEON_NAME, {sender: true});
 
 module.exports = {
   useRef,
   useMemo,
+  useCallback,
   useState,
   useEffect,
 

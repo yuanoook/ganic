@@ -5,6 +5,7 @@ const { create, attach, render } = require('./Ganic');
 const {
   useRef,
   useMemo,
+  useCallback,
   useState,
   useEffect,
 
@@ -33,6 +34,7 @@ module.exports = {
   // useX - Composite Parasite Maker, to design organism
   useRef,
   useMemo,
+  useCallback,
   useState,
   useEffect,
 

@@ -1,8 +1,7 @@
 'use strict';
 
 const {create} = require('../../Ganic');
-
-const {useRef, useMemo, useState} = require('..');
+const {useRef, useMemo, useCallback, useState} = require('..');
 
 describe('should always keep identity from parasite', () => {
   it('should only call fn while deps change with useMemo', () => {
@@ -66,5 +65,33 @@ describe('should always keep identity from parasite', () => {
     };
 
     create({organism, props: 1}).receive(2).receive(3);
+  });
+
+  it('should update useCallback, useCallback in the right way', () => {
+    const plusX = ({ set, x }) => set(n => n + x);
+    let lastPlus;
+    let lastX;
+    const App = ({x}) => {
+      const [count, setCount] = useState(0);
+      const plus = useCallback(plusX, {set: setCount, x});
+      expect(!lastPlus || lastX !== x || lastPlus === plus).toEqual(true);
+      lastPlus = plus;
+      lastX = x;
+      return count;
+    };
+    const organ = create({organism: App, props: {x: 1}});
+    organ.receive({x: 1})
+      .receive({x: 2})
+      .receive({x: 3})
+      .receive({x: 3});
+
+    lastPlus();
+    expect(organ.result).toBe(3);
+
+    organ.receive({x: 10});
+    lastPlus();
+    expect(organ.result).toBe(13);
+
+    organ.vanish();
   });
 });

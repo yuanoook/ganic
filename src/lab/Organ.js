@@ -4,16 +4,15 @@ const {Parasite} = require('./Parasite');
 const {shallowEqual} = require('./utils');
 const Lakhesis = require('../moirai/Lakhesis');
 
-const Organ = function({organism, props}) {
-  if (typeof organism !== 'function') {
-    throw new Error('To create an Organ, organism must be a function!');
+class Organ {
+  constructor({organism, props}) {
+    if (typeof organism !== 'function') {
+      throw new Error('To create an Organ, organism must be a function!');
+    }
+    this.setUp({organism, props});
+    this.update();
   }
-  this.setUp({organism, props});
-  this.update();
-};
-
-Organ.prototype = {
-  setUp: function(config) {
+  setUp(config) {
     Object.assign(this, {
       organism: null,
       props: null,
@@ -22,19 +21,19 @@ Organ.prototype = {
       parasiteCheckingIndex: 0,
       listeners: [],
     }, config);
-  },
-  clearUp: function() {
+  }
+  clearUp() {
     this.setUp();
-  },
+  }
 
-  receive: function(props) {
+  receive(props) {
     if (!shallowEqual(this.props, props)) {
       this.props = props;
       this.update();
     }
     return this;
-  },
-  update: function() {
+  }
+  update() {
     Lakhesis.setUpdatingOrgan(this);
     this.parasiteCheckingIndex = 0;
 
@@ -47,7 +46,7 @@ Organ.prototype = {
 
     Lakhesis.clearUpdatingOrgan(this);
     return this;
-  },
+  }
 
   getParasite(index) {
     const parasite = this.parasites[index];
@@ -56,46 +55,46 @@ Organ.prototype = {
     }
     this.parasites[index] = new Parasite({organ: this, index});
     return this.parasites[index];
-  },
-  take: function(deps) {
+  }
+  take(deps) {
     const parasite = this.getParasite(this.parasiteCheckingIndex);
     parasite.receiveDeps(deps);
     this.parasiteCheckingIndex++;
 
     return parasite;
-  },
-  attach: function(parasitism, deps, firstValue) {
+  }
+  attach(parasitism, deps, firstValue) {
     return this.take(deps)
       .attach(parasitism)
       .firstGive(firstValue);
-  },
-  removeAllParasites: function() {
+  }
+  removeAllParasites() {
     this.parasites.forEach(parasite => parasite.vanish());
     this.parasites.length = 0;
-  },
+  }
 
-  addListener: function(func) {
+  addListener(func) {
     this.listeners.push(func);
     func(this.result);
     return this;
-  },
-  removeListner: function(listener) {
+  }
+  removeListner(listener) {
     this.listeners.splice(this.listeners.indexOf(listener), 1);
-  },
-  wakeListeners: function() {
+  }
+  wakeListeners() {
     this.listeners.forEach(func => func(this.result));
     return this;
-  },
-  removeAllListners: function() {
+  }
+  removeAllListners() {
     this.listeners.length = 0;
-  },
+  }
 
-  vanish: function() {
+  vanish() {
     this.removeAllParasites();
     this.removeAllListners();
     this.clearUp();
-  },
-};
+  }
+}
 
 module.exports = {
   Organ,

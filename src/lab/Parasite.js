@@ -17,12 +17,11 @@ const LEAVE_HANDOVER_AT_THE_ENDING = `
   Don't leave handover at the ending of a parasite.
 `;
 
-const Parasite = function({organ, index}) {
-  this.setUp({organ, index});
-};
-
-Parasite.prototype = {
-  setUp: function(props) {
+class Parasite {
+  constructor({organ, index}) {
+    this.setUp({organ, index});
+  }
+  setUp(props) {
     Object.assign(this, {
       organ: null,
       index: null,
@@ -36,23 +35,22 @@ Parasite.prototype = {
 
       value: null,
     }, props);
-  },
-  clearUp: function() {
+  }
+  clearUp() {
     this.setUp();
-  },
-
-  setValue: function(value) {
+  }
+  setValue(value) {
     this.hasSet = true;
     this.value = value;
-  },
-  firstGive: function(value) {
+  }
+  firstGive(value) {
     return this.hasSet ? this.value : this.give(value);
-  },
-  give: function(value) {
+  }
+  give(value) {
     this.setValue(value);
     return this.value;
-  },
-  asyncGive: function(value) {
+  }
+  asyncGive(value) {
     if (!this.organ) {
       throw new Error(ASYNC_GIVE_AFTER_DETACH_ERROR_MESSAGE);
     }
@@ -71,14 +69,13 @@ Parasite.prototype = {
 
     Lakhesis.givingParasite = null;
     return this;
-  },
-
-  receiveDeps: function(deps) {
+  }
+  receiveDeps(deps) {
     this.attachable = !shallowEqual(deps, this.deps);
     this.deps = deps;
     return this;
-  },
-  attach: function(toAttach) {
+  }
+  attach(toAttach) {
     if (this.attached && !this.attachable) {
       return this;
     }
@@ -93,8 +90,8 @@ Parasite.prototype = {
     this.attaching = false;
     this.attached = true;
     return this;
-  },
-  detach: function({ending = false} = {}) {
+  }
+  detach({ending = false} = {}) {
     let handover;
     this.detaching = true;
     if (typeof this.toDetach === 'function') {
@@ -103,16 +100,15 @@ Parasite.prototype = {
     }
     this.detaching = false;
     return handover;
-  },
-
-  vanish: function() {
+  }
+  vanish() {
     const handover = this.detach({ending: true});
     if (handover !== undefined) {
       throw new Error(LEAVE_HANDOVER_AT_THE_ENDING);
     }
     this.clearUp();
-  },
-};
+  }
+}
 
 module.exports = {
   Parasite,

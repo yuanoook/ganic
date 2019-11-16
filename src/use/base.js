@@ -13,6 +13,9 @@ const useMemo = (fn, dependencies) => {
   return attach(parasitism, dependencies);
 };
 
+const useCallback = (fn, dependencies) =>
+  useMemo(deps => () => fn(deps), dependencies);
+
 const stateParasitism = function(deps, give) {
   let state = deps;
   let setState = newState => {
@@ -42,6 +45,7 @@ const useEffect = (parasitism, deps) => {
 module.exports = {
   useRef,
   useMemo,
+  useCallback,
   useState,
   useEffect,
 };

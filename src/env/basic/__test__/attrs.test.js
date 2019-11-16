@@ -3,7 +3,7 @@
 const Ganic = require('../../../index');
 const {render, useState, useRef, useMemo} = Ganic;
 
-describe('should always keep identity from parasite', () => {
+describe('basic attrs', () => {
   it('should handle onClick event properly', () => {
     const envRoot = document.createElement('div');
     const App = () => {

@@ -1,6 +1,7 @@
 'use strict';
 
 const { getUpdatingOrgan, attach } = require('../../../moirai/Lakhesis');
+const { useMemo } = require('../../../use/base');
 const { applyAttrs } = require('./attrs');
 const { organDomMap } = require('../connect/map');
 
@@ -34,9 +35,9 @@ const parasitismFactory = tagName => {
 };
 
 const newOrganismByTag = tagName => props => {
-  const {children, ...attrs} = props || {};
+  const {children, style, ...attrs} = props || {};
   const parasitism = parasitismFactory(tagName);
-  attach(parasitism, attrs);
+  attach(parasitism, {...attrs, style: useMemo(style)});
   return children;
 };
 

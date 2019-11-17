@@ -56,27 +56,6 @@ describe('useOrgan & usePromise', () => {
     ]);
   });
 
-  it('should support jsx for useOrgan', () => {
-    const mockFn = jest.fn();
-    let lastSetX;
-    const OrganismToUse = ({initX}) => {
-      const [x, setX] = useState(initX);
-      lastSetX = setX;
-      return x;
-    };
-    const organism = () => {
-      const y = useOrgan(<OrganismToUse initX={2}/>);
-      return y;
-    };
-    const organ = create({organism});
-    organ.addListener(mockFn);
-    lastSetX(3);
-    expect(mockFn.mock.calls).toEqual([
-      [2],
-      [3],
-    ]);
-  });
-
   it('should get promise', done => {
     const mockFn = jest.fn();
     const checkExpectation = () => setTimeout(() => {

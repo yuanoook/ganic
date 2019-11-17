@@ -2,12 +2,7 @@
 
 const { create, attach } = require('../Ganic');
 
-const useOrgan = (desc, props) => {
-  let organism = desc;
-  if (typeof desc === 'object' && typeof desc.organism === 'function') {
-    organism = desc.organism;
-    props = desc.props;
-  }
+const useOrgan = (organism, props) => {
   return attach((deps, give, {handover: organ}) => {
     if (!organ) {
       organ = create({organism, props: deps}).addListener(give);

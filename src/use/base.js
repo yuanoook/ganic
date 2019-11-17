@@ -39,11 +39,13 @@ const useState = initState => {
   return attach(stateParasitism, initState);
 };
 
-const useEffect = (parasitism, deps) => {
-  const toTakeDeps = deps !== undefined ? deps : Math.random();
-  const toAttachParasitism = () => parasitism(deps);
-  return attach(toAttachParasitism, toTakeDeps);
-};
+const useEffect = (parasitism, dependencies) =>
+  attach(deps => {
+    const toDetach = parasitism(deps);
+    return () => {
+      toDetach();
+    };
+  }, dependencies);
 
 module.exports = {
   useRef,

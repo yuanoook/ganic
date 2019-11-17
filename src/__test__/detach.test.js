@@ -34,8 +34,7 @@ describe('parasite attach & detach', () => {
 
   it('should attach & detach properly with useEffect without deps', () => {
     const organism = () => useEffect(parasitism);
-    const expectation = [1, 2, 3, 4, 5];
-    createCheckWith3Randoms(organism, expectation.map(i => undefined));
+    createCheckWith3Randoms(organism, [1].map(i => undefined));
   });
 
   it('should attach & detach properly with useEffect with random deps', () => {

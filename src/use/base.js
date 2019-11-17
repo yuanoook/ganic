@@ -17,7 +17,7 @@ const useMemo = (fn, dependencies) => {
 };
 
 const useCallback = (fn, dependencies) =>
-  useMemo(deps => () => fn(deps), dependencies);
+  useMemo(deps => (...args) => fn(...args, deps), dependencies);
 
 const stateParasitism = function(deps, give) {
   let state = deps;

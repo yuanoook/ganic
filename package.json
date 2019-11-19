@@ -42,7 +42,7 @@
     "prettier": "node ./scripts/prettier/index.js write-changed",
     "prettier-all": "node ./scripts/prettier/index.js write",
 
-    "build": "jest && yarn lint && node ./scripts/rollup/index.js",
+    "build": "jest && yarn lint && node ./scripts/rollup/index.js"
   },
   "pre-commit": "lint",
   "repository": {

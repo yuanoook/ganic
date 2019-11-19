@@ -2,7 +2,6 @@
 **/node_modules
 
 # Build products
-build/
-fixtures/
+umd/
 
 rullup.config.js

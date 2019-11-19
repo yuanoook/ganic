@@ -39,7 +39,7 @@
     "lint": "node ./scripts/tasks/eslint.js",
     "prettier": "node ./scripts/prettier/index.js write-changed",
     "prettier-all": "node ./scripts/prettier/index.js write",
-    "build": "rollup -c --m && rollup -c"
+    "build": "rollup -c ./scripts/rollup/index.js"
   },
   "pre-commit": "lint",
   "repository": {

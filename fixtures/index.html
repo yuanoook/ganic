@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <p style="text-align: right;">
+    Test 
+    <select id="select">
+      <option value="https://unpkg.com/ganic/umd/ganic-production.js">https://unpkg.com/ganic/umd/ganic-production.js</option>
+      <option value="https://unpkg.com/ganic/umd/ganic-production.min.js">https://unpkg.com/ganic/umd/ganic-production.min.js</option>
+      <option value="../build/node_modules/ganic/umd/ganic-production.js">./ganic-production.js</option>
+      <option value="../build/node_modules/ganic/umd/ganic-production.min.js">./ganic-production.min.js</option>
+    </select>
+  </p>
+
+  <div id="app"></div>
+  <script>
+    window.select.value = localStorage.script || window.select.value;
+    window.select.onchange = function() {
+      localStorage.script = window.select.value;
+      window.location.reload();
+    };
+    document.write(`<script src='${localStorage.script || window.select.value}'><\/script>`);
+  </script>
+  <script>
+    const App = () => {
+      const [count, setCount] = Ganic.useState(1);
+      const [interval, setInterval] = Ganic.useState(100);
+      Ganic.useInterval(() => {
+        setCount(n => n + 1);
+        setInterval(n => n * 2);
+      }, interval);
+      const numbers = new Array(count >= 0 ? count : 0).join().split(',').map((x, i) => i);
+      const list = numbers.reverse().map(i => ({
+        organism: 'i',
+        props: { key: i, children: i }
+      }));
+      return [
+        numbers.reverse(),
+        { organism: 'br' },
+        list,
+        { organism: 'h1', props: {children: count}},
+        {
+          organism: 'button',
+          props: {
+            onClick: () => setCount(n => n + 1),
+            children: '+1'
+          }
+        },
+        {
+          organism: 'button',
+          props: {
+            onClick: () => setCount(n => n - 1),
+            children: '-1'
+          }
+        }
+      ];
+    };
+    Ganic.render({
+      organDesc: { organism: App },
+      envRoot: window.app
+    });
+  </script>
+</body>
+
+</html>

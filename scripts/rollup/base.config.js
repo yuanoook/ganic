@@ -1,10 +1,11 @@
-import commonjs from 'rollup-plugin-commonjs';
-import nodeResolve from 'rollup-plugin-node-resolve';
-import babel from 'rollup-plugin-babel';
-import minify from 'rollup-plugin-babel-minify';
+const commonjs = require('rollup-plugin-commonjs');
+const nodeResolve = require('rollup-plugin-node-resolve');
+const babel = require('rollup-plugin-babel');
+const minify = require('rollup-plugin-babel-minify');
 
-const rootPath = '';
-const input = `${rootPath}src/index.js`;
+const name = ['ganic'][0];
+const input = `packages/${name}/index.js`;
+const exportFile = `build/node_modules/${name}/umd/${name}`;
 
 const plugins = [
   nodeResolve({
@@ -23,7 +24,7 @@ const plugins = [
 ];
 
 const output = {
-  file: `${rootPath}umd/ganic-production.js`,
+  file: `${exportFile}-production.js`,
   format: 'umd',
   name: 'Ganic',
 };
@@ -41,11 +42,11 @@ const minified = {
   ]),
   output: {
     ...output,
-    file: `${rootPath}umd/ganic-production.min.js`,
+    file: `${exportFile}-production.min.js`,
   },
 };
 
-export default [
+module.exports = [
   normal,
   minified,
 ];

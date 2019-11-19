@@ -9,7 +9,7 @@
 // Files that are transformed and can use ES6/Flow/JSX.
 const esNextPaths = [
   // Internal forwarding modules
-  'src/**/*.js',
+  'packages/**/*.js',
 ];
 
 // Files that we distribute on npm that should be ES5-only.

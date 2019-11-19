@@ -13,7 +13,7 @@ const CLIEngine = require('eslint').CLIEngine;
 const listChangedFiles = require('../shared/listChangedFiles');
 
 const allPaths = [
-  './src/**/*.js',
+  './packages/**/*.js',
 ];
 
 let changedFiles = null;

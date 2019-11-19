@@ -1,8 +1,9 @@
 {
-  "name": "ganic",
-  "version": "1.4.13",
-  "description": "A cool organic programming javascript library",
-  "main": "src/index.js",
+  "private": true,
+  "version": "1.4.15",
+  "workspaces": [
+    "packages/*"
+  ],
   "devDependencies": {
     "@babel/plugin-transform-react-jsx": "^7.7.0",
     "@babel/preset-env": "^7.7.1",
@@ -33,23 +34,21 @@
   "scripts": {
     "test": "jest",
     "debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand",
-    "prepublishOnly": "jest && yarn lint && yarn build",
     "watch": "jest --watchAll",
+
     "linc": "node ./scripts/tasks/linc.js",
     "lint": "node ./scripts/tasks/eslint.js",
+
     "prettier": "node ./scripts/prettier/index.js write-changed",
     "prettier-all": "node ./scripts/prettier/index.js write",
-    "build": "rollup -c ./scripts/rollup/index.js"
+
+    "build": "jest && yarn lint && node ./scripts/rollup/index.js",
   },
   "pre-commit": "lint",
   "repository": {
     "type": "git",
     "url": "https://github.com/yuanoook/ganic.git"
   },
-  "keywords": [
-    "organic",
-    "ganic"
-  ],
   "author": "Rango Yuan",
   "license": "MIT"
 }

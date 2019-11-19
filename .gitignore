@@ -1,5 +1,12 @@
 build/
 node_modules/
+
 *.lock
-umd/*.js
-umd/*.js.map
+**/umd/*.js
+**/umd/*.js.map
+
+**/cjs/*.js
+**/cjs/*.js.map
+
+
+

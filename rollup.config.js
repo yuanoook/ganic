@@ -8,26 +8,26 @@ const min = process.argv[process.argv.length - 1] === '--m';
 
 let plugins = [
   nodeResolve({
-    mainFields: ['module', 'main', 'browser']
+    mainFields: ['module', 'main', 'browser'],
   }),
   commonjs({
-    exclude: [ 'node_modules/foo/**', 'node_modules/bar/**' ],
-    extensions: [ '.js' ],
+    exclude: ['node_modules/foo/**', 'node_modules/bar/**'],
+    extensions: ['.js'],
     ignoreGlobal: false,
     sourceMap: false,
-    ignore: [ 'conditional-runtime-dependency' ]
+    ignore: ['conditional-runtime-dependency'],
   }),
   babel({
-    exclude: 'node_modules/**'
-  })
+    exclude: 'node_modules/**',
+  }),
 ];
 
 plugins = min ? plugins.concat([
   minify({
     removeConsole: true,
     removeDebugger: true,
-    comments: false
-  })
+    comments: false,
+  }),
 ]) : plugins;
 
 export default {
@@ -35,7 +35,7 @@ export default {
   output: {
     file: `./umd/ganic-production${min ? '.min' : ''}.js`,
     format: 'umd',
-    name: 'Ganic'
+    name: 'Ganic',
   },
   plugins,
 };

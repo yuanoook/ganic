@@ -6,5 +6,5 @@
     "ganic-tree": "build/node_modules/ganic-tree",
     "ganic-dom": "build/node_modules/ganic-dom"
   },
-  "sandboxes": ["fixtures/sandbox"]
+  "sandboxes": [".codesandbox"]
 }

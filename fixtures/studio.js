@@ -5,8 +5,7 @@ window.studio = (() => {
     useOrgan,
     useInterval,
     useTimeout,
-    useThrottle,
-    useDebounce
+    useThrottle
   } = GanicUseX;
 
   const {

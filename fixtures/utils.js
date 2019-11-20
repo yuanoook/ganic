@@ -47,8 +47,11 @@ window.utils = (() => {
     const color = `rgb(${i % 255},${(i * 2) % 255},${(i * 3) % 255})`;
     return {
       organism: 'p',
-      style: { color },
-      key: i
+      props: {
+        style: { color },
+        key: i,
+        children: i
+      }
     };
   };
   
@@ -134,8 +137,10 @@ window.utils = (() => {
       () =>
         chunkBack(numbers, chunkSize).map((items, index, arr) => ({
           organism: 'div',
-          key: arr.length - index,
-          children: items,
+          props: {
+            key: arr.length - index,
+            children: items,
+          }
         })),
       useThrottle(count, delay)
     );
@@ -144,7 +149,8 @@ window.utils = (() => {
       organism: 'div',
       props: {
         style: {
-          height: "100px",
+          height: "150px",
+          paddingRight: '10px',
           overflow: "auto",
           background: "lightgray"
         },

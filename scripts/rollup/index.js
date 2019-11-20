@@ -11,14 +11,15 @@ const buildAll = async names => {
 };
 
 const syncFiles = async name => {
-  await bash(`cp -r ${sourceDir(name)}. ${targetDir(name)}`);
-  await bash(`cp -r ${sourceDir(name)}../shared/. ${targetDir(name)}`);
-};
-
-const mvVersionFile = async name => {
-  const dir = targetDir(name);
-  const dist = `${dir}package.json`;
-  await bash(`mv ${dir}package.json ${dist}`);
+  // await bash(`cp -r ${sourceDir(name)}. ${targetDir(name)}`);
+  await Promise.all([
+    'LICENSE',
+    'package.json',
+    'readme.md',
+    'index.js',
+  ].map(file =>
+    bash(`cp -r ${sourceDir(name)}../shared/${file} ${targetDir(name)}`)
+  ));
 };
 
 const updateVersion = async name => {
@@ -33,10 +34,19 @@ const updateVersion = async name => {
   );
 };
 
+const updateIndex = async name => {
+  const fs = require('fs');
+  const dist = require('path').resolve(__dirname, `../../build/node_modules/${name}/index.js`);
+  fs.writeFileSync(
+    dist,
+    fs.readFileSync(dist, {encoding: 'utf-8'}).replace(/\[name\]/g, name)
+  );
+};
+
 const afterBuild = async (name) => {
   await syncFiles(name);
-  await mvVersionFile(name);
   await updateVersion(name);
+  await updateIndex(name);
 }
 
 const start = async () => {

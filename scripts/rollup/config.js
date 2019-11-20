@@ -32,7 +32,9 @@ const getConfig = name => {
   const globals = globalsMap[name];
   const external = externalMap[name];
   const input = `packages/${name}/index.js`;
-  const exportFile = `build/node_modules/${name}/umd/${name}`;
+  const exportFile = (type, min) => `build/node_modules/${name}/${type}/${name}.${
+    min ? 'production.min' : 'development'
+  }.js`;
 
   const plugins = [
     nodeResolve({
@@ -45,40 +47,63 @@ const getConfig = name => {
       sourceMap: false,
       ignore: ['conditional-runtime-dependency'],
     }),
-    babel({
-      exclude: 'node_modules/**',
-    }),
+    babel(),
   ];
 
+  const productionPlugins = plugins.concat([
+    minify({
+      removeConsole: true,
+      removeDebugger: true,
+      comments: false,
+    }),
+  ]);
+
   const output = {
-    file: `${exportFile}-production.js`,
+    file: exportFile('umd', false),
     format: 'umd',
     name: nameMap[name],
     exports: 'named',
     globals,
   };
 
-  const normal = {external, input, plugins, output};
+  const umdDevelopment = {external, input, plugins, output};
 
-  const minified = {
+  const umdProduction = {
     external,
     input,
-    plugins: plugins.concat([
-      minify({
-        removeConsole: true,
-        removeDebugger: true,
-        comments: false,
-      }),
-    ]),
+    plugins: productionPlugins,
     output: {
       ...output,
-      file: `${exportFile}-production.min.js`,
+      file: exportFile('umd', true),
     },
   };
 
+  const cjsDevelopment = {
+    external,
+    input,
+    plugins,
+    output: {
+      ...output,
+      file: exportFile('cjs', false),
+      format: 'cjs',
+      globals: {}
+    }
+  };
+
+  const cjsProduction = {
+    ...cjsDevelopment,
+    plugins: productionPlugins,
+    output: {
+      ...cjsDevelopment.output,
+      file: exportFile('cjs', true)
+    }
+  }
+
   return [
-    normal,
-    minified,
+    umdDevelopment,
+    umdProduction,
+    cjsDevelopment,
+    cjsProduction,
   ];
 }
 

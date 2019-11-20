@@ -1,9 +1,9 @@
 {
   "packages": [
-    "packages/ganic",
-    "packages/ganic-usex",
-    "packages/ganic-tree",
-    "packages/ganic-dom"
+    "build/node_modules/ganic",
+    "build/node_modules/ganic-usex",
+    "build/node_modules/ganic-tree",
+    "build/node_modules/ganic-dom"
   ],
   "buildCommand": "rollup",
   "publishDirectory": {

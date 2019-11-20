@@ -14,17 +14,21 @@ It's very tiny, but very powerful.
 ```bash
 # with npm
 npm install ganic;
+npm install ganic-usex;
 
 # with yarn
 yarn add ganic;
+yarn add ganic-usex;
 ```
 
 Browser
 ```html
-<script src="https://unpkg.com/ganic/umd/ganic-production.min.js" />
+<script src="https://unpkg.com/ganic/umd/ganic.production.min.js" />
+<script src="https://unpkg.com/ganic-usex/umd/ganic-usex.production.min.js" />
 
 <script>
-  const {create, useState} = Ganic;
+  const {create} = Ganic;
+  const {useState} = GanicUseX;
   // ...
 </script>
 ```

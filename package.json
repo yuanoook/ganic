@@ -32,6 +32,7 @@
     "rollup-plugin-strip-banner": "^0.2.0"
   },
   "scripts": {
+    "postinstall": "node ./scripts/tasks/postinstall.js",
     "test": "jest",
     "debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand",
     "watch": "jest --watchAll",
@@ -42,7 +43,8 @@
     "prettier": "node ./scripts/prettier/index.js write-changed",
     "prettier-all": "node ./scripts/prettier/index.js write",
 
-    "build": "jest && yarn lint && node ./scripts/rollup/index.js"
+    "rollup": "node ./scripts/rollup/index.js",
+    "build": "jest && yarn lint && yarn rollup"
   },
   "pre-commit": "lint",
   "repository": {

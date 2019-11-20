@@ -1,12 +1,15 @@
-const names = ['ganic'];
-
-const bash = require('util').promisify(require('child_process').exec);
+const {bash, getPackages} = require('../shared/utils');
+const {getConfig} = require('./config');
 const rootPath = process.cwd().replace('\\','/').replace(/^([A-Z]):/, (m,A_Z) => '/' + A_Z.toLowerCase());
 
 const sourceDir = name => `${rootPath}/packages/${name}/`;
 const targetDir = name => `${rootPath}/build/node_modules/${name}/`;
 const buildOne = async c => await (await require('rollup').rollup(c)).write(c.output);
-const buildAll = async () => Promise.all(require('./base.config').map(buildOne));
+const buildAll = async names => {
+  const configs = names.reduce((list, name) => [...list, ...getConfig(name)], []);
+  Promise.all(configs.map(buildOne));
+};
+
 const syncFiles = async name => {
   await bash(`cp -r ${sourceDir(name)}. ${targetDir(name)}`);
   await bash(`cp -r ${sourceDir(name)}../shared/. ${targetDir(name)}`);
@@ -21,6 +24,7 @@ const mvVersionFile = async name => {
 const updateVersion = async name => {
   const dist = `../../build/node_modules/${name}/package.json`;
   const obj = require(dist);
+  obj.name = name;
   obj.version = require('../../package.json').version;
   obj.repository.directory = obj.repository.directory.replace(/[^\/]+$/, name);
   require('fs').writeFileSync(
@@ -36,7 +40,8 @@ const afterBuild = async (name) => {
 }
 
 const start = async () => {
-  await buildAll();
+  const names = await getPackages();
+  await buildAll(names);
   await Promise.all(names.map(afterBuild));
 }
 

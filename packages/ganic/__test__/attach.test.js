@@ -1,5 +1,5 @@
 
-const {create, attach} = require('../Ganic');
+const {create, attach} = require('ganic');
 
 describe('attach in Ganic', () => {
   it('should get different parasite from different organism', () => {

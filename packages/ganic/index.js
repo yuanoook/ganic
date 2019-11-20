@@ -1,48 +1,15 @@
-
-const { create, attach, render } = require('./Ganic');
-
-const {
-  useRef,
-  useMemo,
-  useCallback,
-  useState,
-  useEffect,
-
-  useTimeout,
-  useInterval,
-
-  useDebounce,
-  useThrottle,
-
-  useOrgan,
-  usePromise,
-} = require('./use');
-
+const { Organ } = require('./lab/Organ');
+const { create } = require('./moirai/Klotho');
+const Lakhesis = require('./moirai/Lakhesis');
+const { attach, getUpdatingOrgan } = Lakhesis;
 const { Fragment, createElement } = require('./lab/JSXparser');
 
 module.exports = {
+  Organ,
+  create,
+  attach,
+  getUpdatingOrgan,
+  getGivingParasite: () => Lakhesis.givingParasite,
   Fragment,
   createElement,
-
-  create,
-  render,
-
-  // attach, to design useX - Composite Parasite Maker
-  attach,
-
-  // useX - Composite Parasite Maker, to design organism
-  useRef,
-  useMemo,
-  useCallback,
-  useState,
-  useEffect,
-
-  useTimeout,
-  useInterval,
-
-  useDebounce,
-  useThrottle,
-
-  useOrgan,
-  usePromise,
 };

@@ -1,5 +1,5 @@
 const {bash, getPackages} = require('../shared/utils');
-const {getConfig, externalMap} = require('./config');
+const {getConfig} = require('./config');
 const rootPath = process.cwd().replace('\\','/').replace(/^([A-Z]):/, (m,A_Z) => '/' + A_Z.toLowerCase());
 
 const sourceDir = name => `${rootPath}/packages/${name}/`;
@@ -11,28 +11,14 @@ const buildAll = async names => {
 };
 
 const syncFiles = async name => {
-  // await bash(`cp -r ${sourceDir(name)}. ${targetDir(name)}`);
+  await bash(`cp -r ${sourceDir(name)}package.json ${targetDir(name)}package.json`);
   await Promise.all([
     'LICENSE',
-    'package.json',
     'readme.md',
     'index.js',
   ].map(file =>
     bash(`cp -r ${sourceDir(name)}../shared/${file} ${targetDir(name)}`)
   ));
-};
-
-const updatePackageJson = async name => {
-  const dist = `../../build/node_modules/${name}/package.json`;
-  const obj = require(dist);
-  obj.name = name;
-  obj.version = require('../../package.json').version;
-  obj.repository.directory = obj.repository.directory.replace(/[^\/]+$/, name);
-  obj.dependencies = externalMap[name].reduce((deps, depName) => ({...deps, [depName]: 'latest'}), {});
-  require('fs').writeFileSync(
-    require('path').resolve(__dirname, dist),
-    JSON.stringify(obj, null, 2)
-  );
 };
 
 const updateIndex = async name => {
@@ -46,7 +32,6 @@ const updateIndex = async name => {
 
 const afterBuild = async (name) => {
   await syncFiles(name);
-  await updatePackageJson(name);
   await updateIndex(name);
 }
 

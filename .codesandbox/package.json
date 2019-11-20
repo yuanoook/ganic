@@ -1,7 +1,7 @@
 {
-  "name": "ganic",
-  "version": "1.0.0",
-  "description": "",
+  "name": "ganic-codesandbox",
+  "version": "2.0.0",
+  "description": "A cool organic programming javascript library",
   "main": "index.html",
   "scripts": {
     "start": "parcel index.html --open",
@@ -9,9 +9,9 @@
   },
   "dependencies": {
     "@babel/core": "7.7.2",
-    "ganic": "2.0.0",
-    "ganic-dom": "2.0.0",
-    "ganic-usex": "2.0.0"
+    "ganic": "latest",
+    "ganic-dom": "latest",
+    "ganic-usex": "latest"
   },
   "devDependencies": {
     "parcel-bundler": "^1.6.1"

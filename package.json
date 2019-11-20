@@ -51,6 +51,11 @@
     "type": "git",
     "url": "https://github.com/yuanoook/ganic.git"
   },
+  "jest": {
+    "modulePathIgnorePatterns": [
+      ".codesandbox/"
+    ]
+  },
   "author": "Rango Yuan",
   "license": "MIT"
 }

@@ -7,7 +7,7 @@ const targetDir = name => `${rootPath}/build/node_modules/${name}/`;
 const buildOne = async c => await (await require('rollup').rollup(c)).write(c.output);
 const buildAll = async names => {
   const configs = names.reduce((list, name) => [...list, ...getConfig(name)], []);
-  Promise.all(configs.map(buildOne));
+  await Promise.all(configs.map(buildOne));
 };
 
 const syncFiles = async name => {

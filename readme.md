@@ -21,10 +21,12 @@ yarn add ganic;
 
 Browser
 ```html
-<script src="https://unpkg.com/ganic/umd/ganic-production.min.js" />
+<script src="https://unpkg.com/ganic/umd/ganic.production.min.js" />
+<script src="https://unpkg.com/ganic-usex/umd/ganic-usex.production.min.js" />
 
 <script>
-  const {create, useState} = Ganic;
+  const {create} = Ganic;
+  const {useState} = GanicUseX;
   // ...
 </script>
 ```

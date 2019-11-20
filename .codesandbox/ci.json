@@ -1,10 +1,4 @@
 {
-  "packages": [
-    "packages/ganic",
-    "packages/ganic-usex",
-    "packages/ganic-tree",
-    "packages/ganic-dom"
-  ],
   "buildCommand": "rollup",
   "publishDirectory": {
     "ganic": "build/node_modules/ganic",
@@ -12,5 +6,5 @@
     "ganic-tree": "build/node_modules/ganic-tree",
     "ganic-dom": "build/node_modules/ganic-dom"
   },
-  "sandboxes": ["new"]
+  "sandboxes": ["fixtures/sandbox"]
 }

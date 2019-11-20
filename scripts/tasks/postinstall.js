@@ -4,7 +4,7 @@ const { getPackages } = require('../shared/utils');
 
 const source = name => path.resolve(`packages/${name}`);
 const link = name => path.resolve(`node_modules/${name}`);
-const unlink = name => fs.unlinkSync(link(name));
+const unlink = name => {try{ fs.unlinkSync(link(name)) }catch(e){}};
 const symlink = name => fs.symlinkSync(source(name), link(name), 'junction');
 
 const start = async () => {

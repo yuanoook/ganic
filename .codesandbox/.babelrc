@@ -1,0 +1,22 @@
+{
+  "presets": [
+    "env"
+  ],
+  "plugins": [
+    [
+      "transform-react-jsx",
+      {
+        "pragma": "Ganic.createElement",
+        "pragmaFrag": "Ganic.Fragment",
+        "throwIfNamespace": false
+      }
+    ],
+    [
+      "transform-runtime",
+      {
+        "regenerator": true
+      }
+    ]
+  ],
+  "parserOpts": {}
+}

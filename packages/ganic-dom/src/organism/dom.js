@@ -1,6 +1,4 @@
-
 const { getUpdatingOrgan, attach } = require('ganic');
-const { useMemo } = require('ganic-usex');
 const { applyAttrs } = require('./attrs');
 const { organDomMap } = require('../connect/map');
 
@@ -36,7 +34,7 @@ const parasitismFactory = tagName => {
 const newOrganismByTag = tagName => props => {
   const {children, style, ...attrs} = props || {};
   const parasitism = parasitismFactory(tagName);
-  attach(parasitism, {...attrs, style: useMemo(style)});
+  attach(parasitism, {...attrs, style: attach(style, style)});
   return children;
 };
 

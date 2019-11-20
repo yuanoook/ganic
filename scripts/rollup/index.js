@@ -1,5 +1,5 @@
 const {bash, getPackages} = require('../shared/utils');
-const {getConfig} = require('./config');
+const {getConfig, externalMap} = require('./config');
 const rootPath = process.cwd().replace('\\','/').replace(/^([A-Z]):/, (m,A_Z) => '/' + A_Z.toLowerCase());
 
 const sourceDir = name => `${rootPath}/packages/${name}/`;
@@ -28,6 +28,7 @@ const updateVersion = async name => {
   obj.name = name;
   obj.version = require('../../package.json').version;
   obj.repository.directory = obj.repository.directory.replace(/[^\/]+$/, name);
+  obj.dependencies = externalMap[name];
   require('fs').writeFileSync(
     require('path').resolve(__dirname, dist),
     JSON.stringify(obj, null, 2)

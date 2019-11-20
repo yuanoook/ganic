@@ -14,9 +14,11 @@ It's very tiny, but very powerful.
 ```bash
 # with npm
 npm install ganic;
+npm install ganic-usex;
 
 # with yarn
 yarn add ganic;
+yarn add ganic-usex;
 ```
 
 Browser

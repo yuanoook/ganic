@@ -20,69 +20,11 @@
       <option value="production.min">production</option>
     </select>
   </p>
-
-  <script>
-    window.place.onchange = function() {
-      localStorage.place = window.place.value;
-      window.location.reload();
-    };
-    window.env.onchange = function() {
-      localStorage.env = window.env.value;
-      window.location.reload();
-    };
-    window.place.value = localStorage.place || window.place.value;
-    window.env.value = localStorage.env || window.env.value;
-
-    const host = window.place.value === 'local'
-      ? '../build/node_modules/'
-      : 'https://unpkg.com/';
-
-    const srcs = ['ganic', 'ganic-usex', 'ganic-dom'].map(name =>
-      `${host}${name}/umd/${name}.${window.env.value}.js`
-    );
-
-    srcs.map(src => {
-      document.write(`<script src='${src}'><\/script>`);
-      document.write(`<div><a href='${src}'>${src}<\/a></div>`);
-    });
-  </script>
+  <script src='./select.js'></script>
   <div id="app" style="margin-top: 20px;"></div>
-  <script>
-    const App = () => {
-      const [count, setCount] = GanicUseX.useState(1);
-      const [interval, setInterval] = GanicUseX.useState(1);
-      GanicUseX.useInterval(() => {
-        setCount(n => n + 1);
-        setInterval(n => n * 1.1);
-      }, interval);
-      const numbers = new Array(count >= 0 ? count : 0).join().split(',').map((x, i) => i);
-      const list = numbers.reverse().map(i => ({
-        organism: 'i',
-        props: { key: i, children: i }
-      }));
-      return [
-        numbers.reverse(),
-        { organism: 'br' },
-        list,
-        { organism: 'h1', props: {children: count}},
-        {
-          organism: 'button',
-          props: {
-            onClick: () => setCount(n => n + 1),
-            children: '+1'
-          }
-        },
-        {
-          organism: 'button',
-          props: {
-            onClick: () => setCount(n => n - 1),
-            children: '-1'
-          }
-        }
-      ];
-    };
-    GanicDOM.render({ organism: App }, window.app);
-  </script>
+  <script src='./utils.js'></script>
+  <script src='./studio.js'></script>
+  <script src='./app.js'></script>
 </body>
 
 </html>

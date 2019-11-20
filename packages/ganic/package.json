@@ -1,5 +1,6 @@
 {
   "name": "ganic",
+  "version": "2.0.0",
   "description": "A cool organic programming javascript library",
   "main": "index.js",
   "repository": {
@@ -15,6 +16,5 @@
     "ganic"
   ],
   "author": "Rango Yuan",
-  "license": "MIT",
-  "version": "2.0.0"
+  "license": "MIT"
 }

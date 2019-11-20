@@ -1,0 +1,23 @@
+{
+  "name": "ganic-usex",
+  "description": "A cool organic programming javascript library",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yuanoook/ganic.git",
+    "directory": "packages/ganic-usex"
+  },
+  "bugs": {
+    "url": "https://github.com/facebook/ganic/issues"
+  },
+  "homepage": "https://ganicjs.com/",
+  "keywords": [
+    "ganic"
+  ],
+  "dependencies": {
+    "ganic": "latest"
+  },
+  "author": "Rango Yuan",
+  "license": "MIT",
+  "version": "2.0.0"
+}

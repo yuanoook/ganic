@@ -8,8 +8,8 @@
   <title>Ganic</title>
 </head>
 
-<body>
-  <p style="text-align: right;">
+<body style="text-align: right;">
+  <p>
     Test
     <select id="place">
       <option value="unpkg">unpkg</option>
@@ -19,16 +19,8 @@
       <option value="development">development</option>
       <option value="production.min">production</option>
     </select>
-
-    <select id="select">
-      <option value="https://unpkg.com/ganic/umd/ganic.development.js">https://unpkg.com/ganic/umd/ganic.development.js</option>
-      <option value="https://unpkg.com/ganic/umd/ganic.production.min.js">https://unpkg.com/ganic/umd/ganic.production.min.js</option>
-      <option value="../build/node_modules/ganic/umd/ganic.development.js">./ganic.development.js</option>
-      <option value="../build/node_modules/ganic/umd/ganic.production.min.js">./ganic.production.min.js</option>
-    </select>
   </p>
 
-  <div id="app" style="text-align: right;"></div>
   <script>
     window.place.onchange = function() {
       localStorage.place = window.place.value;
@@ -38,21 +30,23 @@
       localStorage.env = window.env.value;
       window.location.reload();
     };
-    window.place.value = localStorage.script || window.place.value;
-    window.env.value = localStorage.script || window.env.value;
+    window.place.value = localStorage.place || window.place.value;
+    window.env.value = localStorage.env || window.env.value;
 
     const host = window.place.value === 'local'
       ? '../build/node_modules/'
       : 'https://unpkg.com/';
 
-    const srcs = ['ganic', 'ganic-dom', 'ganic-usex'].map(name =>
+    const srcs = ['ganic', 'ganic-usex', 'ganic-dom'].map(name =>
       `${host}${name}/umd/${name}.${window.env.value}.js`
     );
 
-    srcs.map(src =>
-      document.write(`<script src='${src}'><\/script>`)
-    );
+    srcs.map(src => {
+      document.write(`<script src='${src}'><\/script>`);
+      document.write(`<div><a href='${src}'>${src}<\/a></div>`);
+    });
   </script>
+  <div id="app" style="margin-top: 20px;"></div>
   <script>
     const App = () => {
       const [count, setCount] = GanicUseX.useState(1);

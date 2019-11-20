@@ -22,13 +22,13 @@ const syncFiles = async name => {
   ));
 };
 
-const updateVersion = async name => {
+const updatePackageJson = async name => {
   const dist = `../../build/node_modules/${name}/package.json`;
   const obj = require(dist);
   obj.name = name;
   obj.version = require('../../package.json').version;
   obj.repository.directory = obj.repository.directory.replace(/[^\/]+$/, name);
-  obj.dependencies = externalMap[name];
+  obj.dependencies = externalMap[name].reduce((deps, depName) => ({...deps, [depName]: 'latest'}), {});
   require('fs').writeFileSync(
     require('path').resolve(__dirname, dist),
     JSON.stringify(obj, null, 2)
@@ -46,7 +46,7 @@ const updateIndex = async name => {
 
 const afterBuild = async (name) => {
   await syncFiles(name);
-  await updateVersion(name);
+  await updatePackageJson(name);
   await updateIndex(name);
 }
 

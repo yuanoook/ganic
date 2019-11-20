@@ -108,5 +108,6 @@ const getConfig = name => {
 }
 
 module.exports = {
-  getConfig
+  getConfig,
+  externalMap,
 };

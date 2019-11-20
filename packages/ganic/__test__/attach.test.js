@@ -1,4 +1,3 @@
-
 const {create, attach} = require('ganic');
 
 describe('attach in Ganic', () => {

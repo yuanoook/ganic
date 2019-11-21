@@ -44,7 +44,8 @@
     "prettier-all": "node ./scripts/prettier/index.js write",
 
     "rollup": "node ./scripts/rollup/index.js",
-    "build": "jest && yarn lint && yarn rollup"
+    "build": "jest && yarn lint && yarn rollup",
+    "ci": "node ./scripts/tasks/prejest.js && yarn build"
   },
   "pre-commit": "lint",
   "repository": {

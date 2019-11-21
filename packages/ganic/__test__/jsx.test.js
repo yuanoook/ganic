@@ -1,4 +1,4 @@
-const Ganic = require('../index');
+const Ganic = require('ganic');
 const {attach} = Ganic;
 const {render} = require('ganic-dom');
 

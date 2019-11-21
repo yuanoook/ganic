@@ -1,5 +1,4 @@
-
-const Ganic = require('../index');
+const Ganic = require('ganic');
 const {create, attach} = Ganic;
 
 const {ASYNC_GIVE_AFTER_DETACH_ERROR_MESSAGE, LEAVE_HANDOVER_AT_THE_ENDING} = require('../lab/Parasite');

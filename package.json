@@ -35,14 +35,15 @@
     "ci": "yarn build",
     "test": "yarn pretest && jest",
 
-    "build": "yarn test && yarn lint && yarn rollup",
+    "build": "yarn prebuild && yarn test && yarn lint && yarn rollup",
     "rollup": "node ./scripts/rollup/index.js",
 
     "debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand",
     "watch": "jest --watchAll",
 
-    "postinstall": "node ./scripts/tasks/postinstall.js",
+    "prebuild": "rm -rf ./build",
     "pretest": "node ./scripts/tasks/prejest.js",
+    "postinstall": "node ./scripts/tasks/postinstall.js",
 
     "linc": "node ./scripts/tasks/linc.js",
     "lint": "node ./scripts/tasks/eslint.js",

@@ -45,7 +45,7 @@
 
     "rollup": "node ./scripts/rollup/index.js",
     "build": "jest && yarn lint && yarn rollup",
-    "ci": "yarn build"
+    "ci": "node ./scripts/tasks/prejest.js && yarn build"
   },
   "pre-commit": "lint",
   "repository": {

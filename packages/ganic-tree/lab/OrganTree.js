@@ -3,13 +3,6 @@ const { OrganNode } = require('./OrganNode');
 const { OrganLeaf } = require('./OrganLeaf');
 const { createNode, List } = require('./utils');
 
-/**
- * OrganTree connects the root OrganNode with the environment
- * It takes environment configuration
- *    basic platform-native-organism
- *    they environment proxy
- */
-
 class OrganTree {
   constructor({organDesc, envRoot, envRunner}) {
     this.setUp({

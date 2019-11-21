@@ -1,4 +1,4 @@
-const {create, attach} = require('../index');
+const {create, attach} = require('ganic');
 const {useEffect} = require('ganic-usex');
 const {ASYNC_GIVE_IN_DETACH_ERROR_MESSAGE} = require('../lab/Parasite');
 

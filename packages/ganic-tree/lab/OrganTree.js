@@ -11,11 +11,11 @@ const { createNode, List } = require('./utils');
  */
 
 class OrganTree {
-  constructor({organDesc, envRoot, envUtils}) {
+  constructor({organDesc, envRoot, envRunner}) {
     this.setUp({
       organDesc,
       envRoot,
-      envUtils,
+      envRunner,
     });
     this.grow();
   }
@@ -25,7 +25,7 @@ class OrganTree {
       organDesc: null,
       trunkNode: null,
       envRoot: null,
-      envUtils: null,
+      envRunner: null,
     }, config);
   }
   update(organDesc) {

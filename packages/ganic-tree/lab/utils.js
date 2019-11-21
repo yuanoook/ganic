@@ -5,7 +5,7 @@ const getUtilsByDesc = ({ organism } = {}, tree) => {
     return { organism };
   }
   if (tree && typeof organism === 'string') {
-    return tree.envUtils.getTagUtils(organism);
+    return tree.envRunner.getTagkit(organism);
   }
 };
 

@@ -33,13 +33,11 @@
   },
   "scripts": {
     "ci": "yarn build",
+    "watch": "jest --watchAll",
     "test": "yarn pretest && jest",
 
     "build": "yarn prebuild && yarn test && yarn lint && yarn rollup",
     "rollup": "node ./scripts/rollup/index.js",
-
-    "debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand",
-    "watch": "jest --watchAll",
 
     "prebuild": "rm -rf ./build",
     "pretest": "node ./scripts/tasks/prejest.js",
@@ -49,7 +47,8 @@
     "lint": "node ./scripts/tasks/eslint.js",
 
     "prettier": "node ./scripts/prettier/index.js write-changed",
-    "prettier-all": "node ./scripts/prettier/index.js write"
+    "prettier-all": "node ./scripts/prettier/index.js write",
+    "debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand"
   },
   "pre-commit": "lint",
   "repository": {

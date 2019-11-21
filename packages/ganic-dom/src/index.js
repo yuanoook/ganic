@@ -3,7 +3,7 @@ const { getOrganismByTag } = require('./organism');
 const { setUpNode, relocate } = require('./connect/node');
 const { updateLeaf, vanishLeaf } = require('./connect/leaf');
 
-const getTagUtils = tagName => {
+const getTagkit = tagName => {
   return {
     organism: getOrganismByTag(tagName),
     onReady: node => {
@@ -13,16 +13,16 @@ const getTagUtils = tagName => {
   };
 };
 
-const onUpdated = () => {
+const onSettled = () => {
   // TODO: batch clearing job
 };
 
 module.exports = {
-  getTagUtils,
+  getTagkit,
 
   updateLeaf,
   vanishLeaf,
 
-  onUpdated,
+  onSettled,
   relocate,
 };

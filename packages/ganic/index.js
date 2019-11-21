@@ -1,7 +1,6 @@
 const { Organ } = require('./lab/Organ');
-const { create } = require('./moirai/Klotho');
-const Lakhesis = require('./moirai/Lakhesis');
-const { attach, getUpdatingOrgan, getGivingParasite } = Lakhesis;
+const { create, attach } = require('./moirai/Klotho');
+const { getUpdatingOrgan, getGivingParasite } = require('./moirai/Lakhesis');
 const { Fragment, createElement } = require('./lab/JSXparser');
 
 module.exports = {
@@ -9,6 +8,7 @@ module.exports = {
   createElement,
 
   Organ,
+
   create,
   attach,
 

@@ -12,14 +12,6 @@ const clearUpdatingOrgan = organ => {
 };
 const getUpdatingOrgan = () => updatingOrgans[updatingOrgans.length - 1];
 
-const attach = function(parasitism, deps, firstValue) {
-  const updatingOrgan = getUpdatingOrgan();
-  if (!updatingOrgan) {
-    throw new Error("Don't use ATTACH outside of organism!");
-  }
-  return updatingOrgan.attach(parasitism, deps, firstValue);
-};
-
 let givingParasite;
 const setGivingParasite = parasite => {
   givingParasite = parasite;
@@ -28,8 +20,6 @@ const getGivingParasite = () => givingParasite;
 const clearGivingParasite = () => setGivingParasite(null);
 
 module.exports = {
-  attach,
-
   setUpdatingOrgan,
   getUpdatingOrgan,
   clearUpdatingOrgan,

@@ -145,7 +145,7 @@ class OrganNode extends Connector {
         isLast: index === this.descKeys.length - 1,
         preSibling,
       });
-      this.tree.envUtils.relocate(child);
+      this.tree.envRunner.relocate(child);
     }
   }
 

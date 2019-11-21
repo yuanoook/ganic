@@ -1,6 +1,6 @@
 const nullFn = () => null;
 
-const getTagUtils = () => {
+const getTagkit = () => {
   return {
     organism: nullFn,
     onReady: nullFn,
@@ -8,7 +8,7 @@ const getTagUtils = () => {
 };
 
 module.exports = {
-  getTagUtils,
+  getTagkit,
 
   updateLeaf: nullFn,
   vanishLeaf: nullFn,

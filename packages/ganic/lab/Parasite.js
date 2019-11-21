@@ -56,7 +56,7 @@ class Parasite {
     if (this.detaching) {
       throw new Error(ASYNC_GIVE_IN_DETACH_ERROR_MESSAGE);
     }
-    Lakhesis.givingParasite = this;
+    Lakhesis.setGivingParasite(this);
 
     const oldValue = this.value;
     this.setValue(value);
@@ -66,7 +66,7 @@ class Parasite {
       this.organ.update();
     }
 
-    Lakhesis.givingParasite = null;
+    Lakhesis.clearGivingParasite();
     return this;
   }
   receiveDeps(deps) {

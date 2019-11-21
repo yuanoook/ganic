@@ -23,7 +23,7 @@ class OrganLeaf extends Connector {
   }
   update() {
     if (this.tree) {
-      this.tree.envUtils.updateLeaf(this);
+      this.tree.envRunner.updateLeaf(this);
     }
   }
   receive(value) {
@@ -35,7 +35,7 @@ class OrganLeaf extends Connector {
 
   vanish() {
     if (this.tree) {
-      this.tree.envUtils.vanishLeaf(this);
+      this.tree.envRunner.vanishLeaf(this);
     }
     super.vanish();
     this.clearUp();

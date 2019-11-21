@@ -1,6 +1,4 @@
-
 const updatingOrgans = [];
-
 const setUpdatingOrgan = organ => updatingOrgans.push(organ);
 const clearUpdatingOrgan = organ => {
   const index = updatingOrgans.indexOf(organ);
@@ -12,7 +10,6 @@ const clearUpdatingOrgan = organ => {
   }
   updatingOrgans.splice(updatingOrgans.indexOf(organ));
 };
-
 const getUpdatingOrgan = () => updatingOrgans[updatingOrgans.length - 1];
 
 const attach = function(parasitism, deps, firstValue) {
@@ -23,11 +20,21 @@ const attach = function(parasitism, deps, firstValue) {
   return updatingOrgan.attach(parasitism, deps, firstValue);
 };
 
-module.exports = {
-  setUpdatingOrgan,
-  clearUpdatingOrgan,
-  getUpdatingOrgan,
-  givingParasite: null,
+let givingParasite;
+const setGivingParasite = parasite => {
+  givingParasite = parasite;
+};
+const getGivingParasite = () => givingParasite;
+const clearGivingParasite = () => setGivingParasite(null);
 
+module.exports = {
   attach,
+
+  setUpdatingOrgan,
+  getUpdatingOrgan,
+  clearUpdatingOrgan,
+
+  setGivingParasite,
+  getGivingParasite,
+  clearGivingParasite,
 };

@@ -24,10 +24,13 @@ const Item = ({ id, title, done, editing, removeItem, updateItem }) => {
     inputRef.current.focus();
   };
   return (
-    <li class={`${editing ? "editing" : ""} ${done ? "completed" : ""}`}>
+    <li class={{
+      editing,
+      completed: done
+    }}>
       <div class="view">
         <input
-          onClick={() => updateItem(id, { done: true })}
+          onClick={() => updateItem(id, {done: !done})}
           class="toggle"
           type="checkbox"
           checked={done}

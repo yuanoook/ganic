@@ -4,6 +4,7 @@
   "description": "A cool organic programming javascript library",
   "main": "index.html",
   "scripts": {
+    "local": "yarn sync-build && yarn start",
     "start": "parcel index.html --open",
     "build": "parcel build index.html",
     "sync-build": "cp -rf ../../build/node_modules/* ./node_modules/"

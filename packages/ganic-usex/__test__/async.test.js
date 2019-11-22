@@ -1,6 +1,6 @@
 const Ganic = require('ganic');
-const {create, getUpdatingOrgan} = Ganic;
-const {useOrgan, usePromise, useState} = require('../index');
+const {create, getUpdatingOrgan, getGivingParasite, getAllGivingParasites} = Ganic;
+const {useOrgan, usePromise, useState, useTimeout} = require('../index');
 
 describe('useOrgan & usePromise', () => {
   it('should not report Error calling attach after useOrgan', () => {
@@ -19,7 +19,7 @@ describe('useOrgan & usePromise', () => {
     };
 
     const organ = create({organism});
-    expect(getUpdatingOrgan()).toBe(undefined);
+    expect(getUpdatingOrgan()).toBe(null);
 
     expect(organ0).not.toBe(organ1);
     expect(organ1).not.toBe(organ2);
@@ -30,6 +30,33 @@ describe('useOrgan & usePromise', () => {
     expect(organ1.organism).toBe(null);
     expect(organ2.organism).toBe(null);
     expect(organ3.organism).toBe(null);
+  });
+
+  it('should allow nested parasites in nested organs', done => {
+    let parasiteBOut, parasiteBIn;
+    const checkExpectation = () => {
+      const updatingParasites = getAllGivingParasites();
+      expect(updatingParasites.length).toBe(2);
+      expect(updatingParasites[0]).toBe(parasiteBIn);
+      expect(updatingParasites[1]).toBe(parasiteBOut);
+      done();
+    };
+    const organismB = () => {
+      const [b, setB] = useState(0);
+      useTimeout(() => setB(1), 30);
+      if (b === 1) {
+        parasiteBIn = getGivingParasite();
+      }
+      return b;
+    };
+    const organism = () => {
+      const givenB = useOrgan(organismB);
+      if (givenB === 1) {
+        parasiteBOut = getGivingParasite();
+        checkExpectation();
+      }
+    };
+    create({organism});
   });
 
   it('should use the data from organ rightly with useOrgan', () => {

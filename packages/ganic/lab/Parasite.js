@@ -66,7 +66,7 @@ class Parasite {
       this.organ.update();
     }
 
-    Lakhesis.clearGivingParasite();
+    Lakhesis.clearGivingParasite(this);
     return this;
   }
   receiveDeps(deps) {

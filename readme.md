@@ -7,7 +7,7 @@ You are not limited to only **use Hooks** in React UI development. Ganic can wor
 It's very tiny, but very powerful.
 
 ### DEMO
-1. https://codesandbox.io/s/ganic-hb2r1
+1. https://codesandbox.io/s/ganic-3hhbg
 2. https://yuanoook.com/
 
 ## How to use?

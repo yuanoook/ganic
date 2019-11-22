@@ -1,6 +1,6 @@
 const List = props => props;
 
-const getUtilsByDesc = ({ organism } = {}, tree) => {
+const getOrganKit = ({ organism } = {}, tree) => {
   if (typeof organism === 'function') {
     return { organism };
   }
@@ -22,7 +22,7 @@ const createNode = ({
   key,
   relationship,
 }) => {
-  let { organism, onReady } = getUtilsByDesc(desc, tree) || {};
+  let { organism, onReady } = getOrganKit(desc, tree) || {};
   let node;
   if (organism) {
     node = new OrganNode({
@@ -47,6 +47,6 @@ const createNode = ({
 
 module.exports = {
   List,
-  getUtilsByDesc,
+  getOrganKit,
   createNode,
 };

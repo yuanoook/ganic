@@ -8,7 +8,7 @@ const useRef = () => useMemo(() => {
 
 const useMemo = (fn, dependencies) => {
   if (typeof fn !== 'function') {
-    return attach(fn, dependencies === undefined ? fn : dependencies);
+    return attach(fn, dependencies);
   }
   const parasitism = (deps, give) => give(fn(deps));
   return attach(parasitism, dependencies);

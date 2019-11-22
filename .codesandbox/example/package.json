@@ -1,6 +1,6 @@
 {
   "name": "ganic-codesandbox",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A cool organic programming javascript library",
   "main": "index.html",
   "scripts": {
@@ -11,10 +11,10 @@
   },
   "dependencies": {
     "@babel/core": "^7.0.0-0",
-    "ganic": "latest",
-    "ganic-dom": "latest",
-    "ganic-usex": "latest",
-    "todomvc-app-css": "latest"
+    "ganic": "2.1.0",
+    "ganic-dom": "2.1.0",
+    "ganic-usex": "2.1.0",
+    "todomvc-app-css": "1.1.1"
   },
   "devDependencies": {
     "@babel/plugin-transform-runtime": "^7.6.2",

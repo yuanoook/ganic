@@ -48,7 +48,7 @@ class OrganNode extends Connector {
     this.descs.forEach(this.updateChild);
 
     this.updating = false;
-    if (!this.parent || !this.parent.updating) {
+    if ((!this.parent || !this.parent.updating) && this.tree) {
       this.tree.envRunner.onSettled(this);
     }
   }

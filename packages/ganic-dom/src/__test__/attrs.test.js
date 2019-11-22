@@ -31,20 +31,20 @@ describe('basic attrs', () => {
         inputRef.current.focus();
       };
       return <>
-        <input ref={inputRef} value={count} />
+        <input ref={inputRef} ivalue={count} />
         <button onClick={onButtonClick}>{count}</button>
       </>;
     };
     const tree = render(<App />, envRoot);
 
-    expect(envRoot.innerHTML).toBe('<input value="1"><button>1</button>');
+    expect(envRoot.innerHTML).toBe('<input ivalue="1"><button>1</button>');
     expect(envRoot.textContent).toBe('1');
 
     envRoot.querySelector('button').dispatchEvent(new MouseEvent('click'));
     expect(document.activeElement.tagName).toBe('INPUT');
     expect(envRoot.querySelector('input') === document.activeElement).toBe(true);
 
-    expect(envRoot.innerHTML).toBe('<input value="2"><button>2</button>');
+    expect(envRoot.innerHTML).toBe('<input ivalue="2"><button>2</button>');
     expect(envRoot.textContent).toBe('2');
 
     tree.vanish();
@@ -92,7 +92,7 @@ describe('basic attrs', () => {
       });
 
       return <>
-        <input ref={inputRef} value={count}/>
+        <input ref={inputRef} ivalue={count}/>
         <button onClick={onButtonClick}>{count}</button>
       </>;
     };
@@ -131,22 +131,22 @@ describe('basic attrs', () => {
       return <>
         { numbers }
         { list }
-        <input ref={inputRef} value={count} key="input"/>
+        <input ref={inputRef} ivalue={count} key="input"/>
         <button onClick={onButtonClick}/>
       </>;
     };
 
     const tree = render(<App />, envRoot);
     expect(mockFn.mock.calls.length).toBe(1);
-    expect(envRoot.innerHTML).toBe('0<span>0</span><input value="1"><button></button>');
+    expect(envRoot.innerHTML).toBe('0<span>0</span><input ivalue="1"><button></button>');
 
     envRoot.querySelector('button').dispatchEvent(new MouseEvent('click'));
     expect(mockFn.mock.calls.length).toBe(1);
-    expect(envRoot.innerHTML).toBe('01<span>0</span><span>1</span><input value="2"><button></button>');
+    expect(envRoot.innerHTML).toBe('01<span>0</span><span>1</span><input ivalue="2"><button></button>');
 
     envRoot.querySelector('button').dispatchEvent(new MouseEvent('click'));
     expect(mockFn.mock.calls.length).toBe(1);
-    expect(envRoot.innerHTML).toBe('012<span>0</span><span>1</span><span>2</span><input value="3"><button></button>');
+    expect(envRoot.innerHTML).toBe('012<span>0</span><span>1</span><span>2</span><input ivalue="3"><button></button>');
 
     tree.vanish();
   });
@@ -178,9 +178,9 @@ describe('basic attrs', () => {
 
       return <>
         { numbers }
-        <input ref={inputRefs[switchIndexs[0]]} value={switchIndexs[0]} key={`input-${switchIndexs[0]}`}/>
+        <input ref={inputRefs[switchIndexs[0]]} ivalue={switchIndexs[0]} key={`input-${switchIndexs[0]}`}/>
         { list }
-        <input ref={inputRefs[switchIndexs[1]]} value={switchIndexs[1]} key={`input-${switchIndexs[1]}`}/>
+        <input ref={inputRefs[switchIndexs[1]]} ivalue={switchIndexs[1]} key={`input-${switchIndexs[1]}`}/>
         <button onClick={onButtonClick}/>
       </>;
     };
@@ -188,9 +188,9 @@ describe('basic attrs', () => {
     const tree = render(<App />, envRoot);
     expect(mockFn.mock.calls.length).toBe(2);
     expect(envRoot.innerHTML).toBe('0'
-      + '<input value="0">'
+      + '<input ivalue="0">'
       + '<span>0</span>'
-      + '<input value="1">'
+      + '<input ivalue="1">'
       + '<button></button>',
     );
 
@@ -198,18 +198,18 @@ describe('basic attrs', () => {
     expect(mockFn.mock.calls.length).toBe(2);
 
     expect(envRoot.innerHTML).toBe('01'
-      + '<input value="1">'
+      + '<input ivalue="1">'
       + '<span>0</span><span>1</span>'
-      + '<input value="0">'
+      + '<input ivalue="0">'
       + '<button></button>',
     );
 
     envRoot.querySelector('button').dispatchEvent(new MouseEvent('click'));
     expect(mockFn.mock.calls.length).toBe(2);
     expect(envRoot.innerHTML).toBe('012'
-      + '<input value="0">'
+      + '<input ivalue="0">'
       + '<span>0</span><span>1</span><span>2</span>'
-      + '<input value="1">'
+      + '<input ivalue="1">'
       + '<button></button>',
     );
 

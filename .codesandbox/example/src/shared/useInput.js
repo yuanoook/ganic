@@ -8,8 +8,8 @@ import useStorage from "./useStorage";
 
 const useInput = (initValue = "", storageKey) => {
   const [value, setValue] = useMemo(storageKey)
-    ? useStorage(storageKey, initValue)
-    : useState(initValue);
+    ? useStorage(storageKey, useMemo(initValue))
+    : useState(useMemo(initValue));
 
   const Input = useCallback(props => {
     const { onInput: onInputProp, onKeyup: onKeyupProp, onEnter, ...attrs } =

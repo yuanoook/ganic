@@ -12,5 +12,5 @@
     "ganic-tree": "build/node_modules/ganic-tree",
     "ganic-dom": "build/node_modules/ganic-dom"
   },
-  "sandboxes": ["/.codesandbox"]
+  "sandboxes": ["/.codesandbox/example"]
 }

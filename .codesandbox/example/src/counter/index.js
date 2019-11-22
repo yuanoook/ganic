@@ -1,22 +1,23 @@
 /* eslint-disable no-unused-vars */
 
 import Ganic from "ganic";
-import GanicDOM from "ganic-dom";
 import { useOrgan } from "ganic-usex";
 import { Counter, LazyUpdate, useSuperLongList } from "./studio";
 
-const App = () => {
+const CounterApp = props => {
   const [count, counterUI] = useOrgan(Counter);
   const list = useSuperLongList(count, 500, 125);
   const lazyUpdateUI = useOrgan(LazyUpdate, count);
 
   return (
-    <>
-      {list}
-      {counterUI}
-      {lazyUpdateUI}
-    </>
+    <div class="counter-app">
+      <div {...props}>
+        {list}
+        {counterUI}
+        {lazyUpdateUI}
+      </div>
+    </div>
   );
 };
 
-GanicDOM.render(<App />, document.getElementById("app"));
+export default CounterApp;

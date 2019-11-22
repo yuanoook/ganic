@@ -25,22 +25,37 @@ const applyEventListener = (node, name, listener) => {
   }
 };
 
-const applyStyle = (node, style) => {
-  const oldStyle = node[attrsKey] && node[attrsKey].style;
-  if (typeof style === 'object') {
-    const checkOldStyle = typeof oldStyle === 'object';
-    Object.keys(style).forEach(key => {
-      if (checkOldStyle ? oldStyle[key] !== style[key] : true) {
-        node.style[key] = style[key];
+const applyStyle = (node, name, value) => {
+  const oldValue = node[attrsKey] && node[attrsKey].style;
+  if (typeof value === 'object') {
+    const checkOldValue = typeof oldValue === 'object';
+    Object.keys(value).forEach(key => {
+      if (checkOldValue ? oldValue[key] !== value[key] : true) {
+        node.style[key] = value[key];
       }
     });
   }
-  if (typeof style === 'string' && oldStyle !== style) {
-    node.setAttribute('style', style);
+  if (typeof value === 'string' && oldValue !== value) {
+    applySimpleAttr(node, name, value);
   }
 };
 
-const properties = ['value', 'checked'];
+const applyClass = (node, name, value) => {
+  const oldValue = node[attrsKey] && node[attrsKey].class;
+  if (typeof value === 'object') {
+    const checkOldValue = typeof oldValue === 'object';
+    Object.keys(value).forEach(key => {
+      if (checkOldValue ? oldValue[key] !== value[key] : true) {
+        node.classList.toggle(key, value[key]);
+      }
+    });
+  }
+  if (typeof value === 'string' && oldValue !== value) {
+    applySimpleAttr(node, name, value);
+  }
+};
+
+const properties = ['value', 'checked', 'selected', 'disabled'];
 const applySimpleProperty = (node, name, value) => {
   if (node[name] !== value) {
     node[name] = value;
@@ -63,7 +78,9 @@ const applyAttr = (node, name, value) => {
   } else if (/^on[A-Z][a-zA-Z]*$/.test(name)) {
     applyEventListener(node, name, value);
   } else if (name === 'style') {
-    applyStyle(node, value);
+    applyStyle(node, name, value);
+  } else if (name === 'class') {
+    applyClass(node, name, value);
   } else if (properties.includes(name)) {
     applySimpleProperty(node, name, value);
   } else {

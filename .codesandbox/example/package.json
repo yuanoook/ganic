@@ -8,12 +8,17 @@
     "build": "parcel build index.html"
   },
   "dependencies": {
-    "@babel/core": "7.7.2",
+    "@babel/core": "^7.0.0-0",
     "ganic": "latest",
     "ganic-dom": "latest",
-    "ganic-usex": "latest"
+    "ganic-usex": "latest",
+    "todomvc-app-css": "latest"
   },
   "devDependencies": {
+    "@babel/plugin-transform-runtime": "^7.6.2",
+    "babel-plugin-transform-react-jsx": "^6.24.1",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.7.0",
     "parcel-bundler": "^1.6.1"
   },
   "keywords": []

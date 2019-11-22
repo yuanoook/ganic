@@ -1,6 +1,8 @@
 build/
 node_modules/
 
+dist
+.cache
 *.lock
 **/umd/*.js
 **/umd/*.js.map

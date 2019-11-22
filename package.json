@@ -19,6 +19,7 @@
     "eslint-plugin-react": "^7.16.0",
     "glob": "^7.1.5",
     "jest": "^24.9.0",
+    "live-server": "^1.2.1",
     "minimatch": "^3.0.4",
     "pre-commit": "^1.2.2",
     "prettier": "^1.18.2",
@@ -35,20 +36,17 @@
     "ci": "yarn build",
     "watch": "jest --watchAll",
     "test": "yarn pretest && jest",
-
     "build": "yarn prebuild && yarn test && yarn lint && yarn rollup",
     "rollup": "node ./scripts/rollup/index.js",
-
     "prebuild": "rm -rf ./build",
     "pretest": "node ./scripts/tasks/prejest.js",
     "postinstall": "node ./scripts/tasks/postinstall.js",
-
     "linc": "node ./scripts/tasks/linc.js",
     "lint": "node ./scripts/tasks/eslint.js",
-
     "prettier": "node ./scripts/prettier/index.js write-changed",
     "prettier-all": "node ./scripts/prettier/index.js write",
-    "debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand"
+    "debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand",
+    "local": "live-server ./ --open=./fixtures/index.html"
   },
   "pre-commit": "lint",
   "repository": {

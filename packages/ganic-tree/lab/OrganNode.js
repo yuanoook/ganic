@@ -2,7 +2,7 @@
 const { Connector } = require('./Connector');
 const { Organ } = require('ganic');
 const { OrganLeaf } = require('./OrganLeaf');
-const { List, getUtilsByDesc, createNode } = require('./utils');
+const { List, getOrganKit, createNode } = require('./utils');
 
 /**
  * OrganNode is the wrapper for one organ
@@ -89,7 +89,7 @@ class OrganNode extends Connector {
 
   updateChild(desc, index) {
     const key = this.descKeys[index];
-    const { organism } = getUtilsByDesc(desc, this.tree) || {};
+    const { organism } = getOrganKit(desc, this.tree) || {};
     const isDescLeaf = !organism;
 
     const child = this.children[key];

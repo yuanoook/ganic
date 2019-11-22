@@ -26,6 +26,7 @@ class OrganNode extends Connector {
     Object.assign(this, {
       organ: null,
       tree: null,
+      updating: false,
       children: {},
       descs: [],
       descKeys: [],
@@ -37,13 +38,19 @@ class OrganNode extends Connector {
   }
 
   update() {
+    this.updating = true;
+
     this.descs = this.parseDescs();
     this.descKeys = this.getDescKeys();
     const childrenKeys = Object.keys(this.children);
     const toVanishKeys = childrenKeys.filter(x => !this.descKeys.includes(x));
-
     toVanishKeys.forEach(this.vanishChild);
     this.descs.forEach(this.updateChild);
+
+    this.updating = false;
+    if (!this.parent || !this.parent.updating) {
+      this.tree.envRunner.onSettled(this);
+    }
   }
 
   parseDescs() {

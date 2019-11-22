@@ -41,7 +41,7 @@ const applyStyle = (node, style) => {
 };
 
 const properties = ['value', 'checked'];
-const propertyHandler = (node, name, value) => {
+const applySimpleProperty = (node, name, value) => {
   if (node[name] !== value) {
     node[name] = value;
   }
@@ -65,7 +65,7 @@ const applyAttr = (node, name, value) => {
   } else if (name === 'style') {
     applyStyle(node, value);
   } else if (properties.includes(name)) {
-    propertyHandler(node, name, value);
+    applySimpleProperty(node, name, value);
   } else {
     applySimpleAttr(node, name, value);
   }

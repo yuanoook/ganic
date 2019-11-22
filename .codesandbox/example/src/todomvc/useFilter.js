@@ -14,7 +14,9 @@ const FilterItem = ({ key, filter, setFilter }) => (
         e.preventDefault();
         setFilter(key);
       }}
-      class={key === filter ? "selected" : ""}
+      class={{
+        selected: key === filter
+      }}
     >
       {key.replace(/^[a-z]/, y => y.toUpperCase())}
     </a>

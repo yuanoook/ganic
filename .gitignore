@@ -4,6 +4,7 @@ node_modules/
 dist
 .cache
 *.lock
+*package-lock.json
 **/umd/*.js
 **/umd/*.js.map
 

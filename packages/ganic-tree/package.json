@@ -1,6 +1,6 @@
 {
   "name": "ganic-tree",
-  "version": "2.0.2",
+  "version": "2.1.0",
   "description": "A cool organic programming javascript library",
   "main": "index.js",
   "repository": {
@@ -16,7 +16,7 @@
     "ganic"
   ],
   "dependencies": {
-    "ganic": "latest"
+    "ganic": "2.1.0"
   },
   "author": "Rango Yuan",
   "license": "MIT"

@@ -1,9 +1,7 @@
 {
   "private": true,
   "version": "2.0.0",
-  "workspaces": [
-    "packages/*"
-  ],
+  "workspaces": ["packages/*"],
   "devDependencies": {
     "@babel/plugin-transform-react-jsx": "^7.7.0",
     "@babel/preset-env": "^7.7.1",
@@ -33,7 +31,7 @@
     "rollup-plugin-strip-banner": "^0.2.0"
   },
   "scripts": {
-    "ci": "yarn build",
+    "ci": "yarn prebuild && yarn test && yarn rollup",
     "watch": "jest --watchAll",
     "test": "yarn pretest && jest",
     "build": "yarn prebuild && yarn test && yarn lint && yarn rollup",
@@ -55,9 +53,7 @@
     "url": "https://github.com/yuanoook/ganic.git"
   },
   "jest": {
-    "modulePathIgnorePatterns": [
-      ".codesandbox/"
-    ]
+    "modulePathIgnorePatterns": [".codesandbox/"]
   },
   "author": "Rango Yuan",
   "license": "MIT"

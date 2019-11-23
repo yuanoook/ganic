@@ -1,8 +1,15 @@
-const {create} = require('ganic');
-const {useRef, useMemo, useCallback, useState} = require('../index');
+const { create } = require("ganic");
+const {
+  useRef,
+  useMemo,
+  useCallback,
+  useState,
+  useInitialValue,
+  useInitialState
+} = require("../index");
 
-describe('should always keep identity from parasite', () => {
-  it('should only call fn while deps change with useMemo', () => {
+describe("should always keep identity from parasite", () => {
+  it("should only call fn while deps change with useMemo", () => {
     const times2 = n => n * 2;
 
     const parasitismMockFn = jest.fn();
@@ -11,33 +18,30 @@ describe('should always keep identity from parasite', () => {
       parasitismMockFn(result);
       return result;
     };
-    const organism = ({count, updateIndex}) => {
+    const organism = ({ count, updateIndex }) => {
       const memorizedDoubleCountResult = useMemo(times2WithMockFn, count);
       expect(memorizedDoubleCountResult).toBe(times2(count));
       return [memorizedDoubleCountResult, updateIndex];
     };
 
     const organismMockFn = jest.fn();
-    create({organism, props: {count: 1, updateIndex: 1}})
+    create({ organism, props: { count: 1, updateIndex: 1 } })
       .addListener(organismMockFn)
-      .receive({count: 1, updateIndex: 2})
-      .receive({count: 1, updateIndex: 3})
-      .receive({count: 2, updateIndex: 4});
+      .receive({ count: 1, updateIndex: 2 })
+      .receive({ count: 1, updateIndex: 3 })
+      .receive({ count: 2, updateIndex: 4 });
 
-    expect(parasitismMockFn.mock.calls).toEqual([
-      [2],
-      [4],
-    ]);
+    expect(parasitismMockFn.mock.calls).toEqual([[2], [4]]);
 
     expect(organismMockFn.mock.calls).toEqual([
       [[2, 1]],
       [[2, 2]],
       [[2, 3]],
-      [[4, 4]],
+      [[4, 4]]
     ]);
   });
 
-  it('should always get permanent unique ref from useRef', () => {
+  it("should always get permanent unique ref from useRef", () => {
     let lastARef;
     const organism = () => {
       const aRef = useRef();
@@ -48,10 +52,12 @@ describe('should always keep identity from parasite', () => {
       expect(aRef).not.toBe(bRef);
     };
 
-    create({organism, props: 1}).receive(2).receive(3);
+    create({ organism, props: 1 })
+      .receive(2)
+      .receive(3);
   });
 
-  it('should always get permanent unique setState from useState', () => {
+  it("should always get permanent unique setState from useState", () => {
     let lastSetA;
     const organism = () => {
       const [, setA] = useState();
@@ -62,34 +68,70 @@ describe('should always keep identity from parasite', () => {
       expect(setA).not.toBe(setB);
     };
 
-    create({organism, props: 1}).receive(2).receive(3);
+    create({ organism, props: 1 })
+      .receive(2)
+      .receive(3);
   });
 
-  it('should update useCallback, useCallback in the right way', () => {
+  it("should update useCallback, useCallback in the right way", () => {
     const plusX = ({ set, x }) => set(n => n + x);
     let lastPlus;
     let lastX;
-    const App = ({x}) => {
+    const App = ({ x }) => {
       const [count, setCount] = useState(0);
-      const plus = useCallback(plusX, {set: setCount, x});
+      const plus = useCallback(plusX, { set: setCount, x });
       expect(!lastPlus || lastX !== x || lastPlus === plus).toEqual(true);
       lastPlus = plus;
       lastX = x;
       return count;
     };
-    const organ = create({organism: App, props: {x: 1}});
-    organ.receive({x: 1})
-      .receive({x: 2})
-      .receive({x: 3})
-      .receive({x: 3});
+    const organ = create({ organism: App, props: { x: 1 } });
+    organ
+      .receive({ x: 1 })
+      .receive({ x: 2 })
+      .receive({ x: 3 })
+      .receive({ x: 3 });
 
     lastPlus();
     expect(organ.result).toBe(3);
 
-    organ.receive({x: 10});
+    organ.receive({ x: 10 });
     lastPlus();
     expect(organ.result).toBe(13);
 
     organ.vanish();
+  });
+
+  it("should get identical value from useInitialValue", () => {
+    let lastInitialOne;
+    const App = ({ x }) => {
+      const theInitialOne = useInitialValue({ a: { b: x } });
+      expect(!lastInitialOne || lastInitialOne === theInitialOne).toBe(true);
+      lastInitialOne = theInitialOne;
+    };
+    const organ = create({ organism: App, props: { x: 1 } });
+    organ
+      .receive({ x: 1 })
+      .receive({ x: 2 })
+      .receive({ x: 3 });
+  });
+
+  it("should get identical value from useInitialState", () => {
+    let lastInitialOne;
+    let lastOtherOne;
+    const App = ({ x }) => {
+      const [theInitialOne] = useInitialState({ a: { b: x } });
+      expect(!lastInitialOne || lastInitialOne === theInitialOne).toBe(true);
+      lastInitialOne = theInitialOne;
+
+      const [theOtherOne] = useState({ a: { b: x } });
+      expect(!lastOtherOne || lastOtherOne !== theOtherOne).toBe(true);
+      lastOtherOne = theOtherOne;
+    };
+    const organ = create({ organism: App, props: { x: 1 } });
+    organ
+      .receive({ x: 1 })
+      .receive({ x: 2 })
+      .receive({ x: 3 });
   });
 });

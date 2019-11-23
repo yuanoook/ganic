@@ -6,14 +6,17 @@ import { useOrgan } from "ganic-usex";
 import Select from "./Select";
 import TodoList from "./todomvc/TodoList";
 import CounterApp from "./counter/index";
+import Benchmark from "./benchmark/index";
 
+const options = ['todolist', 'counter', 'benchmark'];
 const App = () => {
-  const [select, selectUI] = useOrgan(Select);
+  const [select, selectUI] = useOrgan(Select, options);
 
   return <>
     {selectUI}
-    <TodoList style={{display: select === 'todolist' ? 'block' : 'none'}}/>
-    <CounterApp style={{display: select === 'counter' ? 'block' : 'none'}}/>
+    <TodoList style={{display: select === options[0] ? 'block' : 'none'}}/>
+    <CounterApp style={{display: select === options[1] ? 'block' : 'none'}}/>
+    <Benchmark style={{display: select === options[1] ? 'block' : 'none'}}/>
   </>
 };
 

@@ -1,20 +1,22 @@
 {
   "name": "ganic-codesandbox",
-  "version": "2.0.2",
+  "version": "2.1.0",
   "description": "A cool organic programming javascript library",
   "main": "index.html",
   "scripts": {
     "local": "yarn sync-build && yarn start",
     "start": "parcel index.html --open",
     "build": "parcel build index.html",
-    "sync-build": "cp -rf ../../build/node_modules/* ./node_modules/"
+    "sync-build": "yarn clear-ganic && yarn copy-ganic",
+    "clear-ganic": "rm -rf ./node_modules/ganic*",
+    "copy-ganic": "cp -rf ../../build/node_modules/* ./node_modules/"
   },
   "dependencies": {
     "@babel/core": "^7.0.0-0",
     "ganic": "2.1.0",
     "ganic-dom": "2.1.0",
     "ganic-usex": "2.1.1",
-    "todomvc-app-css": "1.1.1"
+    "todomvc-app-css": "^2.3.0"
   },
   "devDependencies": {
     "@babel/plugin-transform-runtime": "^7.6.2",

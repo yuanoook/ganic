@@ -1,15 +1,15 @@
-const { create } = require("ganic");
+const { create } = require('ganic');
 const {
   useRef,
   useMemo,
   useCallback,
   useState,
   useInitialValue,
-  useInitialState
-} = require("../index");
+  useInitialState,
+} = require('../index');
 
-describe("should always keep identity from parasite", () => {
-  it("should only call fn while deps change with useMemo", () => {
+describe('should always keep identity from parasite', () => {
+  it('should only call fn while deps change with useMemo', () => {
     const times2 = n => n * 2;
 
     const parasitismMockFn = jest.fn();
@@ -37,11 +37,11 @@ describe("should always keep identity from parasite", () => {
       [[2, 1]],
       [[2, 2]],
       [[2, 3]],
-      [[4, 4]]
+      [[4, 4]],
     ]);
   });
 
-  it("should always get permanent unique ref from useRef", () => {
+  it('should always get permanent unique ref from useRef', () => {
     let lastARef;
     const organism = () => {
       const aRef = useRef();
@@ -57,7 +57,7 @@ describe("should always keep identity from parasite", () => {
       .receive(3);
   });
 
-  it("should always get permanent unique setState from useState", () => {
+  it('should always get permanent unique setState from useState', () => {
     let lastSetA;
     const organism = () => {
       const [, setA] = useState();
@@ -73,7 +73,7 @@ describe("should always keep identity from parasite", () => {
       .receive(3);
   });
 
-  it("should update useCallback, useCallback in the right way", () => {
+  it('should update useCallback, useCallback in the right way', () => {
     const plusX = ({ set, x }) => set(n => n + x);
     let lastPlus;
     let lastX;
@@ -102,7 +102,7 @@ describe("should always keep identity from parasite", () => {
     organ.vanish();
   });
 
-  it("should get identical value from useInitialValue", () => {
+  it('should get identical value from useInitialValue', () => {
     let lastInitialOne;
     const App = ({ x }) => {
       const theInitialOne = useInitialValue({ a: { b: x } });
@@ -116,7 +116,7 @@ describe("should always keep identity from parasite", () => {
       .receive({ x: 3 });
   });
 
-  it("should get identical value from useInitialState", () => {
+  it('should get identical value from useInitialState', () => {
     let lastInitialOne;
     let lastOtherOne;
     const App = ({ x }) => {

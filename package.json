@@ -31,7 +31,7 @@
     "rollup-plugin-strip-banner": "^0.2.0"
   },
   "scripts": {
-    "ci": "yarn prebuild && yarn test && yarn rollup",
+    "ci": "yarn build",
     "watch": "jest --watchAll",
     "test": "yarn pretest && jest",
     "build": "yarn prebuild && yarn test && yarn lint && yarn rollup",

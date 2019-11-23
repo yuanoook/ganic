@@ -6,12 +6,12 @@ const {
   useEffect,
 
   useInitialValue,
-  useInitialState
-} = require("./src/base");
+  useInitialState,
+} = require('./src/base');
 
-const { useTimeout, useInterval } = require("./src/timer");
-const { useDebounce, useThrottle } = require("./src/sloth");
-const { useOrgan, usePromise } = require("./src/async");
+const { useTimeout, useInterval } = require('./src/timer');
+const { useDebounce, useThrottle } = require('./src/sloth');
+const { useOrgan, usePromise } = require('./src/async');
 
 module.exports = {
   useRef,
@@ -30,5 +30,5 @@ module.exports = {
   useThrottle,
 
   useOrgan,
-  usePromise
+  usePromise,
 };

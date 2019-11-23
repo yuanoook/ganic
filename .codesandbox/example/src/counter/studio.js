@@ -13,6 +13,8 @@ import {
   useDebounce
 } from "ganic-usex";
 
+import useStorage from "../shared/useStorage";
+
 import {
   Button,
   useSetter,
@@ -25,7 +27,7 @@ import {
 export { useSuperLongList };
 
 export const Counter = () => {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useStorage("ganic_counter_app__count", 0);
 
   const [interval, setInterval] = useState(100);
   useInterval(useSetter(setCount, n => n + 1), interval);

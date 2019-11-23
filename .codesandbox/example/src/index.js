@@ -16,7 +16,7 @@ const App = () => {
     {selectUI}
     <TodoList style={{display: select === options[0] ? 'block' : 'none'}}/>
     <CounterApp style={{display: select === options[1] ? 'block' : 'none'}}/>
-    <Benchmark style={{display: select === options[1] ? 'block' : 'none'}}/>
+    <Benchmark style={{display: select === options[2] ? 'block' : 'none'}}/>
   </>
 };
 

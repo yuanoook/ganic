@@ -3,6 +3,7 @@ node_modules/
 
 dist
 .cache
+*.log
 *.lock
 *package-lock.json
 **/umd/*.js

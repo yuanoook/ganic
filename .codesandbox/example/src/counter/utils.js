@@ -12,6 +12,8 @@ import {
   useThrottle
 } from "ganic-usex";
 
+import useStorage from "../shared/useStorage";
+
 const mouseUpEffect = mouseup => {
   document.documentElement.addEventListener("mouseup", mouseup);
   document.documentElement.addEventListener("touchend", mouseup);
@@ -96,7 +98,7 @@ const smallBtnStyle = {
 };
 
 export const xAcceleratorsOrganism = initX => {
-  let [x, setX] = useState(initX);
+  let [x, setX] = useStorage("ganic_counter_app__x", initX);
   const accelerators = [1, 10, 100].map(i => {
     const minusX = usePositiveNumberSetter(setX, x => x - i, i);
     const plusX = useSetter(setX, x => x + i, i);

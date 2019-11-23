@@ -43,18 +43,22 @@ const Jumbotron = ({ dispatch }) => (
   </div>
 );
 
-const Benchmark = () => {
+const Benchmark = props => {
   const [state, dispatch] = useStore();
 
-  return (<div className="container">
-    <Jumbotron dispatch={dispatch} />
-    <table className="table table-hover table-striped test-data"><tbody>
-      {state.data.map(item => (
-        <Row key={item.id} item={item} selected={state.selected === item.id} dispatch={dispatch} />
-      ))}
-    </tbody></table>
-    <span className="preloadicon glyphicon glyphicon-remove" aria-hidden="true"></span>
-  </div>);
+  return (
+    <div {...props}>
+      <div className="container">
+        <Jumbotron dispatch={dispatch} />
+        <table className="table table-hover table-striped test-data"><tbody>
+          {state.data.map(item => (
+            <Row key={item.id} item={item} selected={state.selected === item.id} dispatch={dispatch} />
+          ))}
+        </tbody></table>
+        <span className="preloadicon glyphicon glyphicon-remove" aria-hidden="true"></span>
+      </div>
+    </div>
+  );
 }
 
 export default Benchmark;

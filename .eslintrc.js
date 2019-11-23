@@ -1,74 +1,78 @@
-'use strict';
+"use strict";
 
 const {
   es5Paths,
-  esNextPaths,
-} = require('./scripts/shared/pathsByLanguageVersion');
+  esNextPaths
+} = require("./scripts/shared/pathsByLanguageVersion");
 
 const OFF = 0;
 const ERROR = 2;
 
 module.exports = {
-  extends: 'fbjs',
+  extends: "fbjs",
 
   // Stop ESLint from looking for a configuration file in parent folders
   root: true,
 
-  plugins: ['jest', 'no-for-of-loops'],
+  plugins: ["jest", "no-for-of-loops"],
 
-  parser: 'babel-eslint',
+  parser: "babel-eslint",
   parserOptions: {
     ecmaVersion: 8,
-    sourceType: 'module',
+    sourceType: "module",
     ecmaFeatures: {
-      experimentalObjectRestSpread: true,
-    },
+      experimentalObjectRestSpread: true
+    }
   },
 
   // We're stricter than the default config, mostly. We'll override a few rules
   // and then enable some specific ones.
   rules: {
-    'accessor-pairs': OFF,
-    'brace-style': [ERROR, '1tbs'],
-    'comma-dangle': [ERROR, 'always-multiline'],
-    'consistent-return': OFF,
-    'dot-location': [ERROR, 'property'],
-    'dot-notation': ERROR,
-    'eol-last': ERROR,
-    eqeqeq: [ERROR, 'allow-null'],
+    "accessor-pairs": OFF,
+    "brace-style": [ERROR, "1tbs"],
+    // 'comma-dangle': [ERROR, 'always-multiline'],
+    "consistent-return": OFF,
+    "dot-location": [ERROR, "property"],
+    "dot-notation": ERROR,
+    "eol-last": ERROR,
+    eqeqeq: [ERROR, "allow-null"],
     indent: OFF,
-    'jsx-quotes': [ERROR, 'prefer-double'],
-    'keyword-spacing': [ERROR, {after: true, before: true}],
-    'no-bitwise': OFF,
-    'no-inner-declarations': [ERROR, 'functions'],
-    'no-multi-spaces': ERROR,
-    'no-restricted-syntax': [ERROR, 'WithStatement'],
-    'no-shadow': ERROR,
-    'no-unused-expressions': ERROR,
-    'no-unused-vars': [ERROR, {args: 'none'}],
-    'no-use-before-define': OFF,
-    'no-useless-concat': OFF,
-    quotes: [ERROR, 'single', {avoidEscape: true, allowTemplateLiterals: true}],
-    'space-before-blocks': ERROR,
-    'space-before-function-paren': OFF,
-    'valid-typeof': [ERROR, {requireStringLiterals: true}],
+    "jsx-quotes": [ERROR, "prefer-double"],
+    "keyword-spacing": [ERROR, { after: true, before: true }],
+    "no-bitwise": OFF,
+    "no-inner-declarations": [ERROR, "functions"],
+    "no-multi-spaces": ERROR,
+    "no-restricted-syntax": [ERROR, "WithStatement"],
+    "no-shadow": ERROR,
+    "no-unused-expressions": ERROR,
+    "no-unused-vars": [ERROR, { args: "none" }],
+    "no-use-before-define": OFF,
+    "no-useless-concat": OFF,
+    quotes: [
+      ERROR,
+      "single",
+      { avoidEscape: true, allowTemplateLiterals: true }
+    ],
+    "space-before-blocks": ERROR,
+    "space-before-function-paren": OFF,
+    "valid-typeof": [ERROR, { requireStringLiterals: true }],
 
     // We apply these settings to files that should run on Node.
     // They can't use JSX or ES6 modules, and must be in strict mode.
     // They can, however, use other ES6 features.
     // (Note these rules are overridden later for source files.)
-    'no-var': ERROR,
+    "no-var": ERROR,
     strict: ERROR,
 
     // Enforced by Prettier
     // TODO: Prettier doesn't handle long strings or long comments. Not a big
     // deal. But I turned it off because loading the plugin causes some obscure
     // syntax error and it didn't seem worth investigating.
-    'max-len': OFF,
+    "max-len": OFF,
 
     // Prevent for...of loops because they require a Symbol polyfill.
     // You can disable this rule for code that isn't shipped (e.g. build scripts and tests).
-    'no-for-of-loops/no-for-of-loops': ERROR,
+    "no-for-of-loops/no-for-of-loops": ERROR
   },
 
   overrides: [
@@ -76,38 +80,38 @@ module.exports = {
       // We apply these settings to files that we ship through npm.
       // They must be ES5.
       files: es5Paths,
-      parser: 'espree',
+      parser: "espree",
       parserOptions: {
         ecmaVersion: 5,
-        sourceType: 'script',
+        sourceType: "script"
       },
       rules: {
-        'no-var': OFF,
-        strict: ERROR,
-      },
+        "no-var": OFF,
+        strict: ERROR
+      }
     },
     {
       // We apply these settings to the source files that get compiled.
       // They can use all features including JSX (but shouldn't use `var`).
       files: esNextPaths,
-      parser: 'babel-eslint',
+      parser: "babel-eslint",
       parserOptions: {
         ecmaVersion: 8,
-        sourceType: 'module',
+        sourceType: "module"
       },
       rules: {
-        'no-var': ERROR,
-        strict: OFF,
-      },
+        "no-var": ERROR,
+        strict: OFF
+      }
     },
     {
-      files: ['**/__tests__/*.js'],
+      files: ["**/__tests__/*.js"],
       rules: {
         // https://github.com/jest-community/eslint-plugin-jest
-        'jest/no-focused-tests': ERROR,
-        'jest/valid-expect': ERROR,
-        'jest/valid-expect-in-promise': ERROR,
-      },
+        "jest/no-focused-tests": ERROR,
+        "jest/valid-expect": ERROR,
+        "jest/valid-expect-in-promise": ERROR
+      }
     }
   ],
 
@@ -120,12 +124,12 @@ module.exports = {
     __PROFILE__: true,
     __UMD__: true,
     __EXPERIMENTAL__: true,
-    trustedTypes: true,
+    trustedTypes: true
   },
 
   settings: {
     react: {
-      pragma: 'Ganic'
+      pragma: "Ganic"
     }
   }
 };

@@ -10,10 +10,10 @@ const Row = ({ selected, item, dispatch }) => {
     remove = useCallback(() => dispatch({ type: 'REMOVE', id: item.id }));
 
   return (<tr class={selected ? "danger" : ""}>
-    <td class="col-md-1">{item.id}</td>
-    <td class="col-md-4"><a onClick={select}>{item.label}</a></td>
-    <td class="col-md-1"><a onClick={remove}>{GlyphIcon}</a></td>
-    <td class="col-md-6"></td>
+    <td class="col-1">{item.id}</td>
+    <td class="col-4"><a onClick={select}>{item.label}</a></td>
+    <td class="col-1"><a onClick={remove}>{GlyphIcon}</a></td>
+    <td class="col-6"></td>
   </tr>);
 };
 

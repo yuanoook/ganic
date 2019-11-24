@@ -1,6 +1,6 @@
 {
   "name": "ganic-usex",
-  "version": "2.1.1",
+  "version": "2.1.3",
   "description": "A cool organic programming javascript library",
   "main": "index.js",
   "repository": {
@@ -15,8 +15,8 @@
   "keywords": [
     "ganic"
   ],
-  "dependencies": {
-    "ganic": "2.1.0"
+  "peerDependencies": {
+    "ganic": "^2.1.0"
   },
   "author": "Rango Yuan",
   "license": "MIT"

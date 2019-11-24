@@ -13,27 +13,36 @@ const plusVersion = version => {
   return [major, minor, (+patch) + 1].join('.');
 }
 
-const updatePackageDeps = (target, deps, dir = '../../packages/') => {
+const updatePackageDeps = ({
+  target,
+  deps,
+  dir = '../../packages/',
+  depsKey = 'dependencies',
+}) => {
   const package = readPackage(target, dir);
   const toUpdateKeys = Object.keys(deps).filter(key => (
-    /^\d+\.\d+\.\d+$/.test(package.dependencies[key])
-    && deps[key] !== package.dependencies[key])
+    /^\^?\d+\.\d+\.\d+$/.test(package[depsKey][key])
+    && ('^' + deps[key]) !== package[depsKey][key])
   );
   if (!toUpdateKeys.length) {
     return;
   }
   const toUpdateDeps = toUpdateKeys.reduce((prev, key) => ({
-    ...prev, [key]: deps[key]
+    ...prev, [key]: '^' + deps[key]
   }), {});
-  package.dependencies = Object.assign({}, package.dependencies, toUpdateDeps);
+  package[depsKey] = Object.assign({}, package[depsKey], toUpdateDeps);
   package.version = plusVersion(package.version);
   writePackage(target, package, dir);
 }
 
-const updateDependencies = async () => {
+const updatePeerDependencies = async () => {
   const ganicVersion = getGanicVersion();
   const names = (await getPackages()).filter(name => name !== 'ganic');
-  names.map(name => updatePackageDeps(name, {ganic: ganicVersion}));
+  names.map(name => updatePackageDeps({
+    target: name,
+    deps: {ganic: ganicVersion},
+    depsKey: 'peerDependencies'
+  }));
 }
 
 const updateCodesandboxDeps = async () => {
@@ -41,11 +50,15 @@ const updateCodesandboxDeps = async () => {
   const deps = names.reduce((prev, name) => ({
     ...prev, [name]: readPackage(name).version
   }),{});
-  updatePackageDeps('example', deps, `../../.codesandbox/`);
+  updatePackageDeps({
+    target: 'example',
+    deps,
+    dir: `../../.codesandbox/`
+  });
 }
 
 const start = async () => {
-  await updateDependencies();
+  await updatePeerDependencies();
   await updateCodesandboxDeps();
 }
 

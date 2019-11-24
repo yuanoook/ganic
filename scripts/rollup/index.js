@@ -10,26 +10,6 @@ const buildAll = async names => {
   await Promise.all(configs.map(buildOne));
 };
 
-const getGanicVersion = () => readPackage('ganic').version;
-const readPackage = name => require(`../../packages/${name}/package.json`);
-const writePackage = (target, package) => fs.writeFileSync(
-  require('path').resolve(__dirname, `../../package/${target}/package.json`),
-  JSON.stringify(package, null, 2)
-);
-
-const updatePackageDeps = (target, deps) => {
-  const package = readPackage(target);
-  package.dependencies = Object.assign({}, package.dependencies, deps);
-  writePackage(target, package);
-}
-
-const updatePackages = async () => {
-  const names = (await getPackages()).filter(name => name !== 'ganic');
-  await Promise.all(names.map(name => updatePackageDeps(name, {
-    ganic: getGanicVersion(),
-  })));
-}
-
 const syncFiles = async name => {
   await Promise.all([
     'LICENSE',
@@ -57,12 +37,12 @@ const updateIndex = async name => {
 const afterBuild = async (name) => {
   await syncFiles(name);
   await updateIndex(name);
-}
+};
 
 const start = async () => {
   const names = await getPackages();
   await buildAll(names);
   await Promise.all(names.map(afterBuild));
-}
+};
 
 start();

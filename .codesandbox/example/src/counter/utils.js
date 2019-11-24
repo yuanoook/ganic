@@ -130,7 +130,7 @@ export const useSuperLongList = (count, chunkSize, delay) => {
   return (
     <div
       style={{
-        height: "100px",
+        height: "150px",
         overflow: "auto",
         background: "lightgray"
       }}

@@ -6,7 +6,6 @@ describe('utils functions', () => {
     expect(shallowEqual({}, {})).toBe(true);
     expect(shallowEqual(null, null)).toBe(true);
     expect(shallowEqual(undefined, undefined)).toBe(true);
-    expect(shallowEqual(null, undefined)).toBe(true);
     expect(shallowEqual([], [])).toBe(true);
     expect(shallowEqual({a: 1}, {a: 1})).toBe(true);
 

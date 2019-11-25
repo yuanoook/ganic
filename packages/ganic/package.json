@@ -1,6 +1,6 @@
 {
   "name": "ganic",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "A cool organic programming javascript library",
   "main": "index.js",
   "repository": {

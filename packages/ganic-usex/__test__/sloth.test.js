@@ -43,28 +43,26 @@ describe('useDebounce & useThrottle', () => {
       // expect there'll be two updates only
       useTimeout(() => setInterval(null), 225);
 
-      const givingParasiteIndex = Ganic.getGivingParasite() && Ganic.getGivingParasite().index;
-
-      return {state, debouncedState, interval, givingParasiteIndex};
+      return {state, debouncedState, interval};
     };
 
     const expectation = [
       // 0ms - init
-      [{state: 0, debouncedState: 0, interval: 50, givingParasiteIndex: null}],
+      [{state: 0, debouncedState: 0, interval: 50}],
 
       // 50ms - skipped the 1st update from useInterval
-      [{state: 1, debouncedState: 0, interval: 50, givingParasiteIndex: 0}],
+      [{state: 1, debouncedState: 0, interval: 50}],
 
       // - skipped 3 more updates
-      [{state: 2, debouncedState: 0, interval: 50, givingParasiteIndex: 0}],
-      [{state: 3, debouncedState: 0, interval: 50, givingParasiteIndex: 0}],
-      // [{state: 4, debouncedState: 0, interval: 50, givingParasiteIndex: 0}],
+      [{state: 2, debouncedState: 0, interval: 50}],
+      [{state: 3, debouncedState: 0, interval: 50}],
+      // [{state: 4, debouncedState: 0, interval: 50}],
 
       // // 225ms - ignored update from useTimeout, interval timer stoped here
-      // [{state: 4, debouncedState: 0, interval: null, givingParasiteIndex: 1}],
+      // [{state: 4, debouncedState: 0, interval: null}],
 
       // // 260ms (4 * 50ms + 60ms) - bring out the final state
-      // [{state: 4, debouncedState: 4, interval: null, givingParasiteIndex: 2}],
+      // [{state: 4, debouncedState: 4, interval: null}],
     ];
 
     const organ = create({organism});
@@ -75,32 +73,28 @@ describe('useDebounce & useThrottle', () => {
     const organism = () => {
       const [state, setState] = useState(0);          // parasite index 0
       const throttledState = useThrottle(state, 260); // parasite index 1
-
       useInterval(() => setState(n => n + 1), 100);
-
-      const givingParasiteIndex = Ganic.getGivingParasite() && Ganic.getGivingParasite().index;
-
-      return {state, throttledState, givingParasiteIndex};
+      return {state, throttledState};
     };
 
     const expectation = [
       // 0ms - init
-      [{state: 0, throttledState: 0, givingParasiteIndex: null}],
+      [{state: 0, throttledState: 0}],
 
       // 100ms - 200ms - throttled 2 updates
-      [{state: 1, throttledState: 0, givingParasiteIndex: 0}],
-      [{state: 2, throttledState: 0, givingParasiteIndex: 0}],
+      [{state: 1, throttledState: 0}],
+      [{state: 2, throttledState: 0}],
 
       // 260ms - brought out the 2nd update
-      [{state: 2, throttledState: 2, givingParasiteIndex: 1}],
+      [{state: 2, throttledState: 2}],
 
       // 300ms - 500ms - throttled 3 more updates
-      [{state: 3, throttledState: 2, givingParasiteIndex: 0}],
-      [{state: 4, throttledState: 2, givingParasiteIndex: 0}],
-      // [{state: 5, throttledState: 2, givingParasiteIndex: 0}],
+      [{state: 3, throttledState: 2}],
+      [{state: 4, throttledState: 2}],
+      // [{state: 5, throttledState: 2}],
 
       // // 520ms - brought out the 5th update
-      // [{state: 5, throttledState: 5, givingParasiteIndex: 1}],
+      // [{state: 5, throttledState: 5}],
     ];
 
     const organ = create({organism});

@@ -17,26 +17,25 @@ const LEAVE_HANDOVER_AT_THE_ENDING = `
 `;
 
 class Parasite {
-  constructor({organ, index}) {
-    this.setUp({organ, index});
-  }
-  setUp(props) {
-    Object.assign(this, {
-      organ: null,
-      index: null,
-      deps: null,
-
-      hasSet: false,
-      attaching: false,
-      attached: false,
-      toDetach: null,
-      detaching: false,
-
-      value: null,
-    }, props);
+  constructor(organ) {
+    this.organ = organ;
+    this.value = null;
+    this.deps = null;
+    this.hasSet = false;
+    this.attaching = false;
+    this.attached = false;
+    this.toDetach = null;
+    this.detaching = false;
   }
   clearUp() {
-    this.setUp();
+    this.organ = null;
+    this.value = null;
+    this.deps = null;
+    // this.hasSet = false;
+    // this.attaching = false;
+    // this.attached = false;
+    this.toDetach = null;
+    // this.detaching = false;
   }
   setValue(value) {
     this.hasSet = true;

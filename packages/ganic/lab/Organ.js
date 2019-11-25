@@ -1,4 +1,3 @@
-
 const {Parasite} = require('./Parasite');
 const {shallowEqual} = require('./utils');
 const Lakhesis = require('../moirai/Lakhesis');
@@ -8,21 +7,22 @@ class Organ {
     if (typeof organism !== 'function') {
       throw new Error('To create an Organ, organism must be a function!');
     }
-    this.setUp({organism, props});
+
+    this.organism = organism;
+    this.props = props;
+    this.result = null;
+    this.parasites = [];
+    this.parasiteCheckingIndex = 0;
+    this.listeners = [];
     this.update();
   }
-  setUp(config) {
-    Object.assign(this, {
-      organism: null,
-      props: null,
-      result: null,
-      parasites: [],
-      parasiteCheckingIndex: 0,
-      listeners: [],
-    }, config);
-  }
   clearUp() {
-    this.setUp();
+    this.organism = null;
+    this.props = null;
+    this.result = null;
+    this.parasites.length = 0;
+    // this.parasiteCheckingIndex = 0;
+    this.listeners.length = 0;
   }
 
   receive(props) {
@@ -52,7 +52,7 @@ class Organ {
     if (parasite) {
       return parasite;
     }
-    this.parasites[index] = new Parasite({organ: this, index});
+    this.parasites[index] = new Parasite(this);
     return this.parasites[index];
   }
   take(deps) {

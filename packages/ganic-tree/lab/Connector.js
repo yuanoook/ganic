@@ -1,25 +1,22 @@
 class Connector {
   constructor(relationship = {}) {
-    this.setUpRelationship();
+    this.key = null;
+    this.parent = null;
+    this.preSibling = null;
+    this.nextSibling = null;
+    // this.children = {};
+    this.firstChild = null;
+    this.lastChild = null;
     this.buildRelationship(relationship);
   }
-
-  setUpRelationship(config) {
-    Object.assign(this, {
-      key: null,
-      parent: null,
-
-      preSibling: null,
-      nextSibling: null,
-
-      children: {},
-      firstChild: null,
-      lastChild: null,
-    }, config);
-  }
-
   clearUpRelationship() {
-    this.setUpRelationship();
+    this.key = null;
+    this.parent = null;
+    this.preSibling = null;
+    this.nextSibling = null;
+    // this.children = null;
+    this.firstChild = null;
+    this.lastChild = null;
   }
 
   buildRelationship({key, parent, isFirst, isLast, preSibling} = {}) {

@@ -1,8 +1,20 @@
+const keyList = Object.keys;
+
 const shallowEqual = (a, b) => {
-  if (!a || !b || typeof a !== 'object' || typeof b !== 'object') {
-    return a === b || (a === undefined && b === null) || (a === null && b === undefined);
+  if (a === b) {
+    return true;
   }
-  return a === b || !Object.keys(Object.assign({}, a, b)).find(key => a[key] !== b[key]);
+  if (!(a instanceof Object) || !(b instanceof Object)) {
+    return false;
+  }
+  const keys = keyList(a);
+  const length = keys.length;
+  for (let i = 0; i < length; i++) {
+    if (a[keys[i]] !== b[keys[i]]) {
+      return false;
+    }
+  }
+  return length === keyList(b).length;
 };
 
 module.exports = {

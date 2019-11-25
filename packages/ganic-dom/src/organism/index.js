@@ -1,11 +1,8 @@
-
 const { organismFactory } = require('./dom');
 
-const organisms = {
-  box: organismFactory('div'),
-};
+const organisms = {};
 
-const getOrganismByTag = tagName => {
+const getOrganism = tagName => {
   if (organisms[tagName]) {
     return organisms[tagName];
   }
@@ -13,5 +10,5 @@ const getOrganismByTag = tagName => {
 };
 
 module.exports = {
-  getOrganismByTag,
+  getOrganism,
 };

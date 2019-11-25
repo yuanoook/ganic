@@ -5,9 +5,11 @@ const { updateLeaf, vanishLeaf } = require('./connect/leaf');
 const taskStack = [];
 const taskify = fn => (...args) => taskStack.push(() => fn(...args));
 const clearTasks = () => {
-  while (taskStack.length) {
-    taskStack.shift()();
+  const length = taskStack.length;
+  for (let i = 0; i < length; i++) {
+    taskStack[i]();
   }
+  taskStack.length = 0;
 };
 
 const onReady = taskify(setUpNode);

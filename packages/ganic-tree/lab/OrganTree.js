@@ -2,6 +2,7 @@ const { Organ } = require('ganic');
 const { OrganNode } = require('./OrganNode');
 const { OrganLeaf } = require('./OrganLeaf');
 const { createNode, List } = require('./utils');
+const { addTree, removeTree } = require('./wood');
 
 class OrganTree {
   constructor({organDesc, envRoot, envRunner}) {
@@ -10,6 +11,7 @@ class OrganTree {
       envRoot,
       envRunner,
     });
+    addTree(this);
     this.grow();
   }
 
@@ -47,6 +49,7 @@ class OrganTree {
   }
 
   vanish() {
+    removeTree(this);
     this.trunkNode.vanish();
     this.clearUp();
   }

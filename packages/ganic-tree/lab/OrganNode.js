@@ -13,7 +13,13 @@ const { List, getOrganKit, createNode } = require('./utils');
 class OrganNode extends Connector {
   constructor({organ, tree, key, relationship}) {
     super({key, ...relationship});
-    this.setUp({organ, tree});
+
+    this.organ = organ;
+    this.tree = tree;
+    this.updating = false;
+    this.children = {};
+    this.descs = [];
+    this.descKeys = [];
 
     this.update = this.update.bind(this);
     this.vanishChild = this.vanishChild.bind(this);
@@ -21,20 +27,13 @@ class OrganNode extends Connector {
 
     organ.addListener(this.update);
   }
-
-  setUp(config) {
-    Object.assign(this, {
-      organ: null,
-      tree: null,
-      updating: false,
-      children: {},
-      descs: [],
-      descKeys: [],
-    }, config);
-  }
-
   clearUp() {
-    this.setUp();
+    this.organ = null;
+    this.tree = null;
+    // this.updating = false;
+    // this.children = null;
+    this.descs.length = 0;
+    this.descKeys.length = 0;
   }
 
   update() {

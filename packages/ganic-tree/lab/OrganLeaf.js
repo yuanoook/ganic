@@ -8,18 +8,12 @@ const { Connector } = require('./Connector');
 class OrganLeaf extends Connector {
   constructor({value, tree, key, relationship}) {
     super({key, ...relationship});
-    this.setUp({value, tree});
-  }
-
-  setUp(config) {
-    Object.assign(this, {
-      value: null,
-      tree: null,
-      children: null,
-    }, config);
+    this.value = value;
+    this.tree = tree;
   }
   clearUp() {
-    this.setUp();
+    this.value = null;
+    this.tree = null;
   }
   update() {
     if (this.tree) {
@@ -32,7 +26,6 @@ class OrganLeaf extends Connector {
       this.update();
     }
   }
-
   vanish() {
     if (this.tree) {
       this.tree.envRunner.vanishLeaf(this);

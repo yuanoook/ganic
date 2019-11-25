@@ -20,19 +20,19 @@ describe('organTree', () => {
   it('should new & vanish a OrganTree properly with string TAG organism', () => {
     const smile = ':D';
     const organDesc = {
-      organism: 'box',
+      organism: 'div',
       props: {
-        class: 'a-beautiful-box',
+        class: 'a-beautiful-div',
         other: 'other-attr-value',
         children: smile,
       },
     };
     const envRoot = document.createElement('div');
     const tree = render(organDesc, envRoot);
-    const boxDom = organDomMap.get(tree.trunkNode.firstChild.organ);
+    const divDom = organDomMap.get(tree.trunkNode.firstChild.organ);
 
-    expect(boxDom.outerHTML).toBe(`<div class="a-beautiful-box" other="other-attr-value">${smile}</div>`);
-    expect(boxDom.parentElement).toBe(envRoot);
+    expect(divDom.outerHTML).toBe(`<div class="a-beautiful-div" other="other-attr-value">${smile}</div>`);
+    expect(divDom.parentElement).toBe(envRoot);
     expect(envRoot.textContent).toBe(smile);
     tree.vanish();
     expect(envRoot.textContent).toBe('');
@@ -41,8 +41,8 @@ describe('organTree', () => {
   it('should new & vanish a OrganTree properly with nested string TAG organism', () => {
     const content = '3';
     const organism3 = () => attach(content);
-    const organism2 = () => ({organism: 'box', props: {
-      class: 'a-beautiful-box',
+    const organism2 = () => ({organism: 'div', props: {
+      class: 'a-beautiful-div',
       other: 'other-attr-value',
       children: [
         {
@@ -55,7 +55,7 @@ describe('organTree', () => {
     const envRoot = document.createElement('div');
     const tree = render(organDesc, envRoot);
 
-    expect(envRoot.innerHTML).toBe(`<div class="a-beautiful-box" other="other-attr-value">${content}</div>`);
+    expect(envRoot.innerHTML).toBe(`<div class="a-beautiful-div" other="other-attr-value">${content}</div>`);
     expect(envRoot.textContent).toBe(content);
     tree.vanish();
     expect(envRoot.textContent).toBe('');

@@ -1,5 +1,5 @@
 class Connector {
-  constructor(relationship = {}) {
+  constructor(relationship) {
     this.key = null;
     this.parent = null;
     this.preSibling = null;
@@ -19,7 +19,11 @@ class Connector {
     this.lastChild = null;
   }
 
-  buildRelationship({key, parent, isFirst, isLast, preSibling} = {}) {
+  buildRelationship(relationship) {
+    if (!relationship) {
+      return;
+    }
+    const {key, parent, isFirst, isLast, preSibling} = relationship;
     if (preSibling) {
       this.preSibling = preSibling;
       this.nextSibling = preSibling.nextSibling;

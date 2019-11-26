@@ -8,7 +8,7 @@ const { Connector } = require('./Connector');
 class OrganLeaf extends Connector {
   constructor({value, tree, relationship}) {
     super(relationship);
-    this.value = value;
+    this.value = value === false ? undefined : value;
     this.tree = tree;
   }
   clearUp() {
@@ -22,7 +22,7 @@ class OrganLeaf extends Connector {
   }
   receive(value) {
     if (this.value !== value) {
-      this.value = value;
+      this.value = value === false ? undefined : value;
       this.update();
     }
   }

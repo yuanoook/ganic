@@ -1,6 +1,10 @@
 const List = props => props;
 
-const getOrganKit = ({ organism } = {}, tree) => {
+const getOrganKit = (desc, tree) => {
+  const organism = desc && desc.organism;
+  if (!organism) {
+    return;
+  }
   if (typeof organism === 'function') {
     return { organism };
   }

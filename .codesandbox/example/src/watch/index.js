@@ -56,7 +56,7 @@ const Needle = ({ deg, style }) => <div style={{
 
 const Second = ({ second }) => <Needle deg={second * 6}/>
 const Minute = ({ minute }) => <Needle deg={minute * 6} style={{height: '70px', background: 'yellow'}}/>
-const Hour = ({ hour }) => <Needle deg={(hour / 4) * 60} style={{height: '50px', background: 'white'}}/>
+const Hour = ({ hour }) => <Needle deg={(hour / 2) * 60} style={{height: '50px', background: 'white'}}/>
 
 const Watch = props => {
   const [second, minute, hour] = useTime();

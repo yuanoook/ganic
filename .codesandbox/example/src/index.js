@@ -7,18 +7,25 @@ import Select from "./Select";
 import TodoList from "./todomvc/TodoList";
 import CounterApp from "./counter/index";
 import Benchmark from "./benchmark/index";
-import Watch from './watch';
+import Watch from './watch/index';
+import Smile from './smile/index';
 
-const options = ['watch', 'todolist', 'counter', 'benchmark'];
+const options = {
+  smile: <Smile/>,
+  watch: <Watch/>,
+  todolist: <TodoList/>,
+  counter: <CounterApp/>,
+  benchmark: <Benchmark/>
+};
+const optionKeys = Object.keys(options);
+
+
 const App = () => {
-  const [select, selectUI] = useOrgan(Select, options);
+  const [select, selectUI] = useOrgan(Select, optionKeys);
 
   return <>
     {selectUI}
-    <Watch style={{display: select === options[0] ? 'block' : 'none'}}/>
-    <TodoList style={{display: select === options[1] ? 'block' : 'none'}}/>
-    <CounterApp style={{display: select === options[2] ? 'block' : 'none'}}/>
-    <Benchmark style={{display: select === options[3] ? 'block' : 'none'}}/>
+    { options[select] }
   </>
 };
 

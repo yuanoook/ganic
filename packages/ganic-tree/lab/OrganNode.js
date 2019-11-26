@@ -59,7 +59,7 @@ class OrganNode extends Connector {
       return [];
     }
     const descs = Array.isArray(this.organ.result) ? this.organ.result : [this.organ.result];
-    return descs.map(desc => 
+    return descs.map(desc =>
       !Array.isArray(desc) ? desc : {organism: List, props: desc},
     );
   }

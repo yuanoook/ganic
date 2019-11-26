@@ -11,11 +11,12 @@ const { List, getOrganKit, createNode } = require('./utils');
  */
 
 class OrganNode extends Connector {
-  constructor({organ, tree, key, relationship}) {
-    super({key, ...relationship});
+  constructor({organ, tree, index, relationship}) {
+    super(relationship);
 
     this.organ = organ;
     this.tree = tree;
+    this.index = index;
     this.updating = false;
     this.children = {};
     this.descs = [];
@@ -30,6 +31,7 @@ class OrganNode extends Connector {
   clearUp() {
     this.organ = null;
     this.tree = null;
+    // this.index = 0;
     // this.updating = false;
     // this.children = null;
     this.descs.length = 0;
@@ -102,7 +104,10 @@ class OrganNode extends Connector {
     const isChildNode = child instanceof OrganNode;
     const isChildLeaf = child instanceof OrganLeaf;
     if (isChildNode && organism && child.organ.organism === organism) {
-      this.relocateChild(child, index);
+      if (index !== child.index) {
+        child.index = index;
+        this.relocateChild(child, index);
+      }
       child.organ.receive(desc.props); // update existing same type organNode
     } else if (isChildLeaf && isDescLeaf) {
       child.receive(desc);             // update existing organLeaf
@@ -125,9 +130,9 @@ class OrganNode extends Connector {
       desc,
       parent: this,
       tree: this.tree,
-      key,
-
+      index,
       relationship: {
+        key,
         parent: this,
         isFirst: isFirst,
         isLast: index === this.descKeys.length - 1,

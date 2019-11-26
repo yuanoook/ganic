@@ -19,7 +19,7 @@ const createNode = ({
   desc,
   tree,
   parent,
-  key,
+  index,
   relationship,
 }) => {
   let { organism, onReady } = getOrganKit(desc, tree) || {};
@@ -29,7 +29,7 @@ const createNode = ({
       organ: new Organ({organism, props: desc.props}),
       parent,
       tree,
-      key,
+      index,
       relationship,
     });
   } else {
@@ -37,7 +37,6 @@ const createNode = ({
       value: desc,
       parent,
       tree,
-      key,
       relationship,
     });
     onReady = () => node.update();

@@ -6,8 +6,8 @@ const { Connector } = require('./Connector');
  */
 
 class OrganLeaf extends Connector {
-  constructor({value, tree, key, relationship}) {
-    super({key, ...relationship});
+  constructor({value, tree, relationship}) {
+    super(relationship);
     this.value = value;
     this.tree = tree;
   }

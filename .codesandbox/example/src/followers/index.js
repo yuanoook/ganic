@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 
-import Ganic from "ganic";
+import Ganic from 'ganic';
 import useMouse from '../shared/useMouse';
 import useMotion from '../shared/useMotion';
 
@@ -46,7 +46,7 @@ const useMouseFollowers = n => {
 };
 
 const MouseFollowers = props => {
-  const followers = useMouseFollowers(props && props.number || 70);
+  const followers = useMouseFollowers(props && props.number || 50);
 
   return <div {...props}>
     { followers }

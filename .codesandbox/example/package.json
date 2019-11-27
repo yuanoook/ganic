@@ -5,7 +5,7 @@
   "main": "index.html",
   "scripts": {
     "local": "yarn sync-build && yarn start",
-    "start": "parcel index.html --open",
+    "start": "parcel index.html --open --no-source-maps",
     "build": "parcel build index.html",
     "sync-build": "yarn clear-ganic && yarn copy-ganic",
     "clear-ganic": "rm -rf ./node_modules/ganic*",

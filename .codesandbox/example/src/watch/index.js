@@ -2,13 +2,13 @@
 
 import Ganic from "ganic";
 import {
+  useMemo,
   useState,
   useInterval,
 } from "ganic-usex";
 
-const initDate = new Date;
 const useTime = () => {
-  const [date, setDate] = useState(initDate);
+  const [date, setDate] = useState(useMemo(() => new Date));
   useInterval(() => setDate(new Date), 500);
   return [
     date.getSeconds(),

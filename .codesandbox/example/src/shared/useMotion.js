@@ -1,9 +1,9 @@
-import { attach } from 'ganic';
 import {
   useRef,
   useInitialState,
 } from 'ganic-usex';
 import useGlobalInterval from '../shared/useGlobalInterval';
+import useBrowser from '../shared/useBrowser';
 
 const useMotion = (value, timeBudget) => {
   const [current, setCurrent] = useInitialState(value);
@@ -15,7 +15,8 @@ const useMotion = (value, timeBudget) => {
     ref.startAt = Date.now();
   }
 
-  const defaultInterval = 40;
+  const { isMobile } = useBrowser();
+  const defaultInterval = isMobile ? 100 : 50;
   const approached = timeBudget < defaultInterval || current === ref.target;
   const interval = approached ? null : defaultInterval;
 

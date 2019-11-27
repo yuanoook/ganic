@@ -2,44 +2,45 @@ import { attach } from 'ganic';
 import { useRef } from 'ganic-usex';
 
 const runningIntervals = {};
-const globalIntervalSet = new Set();
+const intervalRefSets = {};
 
-const getCallbacks = delay => {
-  const callbackGroup = {};
-  globalIntervalSet.forEach(ref => {
-    callbackGroup[ref.delay] = callbackGroup[ref.delay] || [];
-    callbackGroup[ref.delay].push(ref.callback); 
-  });
-  return delay ? callbackGroup[delay] : callbackGroup;
-};
-
-const callCallbacks = delay => {
-  const callbacks = getCallbacks(delay);
-  if (callbacks === undefined) {
-    debugger;
+const removeRefLastDelay = ref => {
+  if (intervalRefSets[ref.lastDelay]) {
+    intervalRefSets[ref.lastDelay].delete(ref);
   }
-  callbacks.forEach(fn => {
-    fn();
-  });
 }
-
-const startUpInterval = ref => {
-  globalIntervalSet.add(ref);
-  const delay = ref.delay;
-  if (!runningIntervals[delay]) {
-    runningIntervals[delay] = setInterval(() => callCallbacks(delay), delay);
+const removeRefDelay = ref => {
+  if (intervalRefSets[ref.delay]) {
+    intervalRefSets[ref.delay].delete(ref);
   }
-};
-
-const clearUpInterval = ref => {
-  globalIntervalSet.delete(ref);
-  if (ref.lastDelay) {
-    const lastDelayCallbacks = getCallbacks(ref.lastDelay);
-    if (!lastDelayCallbacks || !lastDelayCallbacks.length) {
-      clearInterval(runningIntervals[ref.lastDelay]);
-      runningIntervals[ref.lastDelay] = null;
+}
+const addRef = ref => {
+  removeRefLastDelay(ref);
+  const delay = ref.delay;
+  if (typeof delay === 'number') {
+    if (intervalRefSets[delay]) {
+      intervalRefSets[delay].add(ref);
+    } else {
+      intervalRefSets[delay] = new Set([ref]);
+    }
+    if (!runningIntervals[delay]) {
+      runningIntervals[delay] = setInterval(() => callRefs(delay), delay);
     }
   }
+};
+
+const getRefSet = delay => intervalRefSets[delay];
+const callRefs = delay => {
+  const refSet = getRefSet(delay);
+  if (!refSet || !refSet.size) {
+    clearInterval(runningIntervals[delay]);
+    runningIntervals[delay] = null;
+    intervalRefSets[delay] = null;
+    return;
+  }
+  refSet.forEach(ref => {
+    ref.callback();
+  });
 };
 
 const useGlobalInterval = (callback, delay) => {
@@ -48,13 +49,9 @@ const useGlobalInterval = (callback, delay) => {
   attach(interval => {
     ref.lastDelay = ref.delay;
     ref.delay = interval;
-    if (typeof interval !== 'number') {
-      clearUpInterval(ref);
-    } else {
-      startUpInterval(ref);
-    }
+    addRef(ref);
     return () => {
-      clearUpInterval(ref);
+      removeRefDelay(ref);
     };
   }, delay);
 };

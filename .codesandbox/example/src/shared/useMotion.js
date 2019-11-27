@@ -1,10 +1,11 @@
+import { attach } from 'ganic';
 import {
   useRef,
   useInitialState,
-  useInterval,
-} from "ganic-usex";
+} from 'ganic-usex';
+import useGlobalInterval from '../shared/useGlobalInterval';
 
-const useMotion = (value, delay) => {
+const useMotion = (value, timeBudget) => {
   const [current, setCurrent] = useInitialState(value);
 
   const ref = useRef();
@@ -14,20 +15,20 @@ const useMotion = (value, delay) => {
     ref.startAt = Date.now();
   }
 
-  const defaultInterval = 16;
-  const approached = delay < defaultInterval || current === ref.target;
+  const defaultInterval = 40;
+  const approached = timeBudget < defaultInterval || current === ref.target;
   const interval = approached ? null : defaultInterval;
 
   let approach;
   if (!approached) {
     const diff = ref.target - ref.startValue;
-    const times = delay / interval;
+    const times = timeBudget / interval;
     approach = diff / times;
   }
 
-  useInterval(() => {
+  useGlobalInterval(() => {
     const timeSpent = Date.now() - ref.startAt;
-    const timeLeft = delay - timeSpent;
+    const timeLeft = timeBudget - timeSpent;
     if (timeLeft <= interval) {
       setCurrent(ref.target);
       return;

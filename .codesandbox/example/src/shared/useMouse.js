@@ -11,10 +11,10 @@ const useMouse = () => {
   );
   useEffect(() => {
     document.addEventListener('mousemove', mouseTracker);
-    document.addEventListener('touchstart', mouseTracker);
+    document.addEventListener('touchend', mouseTracker, {passive: true});
     return () => {
       document.removeEventListener('mousemove', mouseTracker);
-      document.removeEventListener('touchstart', mouseTracker);
+      document.removeEventListener('touchend', mouseTracker);
     }
   });
   return position;

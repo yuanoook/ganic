@@ -1,24 +1,31 @@
 const { getUpdatingOrgan, attach } = require('ganic');
 const { applyAttrs } = require('./attrs');
 const { organDomMap } = require('../connect/map');
+const { taskify } = require('../taskStack');
+
+const engage = taskify((organ, tagName, attrs) => {
+  let dom = organDomMap.get(organ);
+  if (!dom) {
+    dom = document.createElement(tagName);
+    organDomMap.set(organ, dom);
+  }
+  applyAttrs(dom, attrs);
+});
+
+const release = taskify(organ => {
+  const dom = organDomMap.get(organ);
+  organDomMap.delete(organ);
+  if (dom) {
+    dom.remove();
+  }
+});
 
 const newParasitismByTag = tagName => attrs => {
-  let organ = getUpdatingOrgan();
-  let div = organDomMap.get(organ);
-  if (!div) {
-    div = document.createElement(tagName);
-    organDomMap.set(organ, div);
-  }
-
-  applyAttrs(div, attrs); //can be async
-
+  const organ = getUpdatingOrgan();
+  engage(organ, tagName, attrs);
   return ({ ending }) => {
     if (ending) {
-      div.remove();
-      organDomMap.delete(organ);
-      organ = null;
-      div = null;
-      return;
+      release(organ);
     }
   };
 };

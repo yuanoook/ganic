@@ -3,6 +3,7 @@
 import Ganic from 'ganic';
 import useMouse from '../shared/useMouse';
 import useMotion from '../shared/useMotion';
+import useBrowser from '../shared/useBrowser';
 
 const followerStyle = {
   position: 'fixed',
@@ -29,13 +30,15 @@ const useFollower = ({clientX, clientY, delay, background}) => {
 const colors = ['blue', 'green', 'brown', 'red', 'yellow', 'purple', 'pink'];
 
 const useMouseFollowers = n => {
+  const {isMobile} = useBrowser();
+  const delay = isMobile ? 3000 : 300;
   const {clientX, clientY} = useMouse();
   return Array(n).join().split(',')
     .reduce((prev, x, i) => {
       return [...prev, useFollower({
         clientX: prev[prev.length - 1][0].currentX,
         clientY: prev[prev.length - 1][0].currentY,
-        delay: 300,
+        delay,
         background: colors[i % 7],
       })]
     }, [
@@ -46,7 +49,8 @@ const useMouseFollowers = n => {
 };
 
 const MouseFollowers = props => {
-  const followers = useMouseFollowers(props && props.number || 50);
+  const {isMobile} = useBrowser();
+  const followers = useMouseFollowers(props && props.number || (isMobile ? 10 : 50));
 
   return <div {...props}>
     { followers }

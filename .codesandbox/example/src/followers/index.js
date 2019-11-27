@@ -46,7 +46,7 @@ const useMotion = (value, delay) => {
 const useMouse = () => {
   const [position, setPosition] = useInitialState({clientX: 0, clientY: 0});
   const mouseTracker = useCallback(
-    ({clientX, clientY}) => setPosition({clientX, clientY})
+    ({clientX, clientY}) => setPosition({clientX: clientX + 1, clientY: clientY + 1})
   );
   useEffect(() => {
     document.addEventListener('mousemove', mouseTracker);
@@ -67,31 +67,45 @@ const followerStyle = {
   borderRadius: '100%',
 };
 
-const useFollower = ({clientX, clientY, delay}) => {
+const useFollower = ({clientX, clientY, delay, background}) => {
   const currentX = useMotion(clientX, delay);
   const currentY = useMotion(clientY, delay);
-  return <div style={{
-    ...followerStyle,
-    top: currentY,
-    left: currentX,
-  }}></div>
-}
+  return [
+    {currentX, currentY},
+    <div style={{
+      ...followerStyle,
+      top: currentY,
+      left: currentX,
+      background: background || 'blue',
+    }}></div>
+  ];
+};
+
+const colors = ['blue', 'green', 'brown', 'red', 'yellow', 'purple', 'pink'];
 
 const useMouseFollowers = n => {
   const {clientX, clientY} = useMouse();
-  return Array(n).join().split(',').map((x, i) => useFollower({
-    clientX,
-    clientY,
-    delay: i * 100,
-  }));
+  return Array(n).join().split(',')
+    .reduce((prev, x, i) => {
+      return [...prev, useFollower({
+        clientX: prev[prev.length - 1][0].currentX,
+        clientY: prev[prev.length - 1][0].currentY,
+        delay: 300,
+        background: colors[i % 7],
+      })]
+    }, [
+      [{currentX: clientX, currentY: clientY}]
+    ])
+    .map(([pos, ui]) => ui)
+    .filter(ui => !!ui);
 };
 
-const Face = props => {
-  const followers = useMouseFollowers(7);
+const MouseFollowers = props => {
+  const followers = useMouseFollowers(props && props.number || 7);
 
   return <div {...props}>
     { followers }
   </div>
 };
 
-export default Face;
+export default MouseFollowers;

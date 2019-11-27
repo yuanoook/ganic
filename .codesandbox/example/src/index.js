@@ -8,10 +8,10 @@ import TodoList from "./todomvc/TodoList";
 import CounterApp from "./counter/index";
 import Benchmark from "./benchmark/index";
 import Watch from './watch/index';
-import Smile from './smile/index';
+import Followers from './followers/index';
 
 const options = {
-  smile: <Smile/>,
+  followers: <Followers/>,
   watch: <Watch/>,
   todolist: <TodoList/>,
   counter: <CounterApp/>,

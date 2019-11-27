@@ -1,63 +1,8 @@
 /* eslint-disable no-unused-vars */
 
 import Ganic from "ganic";
-import {
-  useRef,
-  useCallback,
-  useInitialState,
-  useInterval,
-  useEffect,
-} from "ganic-usex";
-
-const useMotion = (value, delay) => {
-  const [current, setCurrent] = useInitialState(value);
-
-  const ref = useRef();
-  if (ref.target !== value) {
-    ref.startValue = current;
-    ref.target = value;
-    ref.startAt = Date.now();
-  }
-
-  const defaultInterval = 16;
-  const approached = delay < defaultInterval || current === ref.target;
-  const interval = approached ? null : defaultInterval;
-
-  let approach;
-  if (!approached) {
-    const diff = ref.target - ref.startValue;
-    const times = delay / interval;
-    approach = diff / times;
-  }
-
-  useInterval(() => {
-    const timeSpent = Date.now() - ref.startAt;
-    const timeLeft = delay - timeSpent;
-    if (timeLeft <= interval) {
-      setCurrent(ref.target);
-      return;
-    }
-    setCurrent(current => current + approach);
-  }, interval);
-
-  return approached ? value : current;
-}
-
-const useMouse = () => {
-  const [position, setPosition] = useInitialState({clientX: 0, clientY: 0});
-  const mouseTracker = useCallback(
-    ({clientX, clientY}) => setPosition({clientX: clientX + 1, clientY: clientY + 1})
-  );
-  useEffect(() => {
-    document.addEventListener('mousemove', mouseTracker);
-    document.addEventListener('touchstart', mouseTracker);
-    return () => {
-      document.removeEventListener('mousemove', mouseTracker);
-      document.removeEventListener('touchstart', mouseTracker);
-    }
-  });
-  return position;
-}
+import useMouse from '../shared/useMouse';
+import useMotion from '../shared/useMotion';
 
 const followerStyle = {
   position: 'fixed',
@@ -101,7 +46,7 @@ const useMouseFollowers = n => {
 };
 
 const MouseFollowers = props => {
-  const followers = useMouseFollowers(props && props.number || 7);
+  const followers = useMouseFollowers(props && props.number || 70);
 
   return <div {...props}>
     { followers }

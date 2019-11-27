@@ -1,4 +1,3 @@
-
 const GanicTree = require('ganic-tree');
 const envDOM = require('./src/index');
 

@@ -1,13 +1,6 @@
 /* eslint-disable no-unused-vars */
-import { useCallback, useInitialState } from 'ganic-usex';
 import buildData from './buildData';
-
-// todo: move useReducer to ganic-usex
-const useReducer = (reducer, initState) => {
-  const [state, setState] = useInitialState(initState);
-  const dispatch = useCallback(action => setState(s => reducer(s, action)));
-  return [state, dispatch];
-}
+import useReducer from '../shared/useReducer';
 
 const listReducer = (state, action) => {
   const { data, selected } = state;

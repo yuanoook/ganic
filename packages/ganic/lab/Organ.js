@@ -12,7 +12,7 @@ class Organ {
     this.props = props;
     this.result = null;
     this.parasites = [];
-    this.parasiteCheckingIndex = 0;
+    this.parasiteCheckingIndexStack = [];
     this.listeners = [];
     this.update();
   }
@@ -20,9 +20,9 @@ class Organ {
     this.organism = null;
     this.props = null;
     this.result = null;
-    this.parasites.length = 0;
-    // this.parasiteCheckingIndex = 0;
-    this.listeners.length = 0;
+    // this.parasites.length = 0;
+    // this.parasiteCheckingIndexStack.length = 0;
+    // this.listeners.length = 0;
   }
 
   receive(props) {
@@ -34,10 +34,12 @@ class Organ {
   }
   update() {
     Lakhesis.setUpdatingOrgan(this);
-    this.parasiteCheckingIndex = 0;
-
     const oldResult = this.result;
+
+    this.parasiteCheckingIndexStack[this.parasiteCheckingIndexStack.length] = 0;
     this.result = this.organism(this.props);
+    this.parasiteCheckingIndexStack.length--;
+
     const changeDetected = !shallowEqual(oldResult, this.result);
     if (changeDetected) {
       this.wakeListeners();
@@ -56,11 +58,11 @@ class Organ {
     return this.parasites[index];
   }
   take(deps) {
-    // todo: fix parasiteCheckingIndex wrongly resetted while setState in useEffect
-    const parasite = this.getParasite(this.parasiteCheckingIndex);
+    const parasite = this.getParasite(
+      this.parasiteCheckingIndexStack[this.parasiteCheckingIndexStack.length - 1],
+    );
     parasite.receiveDeps(deps);
-    this.parasiteCheckingIndex++;
-
+    this.parasiteCheckingIndexStack[this.parasiteCheckingIndexStack.length - 1]++;
     return parasite;
   }
   attach(parasitism, deps, firstValue) {

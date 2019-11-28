@@ -3,13 +3,11 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 
 import Ganic from "ganic";
-import { useCallback, useMemo, useState } from "ganic-usex";
+import { useCallback } from "ganic-usex";
 import useStorage from "./useStorage";
 
 const useInput = (initValue = "", storageKey) => {
-  const [value, setValue] = useMemo(storageKey)
-    ? useStorage(storageKey, initValue)
-    : useState(initValue);
+  const [value, setValue] = useStorage(storageKey, initValue);
 
   const Input = useCallback(props => {
     const { onInput: onInputProp, onKeyup: onKeyupProp, onEnter, ...attrs } =

@@ -4,14 +4,14 @@ const stackFactory = key => {
   const get = () => stack[stack.length - 1] || null;
   const getAll = () => [...stack];
   const clear = item => {
-    const index = stack.indexOf(item);
+    const index = stack.lastIndexOf(item);
     if (index === -1) {
       throw new Error(`Lakhesis.clear${key} gets wrongly called!`);
     }
     if (index !== stack.length - 1) {
       throw new Error(`Don\'t support error boundary now!`);
     }
-    stack.splice(stack.indexOf(item));
+    stack.splice(stack.lastIndexOf(item));
   };
   return [set, get, clear, getAll];
 };

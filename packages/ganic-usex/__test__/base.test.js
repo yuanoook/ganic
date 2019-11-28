@@ -4,6 +4,7 @@ const {
   useMemo,
   useCallback,
   useState,
+  useEffect,
 } = require('../index');
 
 describe('should always keep identity from parasite', () => {
@@ -97,6 +98,16 @@ describe('should always keep identity from parasite', () => {
     lastPlus();
     expect(organ.result).toBe(13);
 
+    organ.vanish();
+  });
+
+  it('should setState inside useEffect without Error', () => {
+    const App = () => {
+      const [s, setS] = useState(0);
+      useEffect(() => setS(1));
+      return s;
+    };
+    const organ = create({ organism: App });
     organ.vanish();
   });
 });

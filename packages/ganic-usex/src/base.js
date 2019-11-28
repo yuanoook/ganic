@@ -19,6 +19,7 @@ const useCallback = (fn, dependencies) =>
 
 const stateParasitism = function(deps, give) {
   let state = deps;
+  // todo: fix setState, make it stable during different update
   let setState = newState => {
     if (!setState) {
       return;
@@ -39,7 +40,9 @@ const useEffect = (parasitism, dependencies) =>
   attach(deps => {
     const toDetach = parasitism(deps);
     return () => {
-      toDetach();
+      if (typeof toDetach === 'function') {
+        toDetach();
+      }
     };
   }, dependencies);
 

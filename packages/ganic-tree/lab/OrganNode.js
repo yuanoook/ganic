@@ -18,6 +18,7 @@ class OrganNode extends Connector {
     this.tree = tree;
     this.index = index;
     this.updating = false;
+    this.vanishing = false;
     this.children = {};
     this.descs = [];
     this.descKeys = [];
@@ -33,6 +34,7 @@ class OrganNode extends Connector {
     this.tree = null;
     // this.index = 0;
     // this.updating = false;
+    // this.vanishing = false;
     // this.children = null;
     this.descs.length = 0;
     this.descKeys.length = 0;
@@ -161,10 +163,19 @@ class OrganNode extends Connector {
   }
 
   vanish() {
+    this.vanishing = true;
+    const onBuried = (!this.parent || !this.parent.vanishing)
+      && this.tree
+      && this.tree.envRunner.onBuried;
+
     this.organ.vanish();
     this.vanishAllChildren();
     super.vanish();
     this.clearUp();
+
+    if (onBuried) {
+      onBuried(this);
+    }
   }
 }
 

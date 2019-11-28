@@ -83,7 +83,7 @@ describe('organNode', () => {
   it('should build the right relationship for leaf', () => {
     const envRoot = document.createElement('div');
     const App = () => {
-      return [1, 2, 3, 4];
+      return [1, {organism: () => 2}, 3, 4];
     };
     const tree = render(<App />, envRoot);
     const appNode = tree.trunkNode.firstChild;

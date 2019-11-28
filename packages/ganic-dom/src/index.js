@@ -14,7 +14,8 @@ const getTagkit = tagName => {
 module.exports = {
   getTagkit,
   updateLeaf: taskify(updateLeaf),
-  vanishLeaf: vanishLeaf,
+  vanishLeaf: taskify(vanishLeaf),
   relocate: taskify(relocate),
   onSettled: clearTasks,
+  onBuried: clearTasks,
 };

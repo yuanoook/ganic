@@ -4,9 +4,6 @@ const {
   useCallback,
   useState,
   useEffect,
-
-  useInitialValue,
-  useInitialState,
 } = require('./src/base');
 
 const { useTimeout, useInterval } = require('./src/timer');
@@ -19,9 +16,6 @@ module.exports = {
   useCallback,
   useState,
   useEffect,
-
-  useInitialValue,
-  useInitialState,
 
   useTimeout,
   useInterval,

@@ -1,4 +1,4 @@
-const { insertDom } = require('./utils');
+const { insertDom, removeDom } = require('./utils');
 const { leafDomMap } = require('./map');
 
 const updateLeaf = organLeaf => {
@@ -22,9 +22,9 @@ const updateLeaf = organLeaf => {
 
 const vanishLeaf = organLeaf => {
   const textNode = leafDomMap.get(organLeaf);
+  leafDomMap.delete(organLeaf);
   if (textNode) {
-    textNode.remove();
-    leafDomMap.delete(organLeaf);
+    removeDom(textNode);
   }
 };
 

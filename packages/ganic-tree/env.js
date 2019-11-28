@@ -15,4 +15,5 @@ module.exports = {
 
   onSettled: nullFn,
   relocate: nullFn,
+  onBuried: nullFn,
 };

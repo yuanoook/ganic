@@ -1,7 +1,7 @@
 const { getOrganism } = require('./organism');
 const { setUpNode, relocate } = require('./connect/node');
 const { updateLeaf, vanishLeaf } = require('./connect/leaf');
-const { taskify, clearTasks } = require('./taskStack');
+const { taskify, clearTasks } = require('./taskQueue');
 
 const onReady = taskify(setUpNode);
 const getTagkit = tagName => {
@@ -14,7 +14,8 @@ const getTagkit = tagName => {
 module.exports = {
   getTagkit,
   updateLeaf: taskify(updateLeaf),
-  vanishLeaf: vanishLeaf,
+  vanishLeaf: taskify(vanishLeaf),
   relocate: taskify(relocate),
   onSettled: clearTasks,
+  onBuried: clearTasks,
 };

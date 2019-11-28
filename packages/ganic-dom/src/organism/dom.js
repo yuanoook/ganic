@@ -1,7 +1,8 @@
 const { getUpdatingOrgan, attach } = require('ganic');
 const { applyAttrs } = require('./attrs');
 const { organDomMap } = require('../connect/map');
-const { taskify } = require('../taskStack');
+const { removeDom } = require('../connect/utils');
+const { taskify } = require('../taskQueue');
 
 const engage = taskify((organ, tagName, attrs) => {
   let dom = organDomMap.get(organ);
@@ -16,7 +17,7 @@ const release = taskify(organ => {
   const dom = organDomMap.get(organ);
   organDomMap.delete(organ);
   if (dom) {
-    dom.remove();
+    removeDom(dom);
   }
 });
 

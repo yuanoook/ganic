@@ -46,7 +46,7 @@ const applyClass = (node, name, value) => {
     const checkOldValue = typeof oldValue === 'object';
     Object.keys(value).forEach(key => {
       if (checkOldValue ? oldValue[key] !== value[key] : true) {
-        node.classList.toggle(key, value[key]);
+        node.classList[value[key] ? 'add' : 'remove'](key);
       }
     });
   }

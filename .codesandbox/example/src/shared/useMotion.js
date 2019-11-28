@@ -18,15 +18,9 @@ const useMotion = (value, timeBudget) => {
   const { isMobile, isIE } = useBrowser();
   const defaultInterval = (isMobile || isIE) ? 100 : 50;
 
-  const approached = timeBudget < defaultInterval || current === ref.target;
+  const timeout = timeBudget < defaultInterval;
+  const approached = current === ref.target;
   const interval = approached ? null : defaultInterval;
-
-  let approach;
-  if (!approached) {
-    const diff = ref.target - ref.startValue;
-    const times = timeBudget / interval;
-    approach = diff / times;
-  }
 
   useGlobalInterval(() => {
     const timeSpent = Date.now() - ref.startAt;
@@ -35,10 +29,19 @@ const useMotion = (value, timeBudget) => {
       setCurrent(ref.target);
       return;
     }
-    setCurrent(current => current + approach);
+    setCurrent(current => {
+      const diff = ref.target - ref.startValue;
+      const times = timeBudget / interval;
+      const approach = diff / times;
+      return current + approach;
+    });
   }, interval);
 
-  return approached ? value : current;
+  if (timeout && !approached) {
+    setCurrent(ref.target);
+  }
+
+  return current;
 }
 
 export default useMotion;

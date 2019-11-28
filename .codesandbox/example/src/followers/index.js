@@ -5,6 +5,7 @@ import useMouse from '../shared/useMouse';
 import useMotion from '../shared/useMotion';
 import useBrowser from '../shared/useBrowser';
 import { useInterval, useState, useEffect, useThrottle } from 'ganic-usex';
+import { range } from '../shared/utils';
 
 const followerStyle = {
   position: 'fixed',
@@ -52,7 +53,6 @@ const useRandomLocation = interval => {
   const [location, setLocation] = useState(() => getWindowLocation(0.5, 0.5));
   useInterval(() => setLocation(moveLocation), interval);
 
-  // TODO: debug this shit
   // useEffect(({clientX, clientY}) => {
   //   if (clientX && clientY) {
   //     setLocation({clientX, clientY});
@@ -62,13 +62,12 @@ const useRandomLocation = interval => {
   return location;
 }
 
-const useMouseFollowers = n => {
+let useMouseFollowers = n => {
   const {isMobile} = useBrowser();
   const delay = isMobile ? 3000 : 300;
   const {clientX, clientY} = useRandomLocation(1000);
 
-  return Array(n).join().split(',')
-    .reduce((prev, x, i) => {
+  return range(n).reduce((prev, x, i) => {
       return [...prev, useFollower({
         clientX: prev[prev.length - 1][0].currentX,
         clientY: prev[prev.length - 1][0].currentY,
@@ -85,6 +84,22 @@ const useMouseFollowers = n => {
     ])
     .map(([pos, ui]) => ui);
 };
+
+// useMouseFollowers = () => {
+//   const delay = 49;
+//   const [location, setLocation] = useState(() => getWindowLocation(0.5, 0.5));
+//     useEffect(({clientX, clientY}) => {
+//     if (clientX && clientY) {
+//       setLocation({clientX, clientY});
+//     }
+//   }, useMouse());
+//   const {clientX, clientY} = location;
+//   console.log('clientX, clientY: ', clientX, clientY);
+//   // todo: to fix, sometimes, currentX & currentY switch values;
+//   const currentX = useMotion(clientX, delay);
+//   const currentY = useMotion(clientY, delay);
+//   console.log('currentX, currentY: ', currentX, currentY);
+// };
 
 const MouseFollowers = props => {
   const {isMobile} = useBrowser();

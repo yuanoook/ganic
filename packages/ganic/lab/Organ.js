@@ -56,6 +56,7 @@ class Organ {
     return this.parasites[index];
   }
   take(deps) {
+    // todo: fix parasiteCheckingIndex wrongly resetted while setState in useEffect
     const parasite = this.getParasite(this.parasiteCheckingIndex);
     parasite.receiveDeps(deps);
     this.parasiteCheckingIndex++;

@@ -17,9 +17,6 @@ const useMemo = (fn, dependencies) => {
 const useCallback = (fn, dependencies) =>
   useMemo(deps => (...args) => fn(...args, deps), dependencies);
 
-const useInitialValue = x =>
-  typeof x === 'function' ? useCallback(x) : useMemo(x);
-
 const stateParasitism = function(deps, give) {
   let state = deps;
   let setState = newState => {
@@ -36,10 +33,7 @@ const stateParasitism = function(deps, give) {
   };
 };
 
-const useState = initState => attach(stateParasitism, initState);
-
-const useInitialState = initState =>
-  attach(stateParasitism, useInitialValue(initState));
+const useState = initState => attach(stateParasitism, useMemo(initState));
 
 const useEffect = (parasitism, dependencies) =>
   attach(deps => {
@@ -55,7 +49,4 @@ module.exports = {
   useCallback,
   useState,
   useEffect,
-
-  useInitialValue,
-  useInitialState,
 };

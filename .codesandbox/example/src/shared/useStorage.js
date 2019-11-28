@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
-import { useInitialState, useMemo } from "ganic-usex";
+import { useState, useMemo } from "ganic-usex";
 
 const getStoredValue = (key, initValue) => {
   try {
@@ -18,7 +18,7 @@ const setStoredValue = (key, value) => {
 
 const useStorage = (key, defaultValue) => {
   const initValue = useMemo(() => getStoredValue(key, defaultValue));
-  const [value, setValue] = useInitialState(initValue);
+  const [value, setValue] = useState(initValue);
   setStoredValue(key, value);
   return [value, setValue];
 };

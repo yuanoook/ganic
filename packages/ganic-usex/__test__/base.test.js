@@ -4,8 +4,6 @@ const {
   useMemo,
   useCallback,
   useState,
-  useInitialValue,
-  useInitialState,
 } = require('../index');
 
 describe('should always keep identity from parasite', () => {
@@ -100,38 +98,5 @@ describe('should always keep identity from parasite', () => {
     expect(organ.result).toBe(13);
 
     organ.vanish();
-  });
-
-  it('should get identical value from useInitialValue', () => {
-    let lastInitialOne;
-    const App = ({ x }) => {
-      const theInitialOne = useInitialValue({ a: { b: x } });
-      expect(!lastInitialOne || lastInitialOne === theInitialOne).toBe(true);
-      lastInitialOne = theInitialOne;
-    };
-    const organ = create({ organism: App, props: { x: 1 } });
-    organ
-      .receive({ x: 1 })
-      .receive({ x: 2 })
-      .receive({ x: 3 });
-  });
-
-  it('should get identical value from useInitialState', () => {
-    let lastInitialOne;
-    let lastOtherOne;
-    const App = ({ x }) => {
-      const [theInitialOne] = useInitialState({ a: { b: x } });
-      expect(!lastInitialOne || lastInitialOne === theInitialOne).toBe(true);
-      lastInitialOne = theInitialOne;
-
-      const [theOtherOne] = useState({ a: { b: x } });
-      expect(!lastOtherOne || lastOtherOne !== theOtherOne).toBe(true);
-      lastOtherOne = theOtherOne;
-    };
-    const organ = create({ organism: App, props: { x: 1 } });
-    organ
-      .receive({ x: 1 })
-      .receive({ x: 2 })
-      .receive({ x: 3 });
   });
 });

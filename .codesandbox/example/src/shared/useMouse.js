@@ -1,11 +1,11 @@
 import {
   useCallback,
-  useInitialState,
+  useState,
   useEffect,
 } from "ganic-usex";
 
 const useMouse = () => {
-  const [position, setPosition] = useInitialState({clientX: 0, clientY: 0});
+  const [position, setPosition] = useState({clientX: 0, clientY: 0});
   const mouseTracker = useCallback(
     ({clientX, clientY}) => setPosition({clientX: clientX + 1, clientY: clientY + 1})
   );

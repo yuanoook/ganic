@@ -1,12 +1,12 @@
 import {
   useRef,
-  useInitialState,
+  useState,
 } from 'ganic-usex';
 import useGlobalInterval from '../shared/useGlobalInterval';
 import useBrowser from '../shared/useBrowser';
 
 const useMotion = (value, timeBudget) => {
-  const [current, setCurrent] = useInitialState(value);
+  const [current, setCurrent] = useState(value);
 
   const ref = useRef();
   if (ref.target !== value) {

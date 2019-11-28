@@ -62,14 +62,13 @@ describe('should always keep identity from parasite', () => {
       const [, setA] = useState();
       expect(!lastSetA || lastSetA === setA).toEqual(true);
       lastSetA = setA;
-
       const [, setB] = useState();
       expect(setA).not.toBe(setB);
     };
-
     create({ organism, props: 1 })
       .receive(2)
       .receive(3);
+    lastSetA(1);
   });
 
   it('should update useCallback, useCallback in the right way', () => {
@@ -103,11 +102,9 @@ describe('should always keep identity from parasite', () => {
 
   it('should setState inside useEffect without Error', () => {
     const App = () => {
-      const [s, setS] = useState(0);
+      const [, setS] = useState(0);
       useEffect(() => setS(1));
-      return s;
     };
-    const organ = create({ organism: App });
-    organ.vanish();
+    create({ organism: App });
   });
 });

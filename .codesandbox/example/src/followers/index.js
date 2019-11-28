@@ -23,8 +23,8 @@ const useFollower = ({clientX, clientY, delay, background}) => {
     {currentX, currentY},
     <div style={{
       ...followerStyle,
-      top: currentY,
       left: currentX,
+      top: currentY,
       background: background || 'blue',
     }}></div>
   ];
@@ -40,11 +40,11 @@ const padding = maxStep / 6;
 const keepInRange = (n, min, max) => Math.max(min, Math.min(max, n));
 
 const moveLocation = ({clientX, clientY}) => {
-  const diffTop = (Math.random() - 0.5) * maxStep;
   const diffLeft = (Math.random() - 0.5) * maxStep;
+  const diffTop = (Math.random() - 0.5) * maxStep;
   return {
-    clientX: keepInRange(clientX + diffTop, padding, window.innerHeight - padding),
-    clientY: keepInRange(clientY + diffLeft, padding, window.innerWidth - padding),
+    clientX: keepInRange(clientX + diffTop, padding, window.innerWidth - padding),
+    clientY: keepInRange(clientY + diffLeft, padding, window.innerHeight - padding),
   };
 };
 
@@ -52,6 +52,7 @@ const useRandomLocation = interval => {
   const [location, setLocation] = useState(() => getWindowLocation(0.5, 0.5));
   useInterval(() => setLocation(moveLocation), interval);
 
+  // TODO: debug this shit
   // useEffect(({clientX, clientY}) => {
   //   if (clientX && clientY) {
   //     setLocation({clientX, clientY});
@@ -64,7 +65,7 @@ const useRandomLocation = interval => {
 const useMouseFollowers = n => {
   const {isMobile} = useBrowser();
   const delay = isMobile ? 3000 : 300;
-  const {clientX, clientY} = useRandomLocation(100);
+  const {clientX, clientY} = useRandomLocation(1000);
 
   return Array(n).join().split(',')
     .reduce((prev, x, i) => {
@@ -75,10 +76,14 @@ const useMouseFollowers = n => {
         background: colors[i % 7],
       })]
     }, [
-      [{currentX: clientX, currentY: clientY}]
+      useFollower({
+        clientX,
+        clientY,
+        delay,
+        background: colors[colors.length - 1]
+      })
     ])
-    .map(([pos, ui]) => ui)
-    .filter(ui => !!ui);
+    .map(([pos, ui]) => ui);
 };
 
 const MouseFollowers = props => {

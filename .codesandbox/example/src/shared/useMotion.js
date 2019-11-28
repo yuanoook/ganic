@@ -15,8 +15,9 @@ const useMotion = (value, timeBudget) => {
     ref.startAt = Date.now();
   }
 
-  const { isMobile } = useBrowser();
-  const defaultInterval = isMobile ? 100 : 50;
+  const { isMobile, isIE } = useBrowser();
+  const defaultInterval = (isMobile || isIE) ? 100 : 50;
+
   const approached = timeBudget < defaultInterval || current === ref.target;
   const interval = approached ? null : defaultInterval;
 

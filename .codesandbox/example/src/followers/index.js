@@ -52,13 +52,11 @@ const moveLocation = ({clientX, clientY}) => {
 const useRandomLocation = interval => {
   const [location, setLocation] = useState(() => getWindowLocation(0.5, 0.5));
   useInterval(() => setLocation(moveLocation), interval);
-
-  // useEffect(({clientX, clientY}) => {
-  //   if (clientX && clientY) {
-  //     setLocation({clientX, clientY});
-  //   }
-  // }, useMouse());
-
+  useEffect(({clientX, clientY}) => {
+    if (clientX && clientY) {
+      setLocation({clientX, clientY});
+    }
+  }, useMouse());
   return location;
 }
 
@@ -84,22 +82,6 @@ let useMouseFollowers = n => {
     ])
     .map(([pos, ui]) => ui);
 };
-
-// useMouseFollowers = () => {
-//   const delay = 49;
-//   const [location, setLocation] = useState(() => getWindowLocation(0.5, 0.5));
-//     useEffect(({clientX, clientY}) => {
-//     if (clientX && clientY) {
-//       setLocation({clientX, clientY});
-//     }
-//   }, useMouse());
-//   const {clientX, clientY} = location;
-//   console.log('clientX, clientY: ', clientX, clientY);
-//   // todo: to fix, sometimes, currentX & currentY switch values;
-//   const currentX = useMotion(clientX, delay);
-//   const currentY = useMotion(clientY, delay);
-//   console.log('currentX, currentY: ', currentX, currentY);
-// };
 
 const MouseFollowers = props => {
   const {isMobile} = useBrowser();

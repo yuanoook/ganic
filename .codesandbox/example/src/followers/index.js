@@ -4,6 +4,8 @@ import Ganic from 'ganic';
 import useMouse from '../shared/useMouse';
 import useMotion from '../shared/useMotion';
 import useBrowser from '../shared/useBrowser';
+import { useInterval, useState, useEffect, useThrottle } from 'ganic-usex';
+import { range } from '../shared/utils';
 
 const followerStyle = {
   position: 'fixed',
@@ -13,6 +15,8 @@ const followerStyle = {
   borderRadius: '100%',
 };
 
+const colors = ['blue', 'green', 'brown', 'red', 'yellow', 'purple', 'pink'];
+
 const useFollower = ({clientX, clientY, delay, background}) => {
   const currentX = useMotion(clientX, delay);
   const currentY = useMotion(clientY, delay);
@@ -20,21 +24,48 @@ const useFollower = ({clientX, clientY, delay, background}) => {
     {currentX, currentY},
     <div style={{
       ...followerStyle,
-      top: currentY,
       left: currentX,
+      top: currentY,
       background: background || 'blue',
     }}></div>
   ];
 };
 
-const colors = ['blue', 'green', 'brown', 'red', 'yellow', 'purple', 'pink'];
+const getWindowLocation = (topRate, leftRate) => ({
+  clientX: window.innerWidth * topRate,
+  clientY: window.innerHeight * leftRate,
+});
 
-const useMouseFollowers = n => {
+const maxStep = 300;
+const padding = maxStep / 6;
+const keepInRange = (n, min, max) => Math.max(min, Math.min(max, n));
+
+const moveLocation = ({clientX, clientY}) => {
+  const diffLeft = (Math.random() - 0.5) * maxStep;
+  const diffTop = (Math.random() - 0.5) * maxStep;
+  return {
+    clientX: keepInRange(clientX + diffTop, padding, window.innerWidth - padding),
+    clientY: keepInRange(clientY + diffLeft, padding, window.innerHeight - padding),
+  };
+};
+
+const useRandomLocation = interval => {
+  const [location, setLocation] = useState(() => getWindowLocation(0.5, 0.5));
+  useInterval(() => setLocation(moveLocation), interval);
+  useEffect(({clientX, clientY}) => {
+    if (clientX && clientY) {
+      setLocation({clientX, clientY});
+    }
+  }, useMouse());
+  return location;
+}
+
+let useMouseFollowers = n => {
   const {isMobile} = useBrowser();
   const delay = isMobile ? 3000 : 300;
-  const {clientX, clientY} = useMouse();
-  return Array(n).join().split(',')
-    .reduce((prev, x, i) => {
+  const {clientX, clientY} = useRandomLocation(1000);
+
+  return range(n).reduce((prev, x, i) => {
       return [...prev, useFollower({
         clientX: prev[prev.length - 1][0].currentX,
         clientY: prev[prev.length - 1][0].currentY,
@@ -42,10 +73,14 @@ const useMouseFollowers = n => {
         background: colors[i % 7],
       })]
     }, [
-      [{currentX: clientX, currentY: clientY}]
+      useFollower({
+        clientX,
+        clientY,
+        delay,
+        background: colors[colors.length - 1]
+      })
     ])
-    .map(([pos, ui]) => ui)
-    .filter(ui => !!ui);
+    .map(([pos, ui]) => ui);
 };
 
 const MouseFollowers = props => {

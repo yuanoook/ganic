@@ -39,7 +39,9 @@ const useEffect = (parasitism, dependencies) =>
   attach(deps => {
     const toDetach = parasitism(deps);
     return () => {
-      toDetach();
+      if (typeof toDetach === 'function') {
+        toDetach();
+      }
     };
   }, dependencies);
 

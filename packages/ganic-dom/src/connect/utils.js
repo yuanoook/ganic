@@ -1,21 +1,9 @@
-const { OrganNode, OrganLeaf } = require('ganic-tree');
 const { organDomMap, leafDomMap } = require('./map');
 const { findParent, findPre, findOnes } = require('../../../shared/lostboy');
 
-const isTag = node => node instanceof OrganNode && organDomMap.has(node.organ);
 const getTagDom = node => organDomMap.get(node.organ);
-
-const isLeaf = node => node instanceof OrganLeaf && leafDomMap.has(node);
 const getText = node => leafDomMap.get(node);
-
-const findDom = node => {
-  if (isTag(node)) {
-    return getTagDom(node);
-  }
-  if (isLeaf(node)) {
-    return getText(node);
-  }
-};
+const findDom = node => getTagDom(node) || getText(node);
 
 const insertDom = (dom, node) => {
   if (!dom || !node) {
@@ -69,7 +57,16 @@ const relocate = node => {
   });
 };
 
+const removeDom = Element.prototype.remove
+  ? dom => dom.remove()
+  : dom => {
+    if (dom.parentNode) {
+      dom.parentNode.removeChild(dom);
+    }
+  };
+
 module.exports = {
   insertDom,
+  removeDom,
   relocate,
 };

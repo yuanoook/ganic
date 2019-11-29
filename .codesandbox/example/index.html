@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <title>Ganic - Organic Programming</title>
+    <link rel="shortcut icon" href="favicon.png"/>
     <meta charset="utf-8" />
     <meta
       name="viewport"
@@ -56,7 +57,7 @@
       );
       var codesandboxEnv = /csb\.app$/.test(location.host);
       if (!codesandboxEnv) {
-        var webpackDevServerEnv = /^\/webpack-dev-server\//.test(top.location.pathname);
+        var webpackDevServerEnv = /\d{4}/.test(location.port) || /^\/webpack-dev-server\//.test(top.location.pathname);
         conditionalJS(
           webpackDevServerEnv,
           "main.js",

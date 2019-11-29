@@ -9,6 +9,7 @@ import CounterApp from "./counter/index";
 import Benchmark from "./benchmark/index";
 import Watch from './watch/index';
 import Followers from './followers/index';
+import Fps from './fps/index';
 
 const options = {
   followers: <Followers/>,
@@ -19,12 +20,12 @@ const options = {
 };
 const optionKeys = Object.keys(options);
 
-
 const App = () => {
   const [select, selectUI] = useOrgan(Select, optionKeys);
 
   return <>
-    {selectUI}
+    { selectUI }
+    <Fps/>
     { options[select] }
   </>
 };

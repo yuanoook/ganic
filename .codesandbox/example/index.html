@@ -55,10 +55,10 @@
         "https://cdnjs.cloudflare.com/ajax/libs/classlist/1.2.20171210/classList.min.js"
       );
       conditionalJS(
-        /csb\.app$/.test(location.host),
-        "./src/index.js",
+        !/csb\.app$/.test(location.host),
         "./dist/main.js"
       );
     </script>
+    <script src="./src/index.js" type="for-codesandbox.io"></script>
   </body>
 </html>

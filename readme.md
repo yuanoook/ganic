@@ -6,7 +6,7 @@ App is a living matter. Ganic helps you manage your Apps organically.
 
 If you practiced React, you know how to play with Ganic.
 
-Not only does Ganic support **Functional Components, usex Hooks**, but it also enable you to **usex Hooks** wherever you could use.
+Not only does Ganic support **Functional Components, usex Hooks**, but it also enables you to **usex Hooks** wherever you could use.
 
 You are not limited to only **usex Hooks** in React for UI development. Ganic can work well in your old project, even backend.
 

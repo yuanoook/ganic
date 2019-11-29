@@ -3,14 +3,13 @@ import { red2green } from '../shared/hslColor';
 import { keepInRange } from '../shared/utils';
 
 const barStyle = {
-  width: 140,
-  height: 14,
+  width: '140px',
+  height: '14px',
   background: 'lightgray',
   display: 'inline-block',
   verticalAlign: 'middle',
   overflow: 'hidden',
   position: 'relative',
-  marginRight: 10,
 };
 
 const textStyle = {

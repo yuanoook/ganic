@@ -5,15 +5,15 @@ import { useThrottle, useOrgan } from "ganic-usex";
 import useFPS from '../shared/useFPS';
 import Progress from '../components/Progress';
 
-const Display = ({wrapperProps, fps}) => (
-  <div {...wrapperProps}>
+const Display = ({style, fps}) => (
+  <div style={style}>
     <Progress value={fps} prefix='FPS' postfix={fps}/>
   </div>
 );
 
 const Fps = props => {
-  const fps = useThrottle(useFPS(), 50);
-  return <Display wrapperProps={props} fps={fps}/>
+  const fps = useThrottle(useFPS(), props && props.ms || 100);
+  return <Display style={props && props.style} fps={fps}/>
 }
 
 export default Fps;

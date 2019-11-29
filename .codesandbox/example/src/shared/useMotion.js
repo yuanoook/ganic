@@ -3,7 +3,6 @@ import {
   useState,
 } from 'ganic-usex';
 import useGlobalInterval from '../shared/useGlobalInterval';
-import useBrowser from '../shared/useBrowser';
 
 const useMotion = (value, timeBudget) => {
   const [current, setCurrent] = useState(value);
@@ -15,8 +14,7 @@ const useMotion = (value, timeBudget) => {
     ref.startAt = Date.now();
   }
 
-  const { isMobile, isIE } = useBrowser();
-  const defaultInterval = (isMobile || isIE) ? 100 : 50;
+  const defaultInterval = 50;
 
   const timeout = timeBudget < defaultInterval;
   const approached = current === ref.target;

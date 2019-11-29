@@ -10,14 +10,26 @@ const useInput = (initValue = "", storageKey) => {
   const [value, setValue] = useStorage(storageKey, initValue);
 
   const Input = useCallback(props => {
-    const { onInput: onInputProp, onKeyup: onKeyupProp, onEnter, ...attrs } =
-      props || {};
-    const onInput = e => {
-      setValue(e.target.value);
-      if (typeof onInputProp === "function") {
-        onInputProp(e);
+    const {
+      onInput: onInputProp,
+      onChange: onChangeProp,
+      onKeyup: onKeyupProp,
+      onEnter,
+      ...attrs
+    } = props || {};
+    const type = attrs && attrs.type || 'text';
+
+    const wrapSetValue = fn => e => {
+      const value = e.target.value;
+      setValue(type === 'number' ? + value : value);
+      if (typeof fn === "function") {
+        fn(e);
       }
     };
+
+    const onInput = wrapSetValue(onInputProp);
+    const onChange = wrapSetValue(onChangeProp);
+
     const onKeyup = e => {
       if (typeof onKeyupProp === "function") {
         onKeyupProp(e);
@@ -27,10 +39,12 @@ const useInput = (initValue = "", storageKey) => {
       }
     };
     const toApplyProps = {
-      type: "text",
+      type,
+      defaultValue: value,
       ...attrs,
       onKeyup,
-      onInput
+      onInput,
+      onChange,
     };
     return <input {...toApplyProps} />;
   });

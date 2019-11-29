@@ -54,10 +54,15 @@
         !window.document.body.classList,
         "https://cdnjs.cloudflare.com/ajax/libs/classlist/1.2.20171210/classList.min.js"
       );
-      conditionalJS(
-        !/csb\.app$/.test(location.host),
-        "./dist/main.js"
-      );
+      var codesandboxEnv = /csb\.app$/.test(location.host);
+      if (!codesandboxEnv) {
+        var webpackDevServerEnv = /^\/webpack-dev-server\//.test(top.location.pathname);
+        conditionalJS(
+          webpackDevServerEnv,
+          "main.js",
+          "./dist/main.js",
+        );
+      }
     </script>
     <script src="./src/index.js" type="for-codesandbox.io"></script>
   </body>

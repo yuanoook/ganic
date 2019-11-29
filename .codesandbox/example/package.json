@@ -6,8 +6,7 @@
   "scripts": {
     "local": "yarn sync-build && yarn server",
     "build": "webpack",
-    "watch": "webpack --watch",
-    "server": "webpack-dev-server",
+    "server": "webpack-dev-server --disable-host-check --hot --host 0.0.0.0 --port 1234 --open --open-page webpack-dev-server/ --useLocalIp --mode development --watch-content-base",
     "sync-build": "yarn clear-ganic && yarn copy-ganic",
     "clear-ganic": "rm -rf ./node_modules/ganic*",
     "copy-ganic": "cp -rf ../../build/node_modules/* ./node_modules/"

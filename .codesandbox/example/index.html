@@ -35,9 +35,11 @@
     </h1>
     <div id="app"></div>
     <script type="text/javascript">
-      var conditionalJS = function(c, s) {
+      var conditionalJS = function(c, s, o) {
         if (c) {
           document.write('<script src="' + s + '"><\/script>');
+        } else if (o) {
+          document.write('<script src="' + o + '"><\/script>');
         }
       };
       conditionalJS(
@@ -52,7 +54,16 @@
         !window.document.body.classList,
         "https://cdnjs.cloudflare.com/ajax/libs/classlist/1.2.20171210/classList.min.js"
       );
+      var codesandboxEnv = /csb\.app$/.test(location.host);
+      if (!codesandboxEnv) {
+        var webpackDevServerEnv = /^\/webpack-dev-server\//.test(top.location.pathname);
+        conditionalJS(
+          webpackDevServerEnv,
+          "main.js",
+          "./dist/main.js",
+        );
+      }
     </script>
-    <script src="./dist/main.js"></script>
+    <script src="./src/index.js" type="for-codesandbox.io"></script>
   </body>
 </html>

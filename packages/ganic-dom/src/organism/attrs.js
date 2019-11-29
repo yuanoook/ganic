@@ -27,8 +27,8 @@ const applyEventListener = (node, name, listener) => {
 
 const applyStyle = (node, name, value) => {
   const oldValue = node[attrsKey] && node[attrsKey].style;
-  if (typeof value === 'object') {
-    const checkOldValue = typeof oldValue === 'object';
+  if (typeof value === 'object' && value) {
+    const checkOldValue = typeof oldValue === 'object' && oldValue;
     Object.keys(value).forEach(key => {
       if (checkOldValue ? oldValue[key] !== value[key] : true) {
         node.style[key] = value[key];
@@ -42,8 +42,8 @@ const applyStyle = (node, name, value) => {
 
 const applyClass = (node, name, value) => {
   const oldValue = node[attrsKey] && node[attrsKey].class;
-  if (typeof value === 'object') {
-    const checkOldValue = typeof oldValue === 'object';
+  if (typeof value === 'object' && value) {
+    const checkOldValue = typeof oldValue === 'object' && oldValue;
     Object.keys(value).forEach(key => {
       if (checkOldValue ? oldValue[key] !== value[key] : true) {
         node.classList[value[key] ? 'add' : 'remove'](key);

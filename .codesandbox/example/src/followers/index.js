@@ -4,8 +4,9 @@ import Ganic from 'ganic';
 import useMouse from '../shared/useMouse';
 import useMotion from '../shared/useMotion';
 import useBrowser from '../shared/useBrowser';
-import { useInterval, useState, useEffect, useThrottle } from 'ganic-usex';
-import { range } from '../shared/utils';
+import useInput from '../shared/useInput';
+import { useInterval, useState, useEffect } from 'ganic-usex';
+import { makeArray, keepInRange } from '../shared/utils';
 
 const followerStyle = {
   position: 'fixed',
@@ -38,7 +39,6 @@ const getWindowLocation = (topRate, leftRate) => ({
 
 const maxStep = 300;
 const padding = maxStep / 6;
-const keepInRange = (n, min, max) => Math.max(min, Math.min(max, n));
 
 const moveLocation = ({clientX, clientY}) => {
   const diffLeft = (Math.random() - 0.5) * maxStep;
@@ -65,7 +65,7 @@ let useMouseFollowers = n => {
   const delay = isMobile ? 3000 : 300;
   const {clientX, clientY} = useRandomLocation(1000);
 
-  return range(n).reduce((prev, x, i) => {
+  return makeArray(keepInRange(n - 1, 0, Infinity)).reduce((prev, x, i) => {
       return [...prev, useFollower({
         clientX: prev[prev.length - 1][0].currentX,
         clientY: prev[prev.length - 1][0].currentY,
@@ -85,11 +85,16 @@ let useMouseFollowers = n => {
 
 const MouseFollowers = props => {
   const {isMobile} = useBrowser();
-  const followers = useMouseFollowers(props && props.number || (isMobile ? 10 : 50));
+  return useMouseFollowers(props && props.number || (isMobile ? 10 : 50));
+};
 
-  return <div {...props}>
-    { followers }
+const Followers = props => {
+  const [number, Input] = useInput(10, 'ganic_demo__followers_number');
+
+  return <div style={props && props.style}>
+    <Input type='number' value={number}/>
+    <MouseFollowers number={number}/>
   </div>
 };
 
-export default MouseFollowers;
+export default Followers;

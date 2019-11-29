@@ -3,7 +3,6 @@
 import Ganic from 'ganic';
 import useMouse from '../shared/useMouse';
 import useMotion from '../shared/useMotion';
-import useBrowser from '../shared/useBrowser';
 import useInput from '../shared/useInput';
 import { useInterval, useState, useEffect } from 'ganic-usex';
 import { makeArray, keepInRange } from '../shared/utils';
@@ -25,8 +24,8 @@ const useFollower = ({clientX, clientY, delay, background}) => {
     {currentX, currentY},
     <div style={{
       ...followerStyle,
-      left: currentX,
-      top: currentY,
+      left: currentX + 'px',
+      top: currentY + 'px',
       background: background || 'blue',
     }}></div>
   ];
@@ -60,12 +59,11 @@ const useRandomLocation = interval => {
   return location;
 }
 
-let useMouseFollowers = n => {
-  const {isMobile} = useBrowser();
-  const delay = isMobile ? 3000 : 300;
+const MouseFollowers = ({number}) => {
+  const delay = 300;
   const {clientX, clientY} = useRandomLocation(1000);
 
-  return makeArray(keepInRange(n - 1, 0, Infinity)).reduce((prev, x, i) => {
+  return makeArray(keepInRange(number - 1, 0, Infinity)).reduce((prev, x, i) => {
       return [...prev, useFollower({
         clientX: prev[prev.length - 1][0].currentX,
         clientY: prev[prev.length - 1][0].currentY,
@@ -81,11 +79,6 @@ let useMouseFollowers = n => {
       })
     ])
     .map(([pos, ui]) => ui);
-};
-
-const MouseFollowers = props => {
-  const {isMobile} = useBrowser();
-  return useMouseFollowers(props && props.number || (isMobile ? 10 : 50));
 };
 
 const Followers = props => {

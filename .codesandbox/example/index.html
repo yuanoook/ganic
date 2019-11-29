@@ -1,7 +1,8 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
     <title>Ganic - Organic Programming</title>
-    <meta charset="UTF-8" />
+    <meta charset="utf-8">
     <meta
       name="viewport"
       content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"
@@ -28,9 +29,10 @@
     </h1>
     <div id="app"></div>
     <script type="text/javascript">
-      if(!window.Symbol) {
-        document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.6.15/browser-polyfill.min.js"><\/script>');
-      }
+      var conditionalJS = function(c, s) {if(c) {document.write('<script src="' + s + '"><\/script>');}}
+      conditionalJS(!window.Symbol, 'https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.6.15/browser-polyfill.min.js');
+      conditionalJS(!window.requestAnimationFrame, 'https://gistcdn.githack.com/paulirish/1579671/raw/682e5c880c92b445650c4880a6bf9f3897ec1c5b/rAF.js');
+      conditionalJS(!window.document.body.classList, 'https://cdnjs.cloudflare.com/ajax/libs/classlist/1.2.20171210/classList.min.js');
     </script>
     <script src="./src/index.js"></script>
   </body>

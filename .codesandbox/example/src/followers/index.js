@@ -85,7 +85,7 @@ let useMouseFollowers = n => {
 
 const MouseFollowers = props => {
   const {isMobile} = useBrowser();
-  const followers = useMouseFollowers(props && props.number || (isMobile ? 10 : 100));
+  const followers = useMouseFollowers(props && props.number || (isMobile ? 10 : 40));
 
   return <div {...props}>
     { followers }

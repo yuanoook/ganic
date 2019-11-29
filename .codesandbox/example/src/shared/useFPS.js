@@ -21,7 +21,9 @@ const runFPSChecker = () => {
     fps = Math.round(1000 / (now - be));
     be = now;
     requestAnimationFrame(loop);
-    wakeListeners(fps);
+    if (fps <= 60) {
+      wakeListeners(fps);
+    }
   };
   requestAnimationFrame(loop);
 }

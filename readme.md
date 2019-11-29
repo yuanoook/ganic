@@ -1,38 +1,102 @@
-# Ganic
-## Use Hooks without React.
-**Ganic** is a **React Hooks**-like javascript library.
+<p align="center"><a href="https://ganicjs.com" target="_blank" rel="noopener noreferrer"><img width="100" src=".codesandbox/example/favicon.png?raw=true" alt="Ganic logo"></a></p>
+<h1 align="center">Ganic</h1>
+<h2 align="center">Organic Programming</h2>
 
-You are not limited to only **use Hooks** in React UI development. Ganic can work well in your old project, even backend.
+App is a living matter. Ganic helps you manage your Apps organically.
+
+If you practiced React, you know how to play with Ganic.
+
+Not only does Ganic support **Functional Components, usex Hooks**, but it also enable you to **usex Hooks** wherever you could use.
+
+You are not limited to only **usex Hooks** in React for UI development. Ganic can work well in your old project, even backend.
 
 It's very tiny, but very powerful.
 
-### DEMO
-1. https://codesandbox.io/s/ganic-3hhbg
-2. https://yuanoook.com/
+## Ganic was born to use, extend and improve easily.
+
+Ganic was originally designed to separate Hooks feature from React. Its outside looks very same with React*, but the inside was totally different. It's designed to be extendable.
+
+From Ganic, with only two public apis `create`, and `attach`.
+
+Everyone can design any **usex Hooks** with `attach` api. We also provide some basic ones in GanicUseX, which was build from one `attach`.
+
+GanicTree is the basic package, for us to build renderer (like GanicDOM) for any platform you like. Most likely, it's suitable to solve any UI rendering issue. But it also could be used anywhere you want (I still have no idea).
+
+GanicDOM, the first renderer based on GanicTree, has 100% capacity to power any website. Please check the showcases on https://ganicjs.com (it works on IE9).
+
+### DEMO https://codesandbox.io/s/ganic-3hhbg
 
 ## How to use?
 ```bash
 # with npm
-npm install ganic;
-npm install ganic-usex;
+npm install ganic
+npm install ganic-dom
+npm install ganic-usex
 
 # with yarn
-yarn add ganic;
-yarn add ganic-usex;
+yarn add ganic
+yarn add ganic-dom
+yarn add ganic-usex
+```
+```javascript
+  import Ganic, {
+    create,
+    attach,
+  } from 'ganic';
+  import {
+    useRef,
+    useMemo,
+    useCallback,
+    useState,
+    useEffect,
+
+    useTimeout,
+    useInterval,
+
+    useDebounce,
+    useThrottle,
+
+    useOrgan,
+    usePromise,
+  } from 'ganic-usex';
+  import {
+    render,
+  } from 'ganic-dom';
+
+  const App = ({ initState }) => {
+    const [state, setState] = useState(initState);
+    ...
+    return <div>{ state }</div>;
+  }
+
+  render(<App initState={0}/>, document.getElementById('app'));
 ```
 
 Browser
 ```html
 <script src="https://unpkg.com/ganic/umd/ganic.production.min.js" />
+<script src="https://unpkg.com/ganic-dom/umd/ganic-dom.production.min.js" />
 <script src="https://unpkg.com/ganic-usex/umd/ganic-usex.production.min.js" />
 
 <script>
-  const {create} = Ganic;
-  const {useState} = GanicUseX;
-  // ...
+  const {create, attach} = Ganic;
+  const {useState, useRef, useMemo, useCallback} = GanicUseX;
+  const {render} = GanicDOM;
+  
+  const App = ({ initState }) => {
+    const [state, setState] = useState(initState);
+    ...
+    return <div>{ state }</div>;
+  };
+
+  render({
+    organism: App,
+    props: {
+      initState: 0,
+    },
+  }, document.getElementById('app'));
 </script>
 ```
-
 
 ## Articles
 [Think in Ganic](#think-in-ganic)

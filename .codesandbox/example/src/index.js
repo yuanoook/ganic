@@ -9,9 +9,11 @@ import CounterApp from "./counter/index";
 import Benchmark from "./benchmark/index";
 import Watch from './watch/index';
 import Followers from './followers/index';
+import Flocking from './flocking/index';
 import Fps from './fps/index';
 
 const options = {
+  flocking: <Flocking/>,
   followers: <Followers/>,
   watch: <Watch/>,
   todolist: <TodoList/>,

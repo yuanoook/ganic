@@ -34,6 +34,10 @@ const useBoids = () => {
     }
   }, useClick());
 
+  useEffect(() => () => {
+    flock.boids.length = 0;
+  });
+
   return boids;
 }
 

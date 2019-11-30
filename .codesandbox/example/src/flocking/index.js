@@ -56,8 +56,8 @@ const Flocking = () => {
   return boids.map((boid, index) => {
     let x = boid.position.x;
     let y = boid.position.y;
-    boid.position.x = (playgroundWidth + x + halfHeight) % playgroundWidth - halfHeight;
-    boid.position.y = (playgroundHeight + y + halfWidth) % playgroundHeight - halfWidth;
+    boid.position.x = (playgroundWidth + x + halfWidth) % playgroundWidth - halfWidth;
+    boid.position.y = (playgroundHeight + y + halfHeight) % playgroundHeight - halfHeight;
     return <div style={{
       ...boidStyle,
       background: colors[index % colors.length],

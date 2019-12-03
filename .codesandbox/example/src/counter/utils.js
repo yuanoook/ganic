@@ -4,7 +4,6 @@
 
 import Ganic, { attach } from "ganic";
 import {
-  useEffect,
   useState,
   useMemo,
   useCallback,
@@ -13,16 +12,7 @@ import {
 } from "ganic-usex";
 
 import useStorage from "../shared/useStorage";
-
-const mouseUpEffect = mouseup => {
-  document.documentElement.addEventListener("mouseup", mouseup);
-  document.documentElement.addEventListener("touchend", mouseup);
-  return () => {
-    document.documentElement.removeEventListener("mouseup", mouseup);
-    document.documentElement.removeEventListener("touchend", mouseup);
-  };
-};
-const useMouseUp = fn => useEffect(mouseUpEffect, fn);
+import useMouseUp from "../shared/useMouseUp";
 
 export const useSetter = (set, value, deps) =>
   useCallback(() => set(value), deps);

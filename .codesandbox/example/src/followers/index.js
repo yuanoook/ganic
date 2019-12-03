@@ -3,7 +3,7 @@
 import Ganic from 'ganic';
 import useMouse from '../shared/useMouse';
 import useMotion from '../shared/useMotion';
-import useInput from '../shared/useInput';
+import useNumber from '../shared/useNumber';
 import { useInterval, useState, useEffect } from 'ganic-usex';
 import { makeArray, keepInRange } from '../shared/utils';
 
@@ -82,10 +82,10 @@ const MouseFollowers = ({number}) => {
 };
 
 const Followers = props => {
-  const [number, Input] = useInput(10, 'ganic_demo__followers_number');
+  const [number, Input] = useNumber(10, 'ganic_demo__followers_number');
 
   return <div style={props && props.style}>
-    <Input type='number' value={number}/>
+    <Input type='number' value={number} min={0}/>
     <MouseFollowers number={number}/>
   </div>
 };

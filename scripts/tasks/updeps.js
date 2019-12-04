@@ -45,7 +45,7 @@ const updatePeerDependencies = async () => {
   }));
 }
 
-const updateCodesandboxDeps = async () => {
+const updateWebsiteDeps = async () => {
   const names = await getPackages();
   const deps = names.reduce((prev, name) => ({
     ...prev, [name]: readPackage(name).version
@@ -53,13 +53,13 @@ const updateCodesandboxDeps = async () => {
   updatePackageDeps({
     target: 'example',
     deps,
-    dir: `../../.codesandbox/`
+    dir: `../../website/`
   });
 }
 
 const start = async () => {
   await updatePeerDependencies();
-  await updateCodesandboxDeps();
+  await updateWebsiteDeps();
 }
 
 start();

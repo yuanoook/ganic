@@ -9,7 +9,7 @@
     "server": "webpack-dev-server --disable-host-check --hot --host 0.0.0.0 --port 1234 --open --useLocalIp --mode development --watch-content-base",
     "sync-build": "yarn clear-ganic && yarn copy-ganic",
     "clear-ganic": "rm -rf ./node_modules/ganic*",
-    "copy-ganic": "cp -rf ../../build/node_modules/* ./node_modules/"
+    "copy-ganic": "cp -rf ../build/node_modules/* ./node_modules/"
   },
   "dependencies": {
     "ganic": "^2.1.4",

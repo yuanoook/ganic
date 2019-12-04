@@ -1,12 +1,12 @@
 /* eslint-disable no-unused-vars */
 
-import Ganic from "ganic";
-import useInput from "../shared/useInput";
-import useFilter from "./useFilter";
-import useList from "./useList";
+import Ganic from 'ganic';
+import useInput from '../shared/useInput';
+import useFilter from './useFilter';
+import useList from './useList';
 
 const TodoList = props => {
-  const [text, Input, setText] = useInput("", "ganic_todo_list__input");
+  const [text, Input, setText] = useInput('', 'ganic_todo_list__input');
   const [filter, filterUI] = useFilter();
   const {
     list,
@@ -15,7 +15,7 @@ const TodoList = props => {
     allDone,
     toggleAll,
     leftItems,
-    listUI
+    listUI,
   } = useList(filter);
 
   return (
@@ -30,7 +30,7 @@ const TodoList = props => {
                 return;
               }
               addItem(e.target.value);
-              setText("");
+              setText('');
             }}
             class="new-todo"
             placeholder="What needs to be done?"
@@ -38,7 +38,7 @@ const TodoList = props => {
         </header>
         <section
           class="main"
-          style={{ display: list.length ? "block" : "none" }}
+          style={{ display: list.length ? 'block' : 'none' }}
         >
           <input
             onClick={toggleAll}
@@ -52,7 +52,7 @@ const TodoList = props => {
         </section>
         <footer
           class="footer"
-          style={{ display: list.length ? "block" : "none" }}
+          style={{ display: list.length ? 'block' : 'none' }}
         >
           <span class="todo-count">
             <strong>{leftItems.length}</strong> item left
@@ -61,7 +61,7 @@ const TodoList = props => {
           <button
             class="clear-completed"
             style={{
-              display: list.length === leftItems.length ? "none" : "block"
+              display: list.length === leftItems.length ? 'none' : 'block',
             }}
             onClick={clearCompleted}
           >

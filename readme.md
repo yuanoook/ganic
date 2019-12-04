@@ -1,4 +1,4 @@
-<p align="center"><a href="https://ganicjs.com" target="_blank" rel="noopener noreferrer"><img width="100" src=".codesandbox/example/favicon.png?raw=true" alt="Ganic logo"></a></p>
+<p align="center"><a href="https://ganicjs.com" target="_blank" rel="noopener noreferrer"><img width="100" src="website/favicon.png?raw=true" alt="Ganic logo"></a></p>
 <h1 align="center">Ganic</h1>
 <h2 align="center">Organic Programming</h2>
 

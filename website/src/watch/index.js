@@ -1,14 +1,14 @@
 /* eslint-disable no-unused-vars */
 
-import Ganic from "ganic";
+import Ganic from 'ganic';
 import {
   useState,
   useInterval,
-} from "ganic-usex";
+} from 'ganic-usex';
 
 const useTime = () => {
-  const [date, setDate] = useState(() => new Date);
-  useInterval(() => setDate(new Date), 500);
+  const [date, setDate] = useState(() => new Date());
+  useInterval(() => setDate(new Date()), 500);
   return [
     date.getSeconds(),
     date.getMinutes(),
@@ -53,9 +53,9 @@ const Needle = ({ deg, style }) => <div style={{
   ...style,
 }}></div>;
 
-const Second = ({ second }) => <Needle deg={second * 6}/>
-const Minute = ({ minute }) => <Needle deg={minute * 6} style={{height: '70px', background: 'yellow'}}/>
-const Hour = ({ hour }) => <Needle deg={(hour / 2) * 60} style={{height: '50px', background: 'white'}}/>
+const Second = ({ second }) => <Needle deg={second * 6}/>;
+const Minute = ({ minute }) => <Needle deg={minute * 6} style={{height: '70px', background: 'yellow'}}/>;
+const Hour = ({ hour }) => <Needle deg={(hour / 2) * 60} style={{height: '50px', background: 'white'}}/>;
 
 const Watch = props => {
   const [second, minute, hour] = useTime();
@@ -68,7 +68,7 @@ const Watch = props => {
         <Second second={second}/>
       </div>
     </div>
-  </div>
-}
+  </div>;
+};
 
 export default Watch;

@@ -84,7 +84,7 @@ const DoublePendulum = () => {
     setState(tickPendulum);
   }, interval);
 
-  const pendulums = `M250,259,${x1 + 250},${y1 + 250},${x2 + 250},${y2 + 250}`;
+  const pendulums = `M250,250,${x1 + 250},${y1 + 250},${x2 + 250},${y2 + 250}`;
   const trace = useRef();
   const newPoint = [Math.floor(x2 + 250), Math.floor(y2 + 250)].join();
   const tracePath = trace.current ? [trace.current, newPoint].join() : 'M' + newPoint;

@@ -58,7 +58,7 @@ const useNumber = (initValue, storageKey) => {
         ... buttonStyle,
         ... buttonRightStyle,
       }} onPress={plus}>+{showStep && step}</Button>
-    </span>
+    </span>;
   });
 
   return [number, NumberInput];

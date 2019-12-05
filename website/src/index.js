@@ -10,9 +10,11 @@ import Benchmark from './benchmark/index';
 import Watch from './watch/index';
 import Followers from './followers/index';
 import Flocking from './flocking/index';
+import DoublePendulum from './doublependulum/index';
 import Fps from './fps/index';
 
 const options = {
+  doublePendulum: <DoublePendulum/>,
   flocking: <Flocking/>,
   followers: <Followers/>,
   watch: <Watch/>,

@@ -51,9 +51,9 @@ const updateWebsiteDeps = async () => {
     ...prev, [name]: readPackage(name).version
   }),{});
   updatePackageDeps({
-    target: 'example',
+    target: 'website',
     deps,
-    dir: `../../website/`
+    dir: `../../`
   });
 }
 

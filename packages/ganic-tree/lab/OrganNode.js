@@ -22,11 +22,13 @@ class OrganNode extends Connector {
     this.children = {};
     this.descs = [];
     this.descKeys = [];
+    // this.namespace = ? // will be set in ganic-dom
 
     this.update = this.update.bind(this);
     this.vanishChild = this.vanishChild.bind(this);
     this.updateChild = this.updateChild.bind(this);
 
+    organ.node = this;
     organ.addListener(this.update);
   }
   clearUp() {
@@ -169,6 +171,8 @@ class OrganNode extends Connector {
       && this.tree.envRunner.onBuried;
 
     this.organ.vanish();
+    this.organ.node = null;
+
     this.vanishAllChildren();
     super.vanish();
     this.clearUp();

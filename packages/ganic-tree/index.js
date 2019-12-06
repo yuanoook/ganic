@@ -1,7 +1,5 @@
 const { getTreeByRoot } = require('./lab/wood');
 const { OrganTree } = require('./lab/OrganTree');
-const { OrganNode } = require('./lab/OrganNode');
-const { OrganLeaf } = require('./lab/OrganLeaf');
 const nullEnv = require('./env');
 
 const render = ({organDesc, envRoot, envRunner = nullEnv}) => {
@@ -16,6 +14,4 @@ const render = ({organDesc, envRoot, envRunner = nullEnv}) => {
 
 module.exports = {
   render,
-  OrganNode,
-  OrganLeaf,
 };

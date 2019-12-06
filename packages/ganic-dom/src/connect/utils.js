@@ -1,4 +1,4 @@
-const { organDomMap, leafDomMap } = require('./map');
+const { organDomMap, leafDomMap } = require('./shared');
 const { findParent, findPre, findOnes } = require('../../../shared/lostboy');
 
 const getTagDom = node => organDomMap.get(node.organ);

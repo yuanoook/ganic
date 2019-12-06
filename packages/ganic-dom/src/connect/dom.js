@@ -1,13 +1,15 @@
 const { getUpdatingOrgan, attach } = require('ganic');
 const { applyAttrs } = require('./attrs');
-const { organDomMap } = require('../connect/map');
-const { removeDom } = require('../connect/utils');
+const { organDomMap, nameSpace } = require('./shared');
+const { removeDom } = require('./utils');
 const { taskify } = require('../taskQueue');
 
 const engage = taskify((organ, tagName, attrs) => {
+  nameSpace.enter(tagName);
   let dom = organDomMap.get(organ);
   if (!dom) {
-    dom = document.createElement(tagName);
+    const xmlns = nameSpace.get();
+    dom = xmlns ? document.createElementNS(xmlns, tagName) : document.createElement(tagName);
     organDomMap.set(organ, dom);
   }
   applyAttrs(dom, attrs);
@@ -54,6 +56,14 @@ const organismFactory = tagName => {
   return tagOrganismMap[tagName];
 };
 
+const organisms = {};
+const getOrganism = tagName => {
+  if (organisms[tagName]) {
+    return organisms[tagName];
+  }
+  return organismFactory(tagName);
+};
+
 module.exports = {
-  organismFactory,
+  getOrganism,
 };

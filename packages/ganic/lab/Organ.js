@@ -15,6 +15,7 @@ class Organ {
     this.parasiteCheckingIndexStack = [];
     this.listeners = [];
     this.update();
+    // this.node = ? // will be set in OrganNode
   }
   clearUp() {
     this.organism = null;

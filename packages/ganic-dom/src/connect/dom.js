@@ -1,14 +1,13 @@
 const { getUpdatingOrgan, attach } = require('ganic');
 const { applyAttrs } = require('./attrs');
-const { organDomMap, nameSpace } = require('./shared');
+const { organDomMap, getNamespace } = require('./shared');
 const { removeDom } = require('./utils');
 const { taskify } = require('../taskQueue');
 
 const engage = taskify((organ, tagName, attrs) => {
-  nameSpace.enter(tagName);
   let dom = organDomMap.get(organ);
   if (!dom) {
-    const xmlns = nameSpace.get();
+    const xmlns = getNamespace(tagName, organ.node);
     dom = xmlns ? document.createElementNS(xmlns, tagName) : document.createElement(tagName);
     organDomMap.set(organ, dom);
   }

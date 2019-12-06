@@ -90,17 +90,12 @@ const DoublePendulum = () => {
   const tracePath = trace.current ? [trace.current, newPoint].join() : 'M' + newPoint;
   trace.current = tracePath;
 
-  const divRef = useRef();
-  if (divRef.current) {
-    divRef.current.innerHTML = `<svg width="500" height="500" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
-      <path d="${pendulums}" stroke-width="6" stroke="red" fill="transparent" stroke-linecap="round"/>
-      <path d="${tracePath}" stroke-width=".5" stroke="black" fill="transparent" stroke-linecap="round"/>
-    </svg>`;
-  }
-
   return <>
     Speed <Input value={fps} max={100} min={0}/>
-    <div ref={divRef}></div>
+    <svg width="500" height="500" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+      <path d={pendulums} stroke-width="6" stroke="red" fill="transparent" stroke-linecap="round"/>
+      <path d={tracePath} stroke-width=".5" stroke="black" fill="transparent" stroke-linecap="round"/>
+    </svg>
   </>;
 };
 

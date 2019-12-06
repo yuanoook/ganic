@@ -1,7 +1,7 @@
 const Ganic = require('ganic');
 const {attach} = Ganic;
 const {render} = require('../index');
-const {organDomMap} = require('../src/connect/map');
+const {organDomMap} = require('../src/connect/shared');
 
 describe('organTree', () => {
   it('should new & vanish a OrganTree properly', () => {

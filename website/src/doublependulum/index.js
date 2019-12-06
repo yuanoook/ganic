@@ -3,7 +3,7 @@
 // https://youtu.be/uWzPe_S-RVE
 
 import Ganic from 'ganic';
-import { useRef, useState, useInterval } from 'ganic-usex';
+import { useMemo, useState, useInterval } from 'ganic-usex';
 import useNumber from '../shared/useNumber';
 import { keepInRange } from '../shared/utils';
 
@@ -65,10 +65,40 @@ const tickPendulum = state => {
   };
 };
 
+const setUpCanvas = () => {
+  const viewWidth = 520;
+  const viewHeight = 520;
+  const canvasWidth = 500;
+  const canvasHeight = 500;
+  const halfCanvasWidth = canvasWidth / 2;
+  const halfCanvasHeight = canvasHeight / 2;
+  const canvasOffset = {
+    x: (viewWidth - canvasWidth) / 2,
+    y: (viewHeight - canvasHeight) / 2,
+  };
+  return {
+    viewWidth,
+    viewHeight,
+    canvasWidth,
+    canvasHeight,
+    halfCanvasWidth,
+    halfCanvasHeight,
+    canvasOffset,
+  };
+};
+
 const DoublePendulum = () => {
+  const {
+    viewWidth,
+    viewHeight,
+    halfCanvasWidth,
+    halfCanvasHeight,
+    canvasOffset,
+  } = useMemo(setUpCanvas);
+
   const [state, setState] = useState(() => ({
-    r1: 125,
-    r2: 125,
+    r1: halfCanvasWidth / 2,
+    r2: halfCanvasWidth / 2,
     a1: Math.PI / 2,
     a2: Math.PI / 2,
     a1_v: 0,
@@ -76,7 +106,7 @@ const DoublePendulum = () => {
   }));
   const [[x1, y1], [x2, y2]] = calculatePosition(state);
 
-  const [fps, Input] = useNumber(10, 'ganic_demo__double_pendulum_fps');
+  const [fps, FpsInput] = useNumber(10, 'ganic_demo__double_pendulum_fps');
   const fpsInRange = keepInRange(fps, 0, 100);
   const interval = !fpsInRange ? null : (1000 / fpsInRange);
 
@@ -84,23 +114,43 @@ const DoublePendulum = () => {
     setState(tickPendulum);
   }, interval);
 
-  const pendulums = `M250,250,${x1 + 250},${y1 + 250},${x2 + 250},${y2 + 250}`;
-  const trace = useRef();
-  const newPoint = [Math.floor(x2 + 250), Math.floor(y2 + 250)].join();
-  const tracePath = trace.current ? [trace.current, newPoint].join() : 'M' + newPoint;
-  trace.current = tracePath;
+  const pendulums = `M${
+    halfCanvasWidth
+  },${
+    halfCanvasHeight
+  },${
+    x1 + halfCanvasWidth
+  },${
+    y1 + halfCanvasHeight
+  },${
+    x2 + halfCanvasWidth
+  },${
+    y2 + halfCanvasHeight
+  }`;
 
-  const divRef = useRef();
-  if (divRef.current) {
-    divRef.current.innerHTML = `<svg width="500" height="500" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
-      <path d="${pendulums}" stroke-width="6" stroke="red" fill="transparent" stroke-linecap="round"/>
-      <path d="${tracePath}" stroke-width=".5" stroke="black" fill="transparent" stroke-linecap="round"/>
-    </svg>`;
+  const [trackMax, TrackMaxInput] = useNumber(1000, 'ganic_demo__double_pendulum_track_length');
+  const track = useMemo([]);
+  const newPoint = [Math.floor(x2 + halfCanvasWidth), Math.floor(y2 + halfCanvasHeight)].join();
+  track.push(newPoint);
+  if (track.length > trackMax) {
+    track.splice(0, track.length - trackMax);
   }
+  const trackPath = 'M' + track.join();
 
   return <>
-    Speed <Input value={fps} max={100} min={0}/>
-    <div ref={divRef}></div>
+    <br/>
+    Speed <FpsInput value={fps} max={100} min={0}/>
+    <br/>
+    <br/>
+    Track <TrackMaxInput value={trackMax} max={100000} min={0} step={100}/>
+    <svg width={viewWidth} height={viewHeight} viewBox={`0 0 ${viewWidth} ${viewHeight}`} xmlns="http://www.w3.org/2000/svg">
+      <g transform={`translate(${canvasOffset.x},${canvasOffset.y})`}>
+        <circle cx={x1 + halfCanvasWidth} cy={y1 + halfCanvasHeight} r="5" fill="red" />
+        <circle cx={x2 + halfCanvasWidth} cy={y2 + halfCanvasHeight} r="5" fill="red" />
+        <path d={pendulums} stroke-width="2" stroke="red" fill="transparent" stroke-linecap="round"/>
+        <path d={trackPath} stroke-width=".5" stroke="black" fill="transparent" stroke-linecap="round"/>
+      </g>
+    </svg>
   </>;
 };
 

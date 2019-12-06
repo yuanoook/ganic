@@ -1,5 +1,5 @@
 const { insertDom, removeDom } = require('./utils');
-const { leafDomMap } = require('./map');
+const { leafDomMap } = require('./shared');
 
 const updateLeaf = organLeaf => {
   const value = (organLeaf.value === undefined || organLeaf.value === null)

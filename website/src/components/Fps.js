@@ -3,7 +3,7 @@
 import Ganic from "ganic";
 import { useThrottle, useOrgan } from "ganic-usex";
 import useFPS from '../shared/useFPS';
-import Progress from '../components/Progress';
+import Progress from './Progress';
 
 const Display = ({style, fps}) => (
   <div style={style}>

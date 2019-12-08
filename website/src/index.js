@@ -11,9 +11,11 @@ import Watch from './watch/index';
 import Followers from './followers/index';
 import Flocking from './flocking/index';
 import DoublePendulum from './doublependulum/index';
-import Fps from './fps/index';
+import TheHorseInMotion from './thehorseinmotion/index';
+import Fps from './components/Fps';
 
 const options = {
+  theHorseInMotion: <TheHorseInMotion/>,
   doublePendulum: <DoublePendulum/>,
   flocking: <Flocking/>,
   followers: <Followers/>,

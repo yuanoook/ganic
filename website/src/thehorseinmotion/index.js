@@ -53,6 +53,9 @@ const TheHorseInMotion = () => {
     <p>
       Speed <FpsInput value={fps} max={24} min={0}/> FPS
     </p>
+    <br/>
+    The original photographs
+    <img style='max-width: 100%;' src='./images/Eadweard_Muybridge-Sallie_Gardner_1878.jpg' alt='The Horse In Motion, 1878 by Eadweard Muybridge'/>
   </>;
 };
 

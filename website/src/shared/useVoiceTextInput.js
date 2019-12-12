@@ -1,22 +1,18 @@
+import Ganic from 'ganic';
 import {
   useMemo,
   useState,
-  useEffect,
 } from 'ganic-usex';
-import { useCallback } from 'ganic-usex/cjs/ganic-usex.production.min';
 
 const langs = [
   ['English', ['en-US', 'United States']],
   ['中文', ['cmn-Hans-CN', '普通话 (中国大陆)'], ['yue-Hant-HK', '粵語 (香港)']],
 ];
 
-const showInfo = info => {};
-showInfo('info_start');
-
 const linebreak = s => s.replace(/\n\n/g, '<p></p>').replace(/\n/g, '<br>');
 
 const setupRecognition = ({lang, setState}) => {
-  let final_transcript = '';
+  let final = '';
   let recognizing = false;
   let ignore_onend;
   let start_timestamp;
@@ -35,23 +31,24 @@ const setupRecognition = ({lang, setState}) => {
   };
 
   recognition.onerror = function(event) {
+    console.log(event);
     ignore_onend = true;
-    if (event.error === 'not-allowed') {
+    if (event.error == 'not-allowed') {
       setState(s => ({
         ...s,
-        info: Date.now() - start_timestamp < 100 ? 'blocked' : 'denied',
+        error: Date.now() - start_timestamp < 100 ? 'blocked' : 'denied',
       }));
     }
-    if (event.error === 'no-speech') {
+    if (event.error == 'no-speech') {
       setState(s => ({
         ...s,
-        info: 'no_speech',
+        error: 'no_speech',
       }));
     }
-    if (event.error === 'audio-capture') {
+    if (event.error == 'audio-capture') {
       setState(s => ({
         ...s,
-        info: 'no_microphone',
+        error: 'no_microphone',
       }));
     }
   };
@@ -59,22 +56,28 @@ const setupRecognition = ({lang, setState}) => {
   recognition.onend = function() {
     recognizing = false;
     if (ignore_onend) {
+      setState(s => ({
+        ...s,
+        recognizing: false,
+      }));
       return;
     }
-    if (!final_transcript) {
+    if (!final) {
       setState(s => ({
         ...s,
         info: 'start',
+        recognizing: false,
       }));
       return;
     }
     setState(s => ({
       ...s,
       info: '',
+      recognizing: false,
     }));
   };
   recognition.onresult = function(event) {
-    let interim_transcript = '';
+    let interim = '';
     if (typeof event.results === 'undefined') {
       recognition.onend = null;
       recognition.stop();
@@ -82,16 +85,16 @@ const setupRecognition = ({lang, setState}) => {
     }
     for (let i = event.resultIndex; i < event.results.length; ++i) {
       if (event.results[i].isFinal) {
-        final_transcript += event.results[i][0].transcript;
+        final += event.results[i][0].transcript;
       } else {
-        interim_transcript += event.results[i][0].transcript;
+        interim += event.results[i][0].transcript;
       }
     }
-    if (final_transcript || interim_transcript) {
+    if (final || interim) {
       setState(s => ({
         ...s,
-        final: final_transcript,
-        interim: interim_transcript,
+        final,
+        interim,
       }));
     }
   };
@@ -101,13 +104,14 @@ const setupRecognition = ({lang, setState}) => {
       recognition.stop();
       return;
     }
-    final_transcript = '';
+    final = '';
     recognition.lang = lang;
     recognition.start();
     ignore_onend = false;
     setState(s => ({
       ...s,
-      info: 'allow',
+      final,
+      info: 'start',
     }));
     start_timestamp = Date.now();
   };
@@ -116,8 +120,8 @@ const setupRecognition = ({lang, setState}) => {
 };
 
 const useVoiceTextInput = (lang = 'en-US') => {
-  // '/intl/en/chrome/assets/common/images/content/mic.gif';
-  // '/intl/en/chrome/assets/common/images/content/mic-animate.gif';
+  // ./images/mic.gif';
+  // ./images/mic-animate.gif';
 
   const [{
     final = '',
@@ -138,7 +142,22 @@ const useVoiceTextInput = (lang = 'en-US') => {
     setState,
   });
 
-  return [final, toggle];
+  const ui = <div>
+    <img
+      src={`./images/mic${ recognizing ? '-animate' : '' }.gif`}
+      onClick={toggle}
+      alt='click and say something!'
+      title='click and say something!'
+    />
+    { error && <><span style='color: red;'>{ error }</span><br/></> }
+    { info && <><span style='color: blue;'>{ info }</span><br/></> }
+    <br/>
+    { linebreak(interim) }
+    <br/>
+    { linebreak(final) }
+  </div>;
+
+  return [final, ui];
 };
 
 export default useVoiceTextInput;

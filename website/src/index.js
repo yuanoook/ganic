@@ -13,8 +13,10 @@ import Flocking from './flocking/index';
 import DoublePendulum from './doublependulum/index';
 import TheHorseInMotion from './thehorseinmotion/index';
 import Fps from './components/Fps';
+import Speech2Text from './speech2text/index';
 
 const options = {
+  speech2Text: <Speech2Text/>,
   theHorseInMotion: <TheHorseInMotion/>,
   doublePendulum: <DoublePendulum/>,
   flocking: <Flocking/>,

@@ -1,19 +1,18 @@
 import Ganic from 'ganic';
 import {
   useRef,
-  useMemo,
   useState,
   useEffect,
 } from 'ganic-usex';
 
-const emptyFn = () => {};
+const nullFn = () => {};
 
 const useRecognition = ({
   lang = 'en-US',
-  onStart = emptyFn,
-  onFinal = emptyFn,
-  onInterim = emptyFn,
-  onError = emptyFn,
+  onStart = nullFn,
+  onFinal = nullFn,
+  onInterim = nullFn,
+  onError = nullFn,
 }) => {
   const ref = useRef();
   ref.lang = lang;
@@ -21,10 +20,11 @@ const useRecognition = ({
   ref.onFinal = onFinal;
   ref.onInterim = onInterim;
   ref.onError = onError;
-
+  ref.toggle = ref.toggle || nullFn;
   const [recognizing, setRecognizing] = useState(false);
-  const toggle = useMemo(() => {
-    let recognizing = false;
+
+  useEffect(() => {
+    let _recognizing = false;
     let final = '';
     let ignore_onend;
     let start_timestamp;
@@ -34,7 +34,7 @@ const useRecognition = ({
     recognition.interimResults = true;
   
     recognition.onstart = function() {
-      setRecognizing(recognizing = true);
+      setRecognizing(_recognizing = true);
       ref.onStart(recognition);
     };
     recognition.onerror = function(event) {
@@ -47,7 +47,7 @@ const useRecognition = ({
       }[event.error] || event.error);
     };
     recognition.onend = function() {
-      setRecognizing(recognizing = false);
+      setRecognizing(_recognizing = false);
       if (ignore_onend) {
         return;
       }
@@ -85,15 +85,24 @@ const useRecognition = ({
       recognition.stop();
     };
 
-    return on => {
-      if (on === recognizing) {
+    ref.toggle = on => {
+      if (on === _recognizing) {
         return;
       }
-      on ? turnOn() : turnOff();
+      if (on) {
+        turnOn();
+      } else {
+        turnOff();
+      }
     };
+
+    return () => {
+      recognition.onstart = recognition.onerror = recognition.onend = recognition.onresult = null;
+      recognition.abort();
+    }; 
   });
 
-  return [recognizing, toggle];
+  return [recognizing, ref.toggle];
 };
 
 const SpeechRecognition = props => {
@@ -121,16 +130,16 @@ const SpeechRecognition = props => {
   const style = {
     cursor: 'pointer',
     pointerEvents: (recognizing && !on) ? 'none' : 'initial',
-    borderRadius: recognizing ? '25%' : '100%',
+    borderRadius: on ? '25%' : '100%',
     transition: 'border-radius .6s',
     transitionTimingFunction: 'ease',
     ...styleProp,
   };
 
   return <img
-    src={`./images/mic${ on ? '-animate' : '' }.gif`}
-    alt='Click and say something!'
-    title='Click and say something!'
+    src={`./images/mic${ recognizing ? '-animate' : '' }.gif`}
+    alt="Click and say something!"
+    title="Click and say something!"
     style={style}
     {...otherProps}
   />;

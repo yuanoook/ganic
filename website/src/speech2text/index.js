@@ -27,20 +27,20 @@ const Option = ({value, text, select}) => (
 
 const useSelect = options => {
   const [select, setSelect] = useStorage('ganic_codesandbox__speech2text_lang_select', options[0].value);
-  const optionsUI = useMemo(options => options.map(
-    option => <Option value={option.value} text={option.text} key={option.value} select={select} />
+  const optionsUI = useMemo(opts => opts.map(
+    option => <Option value={option.value} text={option.text} key={option.value} select={select} />,
   ), options);
 
-  const selectUI = useMemo(setSelect => (
+  const selectUI = useMemo(set => (
     <select
       style={{fontSize: '20px', marginTop: '-40px'}}
-      onChange={e => setSelect(e.target.value)}
+      onChange={e => set(e.target.value)}
     >
       { optionsUI }
     </select>
   ), setSelect);
   return [select, selectUI];
-}
+};
 
 const Speech2Text = () => {
   const [lang, langSelectUI] = useSelect(langOptions);
@@ -67,7 +67,9 @@ const Speech2Text = () => {
     <br/>
     { final } { interim }
     <br/>
-    <span style='color: red'>{ error }</span>
+    <span style={{
+      color: 'red',
+    }}>{ error }</span>
   </>;
 };
 

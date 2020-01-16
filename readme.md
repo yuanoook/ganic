@@ -11,6 +11,8 @@ You are not limited to only **usex Hooks** in React for UI development. Ganic ca
 It's very tiny, but very powerful.
 
 ## DEMO https://codesandbox.io/s/ganic-3hhbg
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fyuanoook%2Fganic.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fyuanoook%2Fganic?ref=badge_shield)
+
 
 ## Get started [read more ↗](./readme/how-to-use-ganic.md)
 ### 1. Install
@@ -60,3 +62,7 @@ Everyone can design any **usex Hooks** with `attach` api. We also provide some b
 GanicTree is the basic package, for us to build renderer (like GanicDOM) for any platform you like. Most likely, it's suitable to solve any UI rendering issue. But it also could be used anywhere you want (I still have no idea).
 
 GanicDOM, the first renderer based on GanicTree, has 100% capacity to power any website. Please check the showcases on https://ganicjs.com (it works on IE9).
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fyuanoook%2Fganic.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fyuanoook%2Fganic?ref=badge_large)

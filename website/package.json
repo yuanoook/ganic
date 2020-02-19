@@ -1,6 +1,6 @@
 {
   "name": "ganic-codesandbox",
-  "version": "2.2.4",
+  "version": "2.2.5",
   "description": "A cool organic programming javascript library",
   "main": "index.html",
   "scripts": {
@@ -12,9 +12,9 @@
     "copy-ganic": "cp -rf ../build/node_modules/* ./node_modules/"
   },
   "dependencies": {
-    "ganic": "^2.1.5",
-    "ganic-dom": "^2.2.6",
-    "ganic-usex": "^2.2.3"
+    "ganic": "^2.1.6",
+    "ganic-dom": "^2.2.7",
+    "ganic-usex": "^2.2.4"
   },
   "devDependencies": {
     "@babel/core": "^7.7.4",

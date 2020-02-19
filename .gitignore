@@ -4,6 +4,7 @@ node_modules/
 .DS_Store
 dist
 .cache
+.vscode
 *.log
 *.lock
 *package-lock.json

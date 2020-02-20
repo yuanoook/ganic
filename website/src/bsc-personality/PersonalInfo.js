@@ -12,8 +12,7 @@ const PersonalInfo = () => {
     female: '女'
   }, 'male', 'bsc-personal-info-gender');
 
-  console.log(name, gender)
-  return <div style="margin-top: 40px">
+  return <div style="margin-top: 30px">
     姓名：<NameInput value={ name }/>
     &nbsp; &nbsp;
     性别：

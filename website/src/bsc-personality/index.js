@@ -4,17 +4,23 @@ import Ganic from "ganic";
 import { useOrgan } from "ganic-usex";
 import DocTitle from "./DocTitle";
 import PersonalInfo from "./PersonalInfo";
+// import Contacts from "./Contacts";
+import Introduction from "./Introduction";
+import TestGuide from "./TestGuide";
 
 const BSCPersonalityReport = () => <>
   <DocTitle></DocTitle>
+  <hr/>
   <PersonalInfo></PersonalInfo>
-  {/* <Contact></Contact>
+  <hr/>
+  {/* <Contacts></Contacts>
+  <hr/> */}
   <Introduction></Introduction>
-  <TestGuide>
-    <Trail1></Trail1>
-    <Trail2></Trail2>
-  </TestGuide>
-  <MainTest>
+  <hr/>
+  <TestGuide></TestGuide>
+
+  <hr/>
+  {/* <MainTest>
     <ZTest></ZTest>
     <YTest></YTest>
     <XTest></XTest>

@@ -42,6 +42,7 @@ const applyStyle = (node, name, value) => {
 
 const applyClass = (node, name, value) => {
   const oldValue = node[attrsKey] && node[attrsKey].class;
+  // TODO: support Array
   if (typeof value === 'object' && value) {
     const checkOldValue = typeof oldValue === 'object' && oldValue;
     Object.keys(value).forEach(key => {

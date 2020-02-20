@@ -7,6 +7,7 @@ import PersonalInfo from "./PersonalInfo";
 // import Contacts from "./Contacts";
 import Introduction from "./Introduction";
 import TestGuide from "./TestGuide";
+import MainTest from "./MainTest";
 
 const BSCPersonalityReport = () => <>
   <DocTitle></DocTitle>
@@ -20,6 +21,9 @@ const BSCPersonalityReport = () => <>
   <TestGuide></TestGuide>
 
   <hr/>
+
+  <MainTest></MainTest>
+
   {/* <MainTest>
     <ZTest></ZTest>
     <YTest></YTest>

@@ -3,7 +3,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 
 import Ganic from 'ganic';
-import { useCallback, useRef } from 'ganic-usex';
+import { useCallback } from 'ganic-usex';
 import useStorage from './useStorage';
 
 const useInputRadios = (radioMap, initValue = '', storageKey) => {
@@ -35,7 +35,7 @@ const useInputRadios = (radioMap, initValue = '', storageKey) => {
     return Object.keys(radioMap).map((key, index) =>
       <label key={key}>
         { index ? <>&nbsp; &nbsp;</> : null }
-        <input {...toApplyProps} value={key} checked={key === value}/>
+        <input name={storageKey} {...toApplyProps} value={key} checked={key === value}/>
         &nbsp; {radioMap[key]}
       </label>
     );

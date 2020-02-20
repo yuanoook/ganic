@@ -4,31 +4,33 @@ import Ganic from "ganic";
 import { useOrgan } from "ganic-usex";
 import DocTitle from "./DocTitle";
 import PersonalInfo from "./PersonalInfo";
-// import Contacts from "./Contacts";
 import Introduction from "./Introduction";
 import TestGuide from "./TestGuide";
 import MainTest from "./MainTest";
+// import Report from "./Report";
 
-const BSCPersonalityReport = () => <>
-  <DocTitle></DocTitle>
-  <hr/>
-  <PersonalInfo></PersonalInfo>
-  <hr/>
-  {/* <Contacts></Contacts>
-  <hr/> */}
-  <Introduction></Introduction>
-  <hr/>
-  <TestGuide></TestGuide>
+const BSCPersonalityReport = () => {
+  return <>
+    <DocTitle></DocTitle>
+    <hr/>
+    <PersonalInfo></PersonalInfo>
+    <hr/>
+    <Introduction></Introduction>
+    <hr/>
+    <TestGuide></TestGuide>
+    <hr/>
+    <MainTest></MainTest>
 
-  <hr/>
+    <center><button style={{
+      border: '1px solid',
+      borderRadius: '10px',
+      padding: '10px',
+      width: '200px',
+      marginBottom: '300px'
+    }}>查看报告</button></center>
 
-  <MainTest></MainTest>
-
-  {/* <MainTest>
-    <ZTest></ZTest>
-    <YTest></YTest>
-    <XTest></XTest>
-  </MainTest> */}
-</>;
+    {/* <Report></Report> */}
+  </>
+};
 
 export default BSCPersonalityReport;

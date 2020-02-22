@@ -4,7 +4,7 @@ import Ganic from "ganic";
 
 const Introduction = () => {
   return <div style="margin-top: 30px">
-    BSC (行为风格坐标) 理论来源于时下流行的性格类型四分理论（如DISC性格理论、PDP性格理论、性格色彩FPA等）。
+    BSC (行为风格坐标) 理论来源于时下流行的性格类型四分理论（包括苏格拉底的人格气质体液学说、威廉·M·马斯顿的DISC性格理论、PDP性格理论、乐嘉的性格色彩FPA等）。
     通过尽可能地排除性格特征的词源学依据，尝试寻找性格的底层模式，依照费曼算法 (Feynman Algorithm)，总结得出：
 
     <br/><br/>

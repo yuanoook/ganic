@@ -14,10 +14,8 @@ import DoublePendulum from './doublependulum/index';
 import TheHorseInMotion from './thehorseinmotion/index';
 import Fps from './components/Fps';
 import Speech2Text from './speech2text/index';
-import BehavioralStyleCoordinate from './bsc-personality/index';
 
 const options = {
-  behavioralStyleCoordinate: <BehavioralStyleCoordinate/>,
   speech2Text: <Speech2Text/>,
   theHorseInMotion: <TheHorseInMotion/>,
   doublePendulum: <DoublePendulum/>,

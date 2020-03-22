@@ -1,5 +1,5 @@
 const {Parasite} = require('./Parasite');
-const {shallowEqual} = require('./utils');
+const shallowEqual = require('../../shared/shallowEqual');
 const Lakhesis = require('../moirai/Lakhesis');
 
 class Organ {

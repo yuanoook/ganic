@@ -51,10 +51,10 @@ const Flocking = () => {
     boids: number,
   }));
 
-  const [boids, setBoids] = useState(() => flock.boids);
+  const [, tickRandom] = useState(0);
   useGlobalInterval(() => {
     flock.tick();
-    setBoids([...flock.boids]);
+    tickRandom(Math.random());
   }, 1);
 
   useEffect(n => {
@@ -70,7 +70,7 @@ const Flocking = () => {
     flock.boids.length = 0;
   });
 
-  const boidsUI = getBoidsUI(boids);
+  const boidsUI = getBoidsUI(flock.boids);
 
   return <>
     Boids <Input value={number} max={maxNumber} min={0}/>

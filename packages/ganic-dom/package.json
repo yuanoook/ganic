@@ -1,6 +1,6 @@
 {
   "name": "ganic-dom",
-  "version": "2.2.7",
+  "version": "2.2.8",
   "description": "A cool organic programming javascript library",
   "main": "index.js",
   "repository": {
@@ -16,7 +16,7 @@
     "ganic"
   ],
   "peerDependencies": {
-    "ganic": "^2.1.6"
+    "ganic": "^2.1.7"
   },
   "author": "Rango Yuan",
   "license": "MIT"

@@ -1,6 +1,7 @@
 const {create} = require('ganic');
 const {useState, useTimeout, useInterval} = require('../index');
 const {checkAsyncExpectation} = require('./utils');
+const shallowEqual = require('../../shared/shallowEqual');
 
 describe('parasite async function', () => {
   const mockFn = jest.fn();
@@ -13,10 +14,10 @@ describe('parasite async function', () => {
   beforeEach(() => mockFn.mockReset());
 
   it('should update state with useState', done => {
-    let lastSetstate;
+    let lastSetState;
     const organism = props => {
       let [state, setState] = useState(defaultProps.initState);
-      lastSetstate = setState;
+      lastSetState = setState;
       return [state, props];
     };
     const organ = create({organism, props: 1});
@@ -28,7 +29,7 @@ describe('parasite async function', () => {
 
     checkAsyncExpectation({organ, expectation, done, mockFn});
 
-    setTimeout(() => lastSetstate(defaultProps.delayState));
+    setTimeout(() => lastSetState(defaultProps.delayState));
     organ.receive(2);
   });
 
@@ -58,13 +59,14 @@ describe('parasite async function', () => {
     checkAsyncExpectation({organ, expectation, done, mockFn});
   });
 
-
   it('should not update while parasite asyncGive provide shallowEqual value', done => {
-
+    let prevState;
     const organism = props => {
       const [state, setState] = useState(props.initState);
-      // set state to 1 frequently
-      useInterval(() => setState(1), 0);
+      expect(shallowEqual(prevState, state)).toBe(false);
+      prevState = state;
+      // set state to {a: 1} frequently
+      useInterval(() => setState({a: 1}), 0);
       // set state to 2 for once
       useTimeout(() => setState(2), 50);
       return state;
@@ -72,9 +74,9 @@ describe('parasite async function', () => {
     const organ = create({organism, props: defaultProps});
     const expectation = [
       [defaultProps.initState], // init
-      [1], // setState(1) mutiple times in useInterval
+      [{a: 1}], // setState(1) multiple times in useInterval
       [2], // setState(2) once in useTimeout
-      [1], // setState(1) once in useInterval
+      [{a: 1}], // setState(1) once in useInterval
     ];
 
     checkAsyncExpectation({organ, expectation, done, mockFn});

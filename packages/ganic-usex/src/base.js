@@ -1,4 +1,5 @@
 const { attach } = require('ganic');
+const shallowEqual = require('../../shared/shallowEqual');
 
 const useRef = () => useMemo(() => {
   const fn = value => (fn.current = value);
@@ -23,7 +24,11 @@ const stateParasitism = function(deps, give) {
     if (!setState) {
       return;
     }
-    state = typeof newState === 'function' ? newState(state) : newState;
+    const evalNewState = typeof newState === 'function' ? newState(state) : newState;
+    if (shallowEqual(evalNewState, state)) {
+      return;
+    }
+    state = evalNewState;
     give([state, setState]);
   };
   give([state, setState]);

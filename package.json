@@ -1,6 +1,6 @@
 {
   "private": true,
-  "version": "2.1.3",
+  "version": "2.1.7",
   "workspaces": ["packages/*"],
   "devDependencies": {
     "@babel/plugin-transform-react-jsx": "^7.7.0",
@@ -34,7 +34,7 @@
     "ci": "yarn build",
     "watch": "jest --watchAll",
     "test": "yarn pretest && jest",
-    "build": "yarn prebuild && yarn test && yarn lint && yarn rollup",
+    "build": "yarn lint && yarn test && yarn prebuild && yarn rollup",
     "rollup": "node ./scripts/rollup/index.js",
     "prebuild": "rm -rf ./build && yarn updeps",
     "pretest": "node ./scripts/tasks/prejest.js",

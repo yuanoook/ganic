@@ -1,5 +1,4 @@
-
-const {shallowEqual} = require('./utils');
+const shallowEqual = require('../../shared/shallowEqual');
 const Lakhesis = require('../moirai/Lakhesis');
 
 const ASYNC_GIVE_AFTER_DETACH_ERROR_MESSAGE = `

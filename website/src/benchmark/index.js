@@ -1,6 +1,8 @@
 /* eslint-disable no-unused-vars */
 import Ganic from 'ganic';
+import chunk from 'lodash.chunk';
 import { useCallback } from "ganic-usex";
+import SmartView from '../components/SmartView';
 import useStore from './useStore';
 
 const GlyphIcon = <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>;
@@ -16,6 +18,13 @@ const Row = ({ selected, item, dispatch }) => {
     <td class="col-6"></td>
   </tr>);
 };
+
+const RowsGroup = ({ selected, items, dispatch }) => {
+  const rows = items.map(item =>
+    <Row key={item.id} item={item} selected={selected === item.id} dispatch={dispatch} />
+  );
+  return <SmartView><tbody>{rows}</tbody></SmartView>
+}
 
 const Button = ({ id, cb, title }) => (
   <div class="col-sm-6 smallpad" style="margin-bottom: 10px;">
@@ -39,16 +48,15 @@ const Jumbotron = ({ dispatch }) => (
 
 const Benchmark = props => {
   const [state, dispatch] = useStore();
-  const rows = state.data.map(item =>
-    <Row key={item.id} item={item} selected={state.selected === item.id} dispatch={dispatch} />
+  const groups = chunk(state.data, 100);
+  const groupsUI = groups.map(items =>
+    <RowsGroup key={items[0].id} items={items} selected={state.selected} dispatch={dispatch} />
   );
   return (
     <div {...props}>
       <Jumbotron dispatch={dispatch} />
       <table class="table table-hover table-striped test-data">
-        <tbody>
-          {rows}
-        </tbody>
+        {groupsUI}
       </table>
     </div>
   );

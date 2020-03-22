@@ -11,7 +11,7 @@ const stackFactory = key => {
     if (index !== stack.length - 1) {
       throw new Error(`Don\'t support error boundary now!`);
     }
-    stack.splice(stack.lastIndexOf(item));
+    stack.splice(index);
   };
   return [set, get, clear, getAll];
 };

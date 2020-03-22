@@ -81,20 +81,20 @@ class Organ {
     func(this.result);
     return this;
   }
-  removeListner(listener) {
+  removeListener(listener) {
     this.listeners.splice(this.listeners.indexOf(listener), 1);
   }
   wakeListeners() {
     this.listeners.forEach(func => func(this.result));
     return this;
   }
-  removeAllListners() {
+  removeAllListeners() {
     this.listeners.length = 0;
   }
 
   vanish() {
     this.removeAllParasites();
-    this.removeAllListners();
+    this.removeAllListeners();
     this.clearUp();
   }
 }

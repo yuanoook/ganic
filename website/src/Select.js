@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 
 import Ganic from 'ganic';
-import useStorage from './shared/useStorage';
+import { useStorage } from 'ganic-pandora';
 const capitalize = s => s.charAt(0).toUpperCase() + s.slice(1);
 const Option = ({value, select}) => (
   <option

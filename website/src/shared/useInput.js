@@ -4,7 +4,7 @@
 
 import Ganic from 'ganic';
 import { useCallback } from 'ganic-usex';
-import useStorage from './useStorage';
+import { useStorage } from 'ganic-pandora';
 
 const useInput = (initValue = '', storageKey) => {
   const [value, setValue] = useStorage(storageKey, initValue);

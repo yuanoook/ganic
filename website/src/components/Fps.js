@@ -1,13 +1,13 @@
 /* eslint-disable no-unused-vars */
 
-import Ganic from "ganic";
-import { useThrottle, useOrgan } from "ganic-usex";
-import useFPS from '../shared/useFPS';
+import Ganic from 'ganic';
+import { useThrottle, useOrgan } from 'ganic-usex';
+import { useFPS } from 'ganic-pandora';
 import Progress from './Progress';
 
 const Display = ({style, fps}) => (
-  <div style={style}>
-    <Progress value={fps} prefix='FPS' postfix={fps}/>
+  <div style={{display: 'inline-block', ...style}}>
+    <Progress value={fps} prefix='FPS' postfix={fps} style={{width: '100%'}}/>
   </div>
 );
 

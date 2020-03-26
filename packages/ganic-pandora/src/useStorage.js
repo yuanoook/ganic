@@ -1,6 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-
-import { useState } from "ganic-usex";
+const { useState } = require('ganic-usex');
 
 const getStoredValue = (key, initValue) => {
   if (!key) {
@@ -28,4 +26,4 @@ const useStorage = (key, defaultValue) => {
   return [value, setValue];
 };
 
-export default useStorage;
+module.exports = useStorage;

@@ -1,8 +1,8 @@
-import {
+const {
   useCallback,
   useState,
   useEffect,
-} from 'ganic-usex';
+} = require('ganic-usex');
 
 const useClick = () => {
   const [position, setPosition] = useState({clientX: 0, clientY: 0});
@@ -20,4 +20,4 @@ const useClick = () => {
   return position;
 };
 
-export default useClick;
+module.exports = useClick;

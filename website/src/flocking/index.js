@@ -1,6 +1,6 @@
 import Ganic from 'ganic';
 import { useMemo, useState, useEffect } from 'ganic-usex';
-import useGlobalInterval from '../shared/useGlobalInterval';
+import { useGlobalInterval } from 'ganic-pandora';
 import useNumber from '../shared/useNumber';
 import Flock from './lab/Flock';
 import Vector from './lab/Vector';

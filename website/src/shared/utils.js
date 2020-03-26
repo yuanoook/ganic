@@ -56,3 +56,40 @@ export const getAllFromViewPort = (density = 30) => {
   walkViewPort(density, addToElements);
   return elements;
 };
+
+export const getFactors = num => {
+  const isEven = num % 2 === 0;
+  let inc = isEven ? 1 : 2;
+  let factors = [1, num];
+
+  for (let curFactor = isEven ? 2 : 3; Math.pow(curFactor, 2) <= num; curFactor += inc) {
+    if (num % curFactor !== 0) continue;
+    factors.push(curFactor);
+    let compliment = num / curFactor;
+    if (compliment !== curFactor) factors.push(compliment);
+  }
+
+  return factors;
+};
+
+export const getPrimeFactors = num => {
+  num = Math.floor(num);
+  let root, factors = [], x, sqrt = Math.sqrt, doLoop = 1 < num;
+  while( doLoop ){
+      root = sqrt(num);
+      x = 2;
+      if (num % x) {
+          x = 3;
+          while ((num % x) && ((x += 2) < root));
+      }
+      x = (x > root) ? num : x;
+      factors.push(x);
+      doLoop = ( x != num );
+      num /= x;
+  }
+  return factors;
+};
+
+export const formatNumber = num => {
+  return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+};

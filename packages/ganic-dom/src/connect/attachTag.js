@@ -1,8 +1,8 @@
 const { getUpdatingOrgan, attach } = require('ganic');
-const { applyAttrs } = require('./attrs');
 const { organDomMap, getNamespace } = require('./shared');
 const { removeDom } = require('./utils');
 const { taskify } = require('../taskQueue');
+const applyAttrs = require('./applyAttrs');
 
 const engage = taskify((organ, tagName, attrs) => {
   let dom = organDomMap.get(organ);
@@ -40,29 +40,8 @@ const parasitismFactory = tagName => {
   return tagParasitismMap[tagName];
 };
 
-const newOrganismByTag = tagName => props => {
-  const {children, style, ...attrs} = props || {};
-  const parasitism = parasitismFactory(tagName);
-  attach(parasitism, {...attrs, style: attach(style, style)});
-  return children;
-};
+const attachTag = (tagName, attrs) => attach(
+  parasitismFactory(tagName), attrs,
+);
 
-const tagOrganismMap = {};
-const organismFactory = tagName => {
-  if (!tagOrganismMap[tagName]) {
-    tagOrganismMap[tagName] = newOrganismByTag(tagName);
-  }
-  return tagOrganismMap[tagName];
-};
-
-const organisms = {};
-const getOrganism = tagName => {
-  if (organisms[tagName]) {
-    return organisms[tagName];
-  }
-  return organismFactory(tagName);
-};
-
-module.exports = {
-  getOrganism,
-};
+module.exports = attachTag;

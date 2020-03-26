@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 
-import Ganic from "ganic";
-import { useRef, useCallback, useOrgan } from "ganic-usex";
-import useStorage from "../shared/useStorage";
-import useInput from "../shared/useInput";
+import Ganic from 'ganic';
+import { useRef, useCallback, useOrgan } from 'ganic-usex';
+import { useStorage } from 'ganic-pandora';
+import useInput from '../shared/useInput';
 
 const Item = ({ id, title, done, editing, removeItem, updateItem }) => {
   const [text, Input] = useInput(title);
@@ -28,18 +28,18 @@ const Item = ({ id, title, done, editing, removeItem, updateItem }) => {
       editing,
       completed: done
     }}>
-      <div class="view">
+      <div class='view'>
         <input
           onClick={() => updateItem(id, {done: !done})}
-          class="toggle"
-          type="checkbox"
+          class='toggle'
+          type='checkbox'
           checked={done}
         />
         <label onDblClick={editItem}>{title}</label>
-        <button class="destroy" onClick={() => removeItem(id)} />
+        <button class='destroy' onClick={() => removeItem(id)} />
       </div>
       <Input
-        class="edit"
+        class='edit'
         ref={inputRef}
         value={text}
         onEnter={saveItem}
@@ -57,7 +57,7 @@ const newItem = text => ({
 });
 
 const List = filter => {
-  const [list, setList] = useStorage("ganic_todo_list__list", []);
+  const [list, setList] = useStorage('ganic_todo_list__list', []);
   const allDone = !list.find(item => !item.done);
   const addItem = useCallback(text =>
     setList(list => [newItem(text), ...list])
@@ -90,9 +90,9 @@ const List = filter => {
   const leftItems = list.filter(item => !item.done);
 
   const filteredList =
-    filter === "all"
+    filter === 'all'
       ? list
-      : filter === "active"
+      : filter === 'active'
       ? leftItems
       : list.filter(item => !leftItems.includes(item));
 

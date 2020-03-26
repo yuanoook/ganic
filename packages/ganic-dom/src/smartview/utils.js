@@ -28,7 +28,7 @@ const getRefRect = (domRef, unit = 1) => {
 };
 
 const smartTags = {
-  div: true,
+  // div: true,
   p: true,
   pre: true,
   table: true,

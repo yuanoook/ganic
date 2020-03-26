@@ -11,22 +11,7 @@ const useRect = domRef => {
   return rect
 }
 
-const SmartView = ({ children }) => {
-  const domRef = useRef()
-  const viewport = useViewport()
-  const rect = useRect(domRef)
-  const invisible = !rect
-    || rect.bottom <= 0
-    || rect.right <= 0
-    || rect.top >= viewport.height
-    || rect.left >= viewport.width
-
-  // shortcut if invisible situation does not change
-  if (invisible && domRef.invisible && domRef.children) {
-    return domRef.children
-  }
-
-  const child = children[0]
+const getPlaceHolder = (invisible, rect, domRef) => {
   let minHeight = '1em'
   let minWidth = '1em'
   let display = 'block'
@@ -51,32 +36,52 @@ const SmartView = ({ children }) => {
       placeHolder = <div style={{display, minWidth}}><div style={{minHeight}}/></div>
     }
   }
+  return placeHolder
+}
+
+const getStyle = (invisible, style) => {
   const visibility = invisible
     ? 'hidden'
-    : (child.props.style && child.props.style.visibility
-        ? child.props.style.visibility
-        : 'visible')
+    : (style && style.visibility ? style.visibility : 'visible')
+  return {...style, visibility}
+}
 
-  const grandChildren = invisible
-    ? placeHolder
-    : child.props.children
+const useInvisible = rect => {
+  const viewport = useViewport()
+  return !rect
+    || rect.bottom <= 0
+    || rect.right <= 0
+    || rect.top >= viewport.height
+    || rect.left >= viewport.width
+}
 
-  domRef.invisible = invisible
-  domRef.children = {
-    ...child,
-    props: {
-      ...child.props,
-      children: grandChildren,
-      style: {
-        ...child.props.style,
-        visibility
-      },
-      ref: dom => {
-        domRef(dom)
-        child.props.ref && child.props.ref(dom)
-      }
+const SmartView = ({ children }) => {
+  const domRef = useRef()
+  const rect = useRect(domRef)
+  const invisible = useInvisible(rect)
+
+  // shortcut if invisible situation does not change
+  if (invisible && domRef.invisible && domRef.children) {
+    return domRef.children
+  }
+
+  const child = children[0]
+  const placeHolder = getPlaceHolder(invisible, rect, domRef)
+  const style = getStyle(invisible, child.props.style)
+  const grandChildren = invisible ? placeHolder : child.props.children
+
+  const props = {
+    ...child.props,
+    children: grandChildren,
+    style: style,
+    ref: dom => {
+      domRef(dom)
+      child.props.ref && child.props.ref(dom)
     }
   }
+
+  domRef.invisible = invisible
+  domRef.children = {...child, props}
 
   return domRef.children
 }

@@ -2,7 +2,6 @@
 import Ganic from 'ganic';
 import chunk from 'lodash.chunk';
 import { useCallback } from "ganic-usex";
-import SmartView from '../components/SmartView';
 import useStore from './useStore';
 
 const GlyphIcon = <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>;
@@ -23,11 +22,11 @@ const RowsGroup = ({ selected, items, dispatch }) => {
   const rows = items.map(item =>
     <Row key={item.id} item={item} selected={selected === item.id} dispatch={dispatch} />
   );
-  return <SmartView><tbody>{rows}</tbody></SmartView>
+  return <tbody>{rows}</tbody>
 }
 
 const Button = ({ id, cb, title }) => (
-  <div class="col-sm-6 smallpad" style="margin-bottom: 10px;">
+  <div class="col-sm-6 smallpad" style={{marginBottom: '10px'}}>
     <button type="button" class="btn btn-primary btn-block" id={id} onClick={cb}>{title}</button>
   </div>
 );

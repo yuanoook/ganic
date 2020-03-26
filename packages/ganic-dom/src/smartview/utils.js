@@ -28,12 +28,25 @@ const getRefRect = (domRef, unit = 1) => {
 };
 
 const smartTags = {
-  // div: true,
+  'smart-view': false,
+  div: true,
+  h1: true,
+  h2: true,
+  h3: true,
+  h4: true,
+  h5: true,
+  h6: true,
   p: true,
-  pre: true,
+
+  ol: true,
+  ul: true,
+
+  form: true,
+
   table: true,
   tbody: true,
   tr: true,
+
   main: true,
   section: true,
   nav: true,
@@ -41,8 +54,15 @@ const smartTags = {
   footer: true,
   article: true,
   aside: true,
+
+  pre: true,
   details: true,
   summary: true,
+  address: true,
+  blockquote: true,
+  dl: true,
+  fieldset: true,
+  noscript: true,
 };
 
 module.exports = {

@@ -41,7 +41,7 @@ const getPlaceHolder = (invisible, rect, domRef) => {
   let minWidth = '1em';
   let display = 'block';
   let placeHolder = {
-    organism: 'div',
+    organism: 'smart-view',
     props: {},
   };
 
@@ -56,9 +56,9 @@ const getPlaceHolder = (invisible, rect, domRef) => {
     placeHolder.props = {
       style: {display, minWidth},
       children: [{
-        organism: 'div',
+        organism: 'smart-view',
         props: {
-          style: {minHeight},
+          style: {display: 'block', minHeight},
         },
       }],
     };

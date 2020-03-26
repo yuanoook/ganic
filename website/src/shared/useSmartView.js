@@ -20,31 +20,43 @@ const useInvisible = rect => {
     || rect.left >= viewport.width
 }
 
-const getPlaceHolder = (invisible, rect, domRef) => {
-  let minHeight = '1em'
-  let minWidth = '1em'
-  let display = 'block'
-  let placeHolder = <div style={{display, minHeight, minWidth}}/>
-
-  if (invisible && rect && domRef.current) {
-    const style = window.getComputedStyle(domRef.current)
-    minHeight = (rect.height
+const getStyleInfo = (rect, dom) => {
+  const style = window.getComputedStyle(dom);
+  const minHeight = (rect.height
       - +style.borderTopWidth.replace(/px/, '')
       + +style.borderBottomWidth.replace(/px/, '')
       - +style.paddingTop.replace(/px/, '')
       + +style.paddingBottom.replace(/px/, '')
-    ) + 'px'
-    minWidth = (rect.width
+    ) + 'px';
+  const minWidth = (rect.width
       - +style.borderLeftWidth.replace(/px/, '')
       + +style.borderRightWidth.replace(/px/, '')
       - +style.paddingLeft.replace(/px/, '')
       + +style.paddingRight.replace(/px/, '')
-    ) + 'px'
-    display = style.display
-    if (display === 'table-row-group') {
-      placeHolder = <div style={{display, minWidth}}><div style={{minHeight}}/></div>
-    }
+    ) + 'px';
+  const display = style.display;
+  return {display, minHeight, minWidth};
+};
+
+const getPlaceHolder = (invisible, rect, domRef) => {
+  let minHeight = '1em'
+  let minWidth = '1em'
+  let display = 'block'
+  let placeHolder
+
+  if (invisible && rect && domRef.current) {
+    const styleInfo = getStyleInfo(rect, domRef.current);
+    minWidth = styleInfo.minWidth;
+    minHeight = styleInfo.minHeight;
+    display = styleInfo.display;
   }
+
+  if (display === 'table-row-group') {
+    placeHolder = <div style={{display, minWidth}}><div style={{minHeight}}/></div>
+  } else {
+    placeHolder = <div style={{display, minHeight, minWidth}}/>
+  }
+
   return placeHolder
 }
 

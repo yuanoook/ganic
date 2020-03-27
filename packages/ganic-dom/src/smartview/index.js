@@ -19,5 +19,5 @@ const smartView = (tagName, _attachTag) => props => {
 
 module.exports = {
   smartTags,
-  smartView
-}
+  smartView,
+};

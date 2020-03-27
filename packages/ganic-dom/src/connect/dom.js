@@ -42,7 +42,7 @@ const parasitismFactory = tagName => {
 };
 
 const attachTag = (tagName, attrs) => attach(
-  parasitismFactory(tagName), attrs
+  parasitismFactory(tagName), attrs,
 );
 
 const normalView = (tagName, _attachTag) => props => {

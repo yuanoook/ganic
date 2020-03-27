@@ -2,7 +2,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable no-unused-vars */
 
-import Ganic from "ganic";
+import Ganic from 'ganic';
 import {
   useMemo,
   useState,
@@ -10,10 +10,10 @@ import {
   useInterval,
   useTimeout,
   useThrottle,
-  useDebounce
-} from "ganic-usex";
+  useDebounce,
+} from 'ganic-usex';
 
-import useStorage from "../shared/useStorage";
+import useStorage from '../shared/useStorage';
 
 import {
   Button,
@@ -21,19 +21,19 @@ import {
   usePositiveNumberSetter,
   xAcceleratorsOrganism,
   useSuperLongList,
-  buttonStyle
-} from "./utils";
+  buttonStyle,
+} from './utils';
 
 export { useSuperLongList };
 
 export const Counter = () => {
-  const [count, setCount] = useStorage("ganic_counter_app__count", 0);
+  const [count, setCount] = useStorage('ganic_counter_app__count', 0);
 
   const [interval, setInterval] = useState(100);
   useInterval(useSetter(setCount, n => n + 1), interval);
   useTimeout(useSetter(setInterval, null), 3000);
 
-  const [x, accelerators] = useOrgan(xAcceleratorsOrganism, 50);
+  const [x, accelerators] = useOrgan(xAcceleratorsOrganism, 100000);
   const minus = usePositiveNumberSetter(setCount, n => n - x, x);
   const plus = useSetter(setCount, n => n + x, x);
   const ui = useMemo(
@@ -50,7 +50,7 @@ export const Counter = () => {
         {accelerators}
       </>
     ),
-    x
+    x,
   );
   return [count, ui];
 };

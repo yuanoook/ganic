@@ -2,17 +2,18 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable no-unused-vars */
 
-import Ganic, { attach } from "ganic";
+import Ganic from 'ganic';
 import {
   useState,
   useMemo,
   useCallback,
   useInterval,
-  useThrottle
-} from "ganic-usex";
+} from 'ganic-usex';
+import range from 'lodash.range';
+import chunk from 'lodash.chunk';
 
-import useStorage from "../shared/useStorage";
-import useMouseUp from "../shared/useMouseUp";
+import useStorage from '../shared/useStorage';
+import useMouseUp from '../shared/useMouseUp';
 
 export const useSetter = (set, value, deps) =>
   useCallback(() => set(value), deps);
@@ -27,69 +28,27 @@ export const Button = ({ onPress, children, ...others }) => {
   const props = {
     ...others,
     onMousedown,
-    onTouchstart: onMousedown
+    onTouchstart: onMousedown,
   };
   return <button {...props}>{children}</button>;
 };
 
-const makeItem = i => {
-  const color = `rgb(${i % 255},${(i * 2) % 255},${(i * 3) % 255})`;
-  return (
-    <p style={{ color }} key={i}>
-      {i + 1}
-    </p>
-  );
-};
-
-const makeList = (start, length) => {
-  const list = [];
-  for (let i = 0; i < length; i++) {
-    list.push(makeItem(i + start));
-  }
-  return list;
-};
-
-const chunkBack = (arr, size) => {
-  let r = [];
-  for (let i = arr.length; i > -1; i -= size)
-    r.unshift(arr.slice(Math.max(i - size, 0), Math.max(0, i)));
-  return r;
-};
-
-const numbersParasitism = (size, give, { handover: list = [] }) => {
-  if (size > list.length) {
-    list = makeList(list.length, size - list.length)
-      .reverse()
-      .concat(list);
-  } else if (size < list.length) {
-    list = list.slice(list.length - size);
-  }
-  give(list);
-  return ({ ending = false }) => {
-    if (ending) {
-      list = null;
-    } else {
-      return list;
-    }
-  };
-};
-
 export const buttonStyle = {
-  fontSize: "30px",
-  padding: "20px",
-  borderRadius: "5px",
-  margin: "10px",
-  userSelect: "none"
+  fontSize: '30px',
+  padding: '20px',
+  borderRadius: '5px',
+  margin: '10px',
+  userSelect: 'none',
 };
 
 const smallBtnStyle = {
   ...buttonStyle,
-  padding: "10px"
+  padding: '10px',
 };
 
 export const xAcceleratorsOrganism = initX => {
-  let [x, setX] = useStorage("ganic_counter_app__x", initX);
-  const accelerators = [1, 10, 100].map(i => {
+  let [x, setX] = useStorage('ganic_counter_app__x', initX);
+  const accelerators = [1, 10, 100, 1000, 10000, 100000].map(i => {
     const minusX = usePositiveNumberSetter(setX, x => x - i, i);
     const plusX = useSetter(setX, x => x + i, i);
     return (
@@ -107,26 +66,36 @@ export const xAcceleratorsOrganism = initX => {
   return [x, accelerators];
 };
 
-export const useSuperLongList = (count, chunkSize, delay) => {
-  const numbers = attach(numbersParasitism, count);
-  const list = useMemo(
-    () =>
-      chunkBack(numbers, chunkSize).map((items, index, arr) => (
-        <div key={arr.length - index}>{items}</div>
-      )),
-    useThrottle(count, delay)
-  );
+const Item = ({ num: i }) => {
+  const color = `rgb(${(i * 10) % 255},${(i * 20) % 255},${(i * 30) % 255})`;
+  return <p style={{ color }}>{ i }</p>;
+};
 
+const List = ({ numbers }) => {
+  return <div>{ numbers.map(num => <Item key={num} num={num}/>) }</div>;
+};
+
+const ChunkList = ({ numbers, size = 10 }) => {
+  if (numbers.length <= size) {
+    return <List numbers={numbers}/>;
+  }
+  const chunks = chunk(numbers, Math.floor(numbers.length / size));
+  const list = chunks.map(nums => <ChunkList numbers={nums} size={size}/>);
+  return <div>{list}</div>;
+};
+
+export const useSuperLongList = (count) => {
+  const numbers = useMemo(total => range(total, 0, -1), count);
   return (
     <div
       style={{
-        height: "150px",
-        overflow: "auto",
-        background: "lightgray"
+        height: '150px',
+        overflow: 'auto',
+        background: 'lightgray',
       }}
     >
       <h2>Super Long List (Items: {count})</h2>
-      {list}
+      <ChunkList numbers={numbers}/>
     </div>
   );
 };

@@ -3,9 +3,7 @@ const { applyAttrs } = require('./attrs');
 const { organDomMap, getNamespace } = require('./shared');
 const { removeDom } = require('./utils');
 const { taskify } = require('../taskQueue');
-
-const useSmartView = require('../smartview/useSmartView');
-const { smartTags } = require('../smartview/utils');
+const { smartTags, smartView } = require('../smartview/index');
 
 const engage = taskify((organ, tagName, attrs) => {
   let dom = organDomMap.get(organ);
@@ -43,33 +41,19 @@ const parasitismFactory = tagName => {
   return tagParasitismMap[tagName];
 };
 
-const smartView = tagName => props => {
-  const {children, ...attrs} = props || {};
-  const {domRef, invisible, placeHolder, style, ref} = useSmartView(attrs);
+const attachTag = (tagName, attrs) => attach(
+  parasitismFactory(tagName), attrs
+);
 
-  const parasitism = parasitismFactory(tagName);
-  attach(parasitism, {...attrs, style, ref});
-
-  // shortcut if invisible situation does not change
-  if (invisible && domRef.invisible && domRef.children) {
-    return domRef.children;
-  }
-
-  domRef.children = invisible ? placeHolder : children;
-  domRef.invisible = invisible;
-  return domRef.children;
-};
-
-const normalView = tagName => props => {
+const normalView = (tagName, _attachTag) => props => {
   const {children, style, ...attrs} = props || {};
-  const parasitism = parasitismFactory(tagName);
-  attach(parasitism, {...attrs, style: attach(style, style)});
+  _attachTag(tagName, {...attrs, style: attach(style, style)});
   return children;
 };
 
-const newOrganismByTag = tagName => {
-  return smartTags[tagName] ? smartView(tagName) : normalView(tagName);
-};
+const newOrganismByTag = tagName => smartTags[tagName]
+  ? smartView(tagName, attachTag)
+  : normalView(tagName, attachTag);
 
 const tagOrganismMap = {};
 const organismFactory = tagName => {

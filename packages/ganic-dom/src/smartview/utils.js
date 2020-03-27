@@ -45,7 +45,6 @@ const smartTags = {
 
   table: true,
   tbody: true,
-  tr: true,
 
   main: true,
   section: true,

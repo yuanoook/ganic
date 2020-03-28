@@ -3,9 +3,9 @@ const { smartTags } = require('./utils');
 
 const smartView = (tagName, _attachTag) => props => {
   const {children, ...attrs} = props || {};
-  const {domRef, invisible, placeHolder, style, ref} = useSmartView(attrs);
+  const {domRef, invisible, placeHolder, ref} = useSmartView(attrs);
 
-  _attachTag(tagName, {...attrs, style, ref});
+  _attachTag(tagName, {...attrs, ref});
 
   // shortcut if invisible situation does not change
   if (invisible && domRef.invisible && domRef.children) {

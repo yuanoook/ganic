@@ -28,6 +28,7 @@ const getRefRect = (domRef, unit = 1) => {
 };
 
 const smartTags = {
+  sv: false,
   'smart-view': false,
   div: true,
   h1: true,

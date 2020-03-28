@@ -41,7 +41,7 @@ const getPlaceHolder = (invisible, rect, domRef) => {
   let minWidth = '1em';
   let display = 'block';
   let placeHolder = {
-    organism: 'smart-view',
+    organism: 'sv',
     props: {},
   };
 
@@ -56,7 +56,7 @@ const getPlaceHolder = (invisible, rect, domRef) => {
     placeHolder.props = {
       style: {display, minWidth},
       children: [{
-        organism: 'smart-view',
+        organism: 'sv',
         props: {
           style: {display: 'block', minHeight},
         },
@@ -73,22 +73,14 @@ const getPlaceHolder = (invisible, rect, domRef) => {
   return placeHolder;
 };
 
-const getStyle = (invisible, style) => {
-  const visibility = invisible
-    ? 'hidden'
-    : (style && style.visibility ? style.visibility : 'visible');
-  return {...style, visibility};
-};
-
 const useSmartView = (attrs) => {
-  const {style: originalStyle, ref: originalRef} = attrs || {};
+  const {ref: originalRef} = attrs || {};
 
   const domRef = useRef();
   const rect = useRect(domRef);
   const invisible = useInvisible(rect);
 
   const placeHolder = getPlaceHolder(invisible, rect, domRef);
-  const style = getStyle(invisible, originalStyle);
   const ref = dom => {
     domRef(dom);
     if (originalRef) {
@@ -100,7 +92,6 @@ const useSmartView = (attrs) => {
     domRef,
     invisible,
     placeHolder,
-    style,
     ref,
   };
 };

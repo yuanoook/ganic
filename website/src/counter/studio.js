@@ -20,11 +20,8 @@ import {
   useSetter,
   usePositiveNumberSetter,
   xAcceleratorsOrganism,
-  useSuperLongList,
   buttonStyle,
 } from './utils';
-
-export { useSuperLongList };
 
 export const Counter = () => {
   const [count, setCount] = useStorage('ganic_counter_app__count', 0);
@@ -40,11 +37,11 @@ export const Counter = () => {
     () => (
       <>
         <h3>Adjust Items</h3>
-        <Button onPress={minus} style={buttonStyle}>
-          {`-${x}`}
-        </Button>
         <Button onPress={plus} style={buttonStyle}>
           {`+${x}`}
+        </Button>
+        <Button onPress={minus} style={buttonStyle}>
+          {`-${x}`}
         </Button>
         <h3>Accelerator</h3>
         {accelerators}

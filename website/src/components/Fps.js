@@ -6,8 +6,8 @@ import useFPS from '../shared/useFPS';
 import Progress from './Progress';
 
 const Display = ({style, fps}) => (
-  <div style={style}>
-    <Progress value={fps} prefix='FPS' postfix={fps}/>
+  <div style={{display: 'inline-block', ...style}}>
+    <Progress value={fps} prefix='FPS' postfix={fps} style={{width: '100%'}}/>
   </div>
 );
 

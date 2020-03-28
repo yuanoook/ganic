@@ -13,6 +13,7 @@ import Flocking from './flocking/index';
 import DoublePendulum from './doublependulum/index';
 import TheHorseInMotion from './thehorseinmotion/index';
 import Fps from './components/Fps';
+import DocInfo from './components/DocInfo';
 import Speech2Text from './speech2text/index';
 
 const options = {
@@ -28,12 +29,23 @@ const options = {
 };
 const optionKeys = Object.keys(options);
 
+const Stats = () => (<div style={{
+  position: 'fixed',
+  top: 0,
+  right: 0,
+  textAlign: 'right',
+  minWidth: '100px'
+}}>
+  <Fps style={{display: 'block'}}/>
+  <DocInfo style={{margin: '5px'}}/>
+</div>);
+
 const App = () => {
   const [select, selectUI] = useOrgan(Select, optionKeys);
 
   return <>
-    { selectUI }
-    <Fps/>
+    <div style={{marginBottom: '10px'}}>{ selectUI }</div>
+    <Stats/>
     { options[select] }
   </>;
 };

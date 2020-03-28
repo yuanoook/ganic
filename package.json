@@ -34,6 +34,7 @@
     "ci": "yarn build",
     "watch": "jest --watchAll",
     "test": "yarn pretest && jest",
+    "build_without_test": "yarn prebuild && yarn rollup",
     "build": "yarn lint && yarn test && yarn prebuild && yarn rollup",
     "rollup": "node ./scripts/rollup/index.js",
     "prebuild": "rm -rf ./build && yarn updeps",

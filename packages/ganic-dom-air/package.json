@@ -1,22 +1,24 @@
 {
-  "name": "ganic-dom",
-  "version": "2.2.9",
+  "name": "ganic-dom-air",
+  "version": "1.0.0",
   "description": "A cool organic programming javascript library",
   "main": "index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/yuanoook/ganic.git",
-    "directory": "packages/ganic-dom"
+    "directory": "packages/ganic-dom-air"
   },
   "bugs": {
     "url": "https://github.com/facebook/ganic/issues"
   },
   "homepage": "https://ganicjs.com/",
   "keywords": [
-    "ganic"
+    "ganic",
+    "ganic-dom",
+    "ganic-dom-air"
   ],
   "peerDependencies": {
-    "ganic": "^2.1.7"
+    "ganic-pandora": "^1.0.0"
   },
   "author": "Rango Yuan",
   "license": "MIT"

@@ -1,6 +1,5 @@
-/* eslint-disable no-unused-vars */
+import { useReducer } from 'ganic-pandora';
 import buildData from './buildData';
-import useReducer from '../shared/useReducer';
 
 const listReducer = (state, action) => {
   const { data, selected } = state;

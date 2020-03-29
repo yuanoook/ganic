@@ -2,9 +2,9 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
-import Ganic from "ganic";
-import { useMemo } from "ganic-usex";
-import useStorage from "../shared/useStorage";
+import Ganic from 'ganic';
+import { useMemo } from 'ganic-usex';
+import { useStorage } from 'ganic-pandora';
 
 const FilterItem = ({ key, filter, setFilter }) => (
   <li>

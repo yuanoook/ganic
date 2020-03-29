@@ -1,8 +1,13 @@
 const GanicTree = require('ganic-tree');
-const envDOM = require('./src/index');
+const envDom = require('./src/index');
 
-const render = (organDesc, envRoot) => 
-  GanicTree.render({organDesc, envRoot, envRunner: envDOM});
+/**
+ * @param {*} organDesc 
+ * @param {*} envRoot 
+ * @param {*} config : [{ makeOrganism: (tagName, attachTag) => organismFn }]
+ */
+const render = (organDesc, envRoot, config) => 
+  GanicTree.render({organDesc, envRoot, envRunner: envDom(config)});
 
 module.exports = {
   render,

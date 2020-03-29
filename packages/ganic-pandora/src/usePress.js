@@ -1,9 +1,9 @@
-import {
+const {
   useState,
   useInterval,
   useCallback,
-} from 'ganic-usex';
-import useMouseUp from "./useMouseUp";
+} = require('ganic-usex');
+const useMouseUp = require('./useMouseUp');
 
 const usePress = (onPress, interlude = 1) => {
   const [interval, setInterval] = useState(null);
@@ -13,11 +13,11 @@ const usePress = (onPress, interlude = 1) => {
   });
   const attachPress = useCallback(fn => e => {
     setInterval(interlude);
-    if (typeof fn === "function") {
+    if (typeof fn === 'function') {
       fn(e);
     }
   });
   return attachPress;
 };
 
-export default usePress;
+module.exports = usePress;

@@ -1,8 +1,8 @@
-import {
+const {
   useRef,
   useState,
-} from 'ganic-usex';
-import useGlobalInterval from '../shared/useGlobalInterval';
+} = require('ganic-usex');
+const useGlobalInterval = require('./useGlobalInterval');
 
 const useMotion = (value, timeBudget) => {
   const [current, setCurrent] = useState(value);
@@ -27,11 +27,11 @@ const useMotion = (value, timeBudget) => {
       setCurrent(ref.target);
       return;
     }
-    setCurrent(current => {
+    setCurrent(_current => {
       const diff = ref.target - ref.startValue;
       const times = timeBudget / interval;
       const approach = diff / times;
-      return current + approach;
+      return _current + approach;
     });
   }, interval);
 
@@ -40,6 +40,6 @@ const useMotion = (value, timeBudget) => {
   }
 
   return current;
-}
+};
 
-export default useMotion;
+module.exports = useMotion;

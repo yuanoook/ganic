@@ -13,7 +13,7 @@ const host = window.place.value === 'local'
   ? '../build/node_modules/'
   : 'https://unpkg.com/';
 
-const srcs = ['ganic', 'ganic-usex', 'ganic-dom'].map(name =>
+const srcs = ['ganic', 'ganic-usex', 'ganic-pandora', 'ganic-dom', 'ganic-dom-air'].map(name =>
   `${host}${name}/umd/${name}.${window.env.value}.js`
 );
 

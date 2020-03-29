@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 
 import Ganic from "ganic";
-import usePress from "../shared/usePress";
+import { usePress } from "ganic-pandora";
 
 const Button = ({
   onPress,

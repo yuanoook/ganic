@@ -1,10 +1,10 @@
 /* eslint-disable no-unused-vars */
 
 import Ganic from 'ganic';
-import useMouse from '../shared/useMouse';
-import useMotion from '../shared/useMotion';
-import useNumber from '../shared/useNumber';
 import { useInterval, useState, useEffect } from 'ganic-usex';
+import { useMouse, useMotion } from 'ganic-pandora';
+
+import useNumber from '../shared/useNumber';
 import { makeArray, keepInRange } from '../shared/utils';
 
 const followerStyle = {

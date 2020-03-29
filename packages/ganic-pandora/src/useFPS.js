@@ -1,16 +1,14 @@
-/* eslint-disable no-unused-vars */
+const { useState } = require('ganic-usex');
 
-import Ganic from 'ganic';
-import { useState } from 'ganic-usex';
-
-const listeners = new Set;
+const listeners = new Set();
 const wakeListeners = fps => {
   listeners.forEach(fn => fn(fps));
 };
 
 let running = false;
 const runFPSChecker = () => {
-  let be = Date.now(), fps=0;
+  let be = Date.now();
+  let fps = 0;
   const loop = () => {
     if (!listeners.size) {
       running = false;
@@ -26,7 +24,7 @@ const runFPSChecker = () => {
     }
   };
   requestAnimationFrame(loop);
-}
+};
 
 const requestFPS = fn => {
   listeners.add(fn);
@@ -34,12 +32,12 @@ const requestFPS = fn => {
     return;
   }
   runFPSChecker();
-}
+};
 
 const useFPS = () => {
   const [fps, setFPS] = useState(0);
   requestFPS(setFPS);
   return fps;
-}
+};
 
-export default useFPS;
+module.exports = useFPS;

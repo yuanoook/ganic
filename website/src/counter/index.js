@@ -1,18 +1,20 @@
 /* eslint-disable no-unused-vars */
 
-import Ganic from "ganic";
-import { useOrgan } from "ganic-usex";
-import { Counter, LazyUpdate, useSuperLongList } from "./studio";
+import Ganic from 'ganic';
+import { useOrgan } from 'ganic-usex';
+import { Counter, LazyUpdate } from './studio';
+import SuperLongList from './SuperLongList';
 
-const CounterApp = props => {
+const CounterApp = () => {
   const [count, counterUI] = useOrgan(Counter);
-  const list = useSuperLongList(count, 500, 125);
   const lazyUpdateUI = useOrgan(LazyUpdate, count);
 
   return (
     <div class="counter-app">
-      <div {...props}>
-        {list}
+      <div>
+        <SuperLongList length={count}/>
+      </div>
+      <div>
         {counterUI}
         {lazyUpdateUI}
       </div>

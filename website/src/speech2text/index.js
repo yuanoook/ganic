@@ -2,8 +2,8 @@
 
 import Ganic from 'ganic';
 import { useState, useMemo } from 'ganic-usex';
+import { useStorage } from 'ganic-pandora';
 import SpeechRecognition from '../components/SpeechRecognition';
-import useStorage from '../shared/useStorage';
 
 const langs = {
   'en-US': 'English (US)',

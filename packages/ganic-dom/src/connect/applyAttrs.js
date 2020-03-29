@@ -97,6 +97,4 @@ const applyAttrs = (node, attrs) => {
   node[attrsKey] = {...attrs};
 };
 
-module.exports = {
-  applyAttrs,
-};
+module.exports = applyAttrs;

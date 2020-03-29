@@ -2,27 +2,11 @@ const commonjs = require('rollup-plugin-commonjs');
 const nodeResolve = require('rollup-plugin-node-resolve');
 const babel = require('rollup-plugin-babel');
 const minify = require('rollup-plugin-babel-minify');
-
-const nameMap = {
-  'ganic': 'Ganic',
-  'ganic-dom': 'GanicDOM',
-  'ganic-tree': 'GanicTree',
-  'ganic-usex': 'GanicUseX',
-};
-
-const externalMap = {
-  'ganic': [],
-  'ganic-dom': ['ganic'],
-  'ganic-tree': ['ganic'],
-  'ganic-usex': ['ganic'],
-};
-
-const globalsMap = {
-  'ganic': {},
-  'ganic-dom': {ganic: 'Ganic'},
-  'ganic-tree': {ganic: 'Ganic'},
-  'ganic-usex': {ganic: 'Ganic'},
-};
+const {
+  nameMap,
+  externalMap,
+  globalsMap,
+} = require('./maps');
 
 const getConfig = name => {
   if (!nameMap[name]) {

@@ -1,17 +1,16 @@
 /* eslint-disable no-unused-vars */
 import Ganic from 'ganic';
 import chunk from 'lodash.chunk';
-import { useCallback } from "ganic-usex";
-import SmartView from '../components/SmartView';
+import { useCallback } from 'ganic-usex';
 import useStore from './useStore';
 
 const GlyphIcon = <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>;
 
 const Row = ({ selected, item, dispatch }) => {
-  const select = useCallback(() => dispatch({ type: 'SELECT', id: item.id })),
-    remove = useCallback(() => dispatch({ type: 'REMOVE', id: item.id }));
+  const select = useCallback(() => dispatch({ type: 'SELECT', id: item.id }));
+    const remove = useCallback(() => dispatch({ type: 'REMOVE', id: item.id }));
 
-  return (<tr class={selected ? "danger" : ""}>
+  return (<tr class={selected ? 'danger' : ''}>
     <td class="col-1">{item.id}</td>
     <td class="col-4"><a onClick={select}>{item.label}</a></td>
     <td class="col-1"><a onClick={remove}>{GlyphIcon}</a></td>
@@ -21,13 +20,13 @@ const Row = ({ selected, item, dispatch }) => {
 
 const RowsGroup = ({ selected, items, dispatch }) => {
   const rows = items.map(item =>
-    <Row key={item.id} item={item} selected={selected === item.id} dispatch={dispatch} />
+    <Row key={item.id} item={item} selected={selected === item.id} dispatch={dispatch} />,
   );
-  return <SmartView><tbody>{rows}</tbody></SmartView>
-}
+  return <tbody>{rows}</tbody>;
+};
 
 const Button = ({ id, cb, title }) => (
-  <div class="col-sm-6 smallpad" style="margin-bottom: 10px;">
+  <div class="col-sm-6 smallpad" style={{marginBottom: '10px'}}>
     <button type="button" class="btn btn-primary btn-block" id={id} onClick={cb}>{title}</button>
   </div>
 );
@@ -50,7 +49,7 @@ const Benchmark = props => {
   const [state, dispatch] = useStore();
   const groups = chunk(state.data, 100);
   const groupsUI = groups.map(items =>
-    <RowsGroup key={items[0].id} items={items} selected={state.selected} dispatch={dispatch} />
+    <RowsGroup key={items[0].id} items={items} selected={state.selected} dispatch={dispatch} />,
   );
   return (
     <div {...props}>
@@ -60,6 +59,6 @@ const Benchmark = props => {
       </table>
     </div>
   );
-}
+};
 
 export default Benchmark;

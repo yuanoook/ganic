@@ -1,5 +1,5 @@
-import { attach } from 'ganic';
-import { useRef } from 'ganic-usex';
+const { attach } = require('ganic');
+const { useRef } = require('ganic-usex');
 
 const runningIntervals = {};
 const intervalRefSets = {};
@@ -8,12 +8,14 @@ const removeRefLastDelay = ref => {
   if (intervalRefSets[ref.lastDelay]) {
     intervalRefSets[ref.lastDelay].delete(ref);
   }
-}
+};
+
 const removeRefDelay = ref => {
   if (intervalRefSets[ref.delay]) {
     intervalRefSets[ref.delay].delete(ref);
   }
-}
+};
+
 const addRef = ref => {
   removeRefLastDelay(ref);
   const delay = ref.delay;
@@ -56,4 +58,4 @@ const useGlobalInterval = (callback, delay) => {
   }, delay);
 };
 
-export default useGlobalInterval;
+module.exports = useGlobalInterval;

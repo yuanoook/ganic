@@ -18,8 +18,6 @@
     "ganic-dom-air"
   ],
   "peerDependencies": {
-    "ganic": "^2.1.7",
-    "ganic-usex": "^2.2.5",
     "ganic-pandora": "^1.0.0"
   },
   "author": "Rango Yuan",

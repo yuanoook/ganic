@@ -1,6 +1,6 @@
 {
   "name": "ganic-dom",
-  "version": "2.2.8",
+  "version": "2.2.9",
   "description": "A cool organic programming javascript library",
   "main": "index.js",
   "repository": {

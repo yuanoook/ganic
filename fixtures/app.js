@@ -18,7 +18,9 @@
     ];
   };
 
-  GanicDOM.render({
-    organism: App,
-  }, document.getElementById("app"));
+  GanicDOM.render(
+    { organism: App },
+    document.getElementById("app"),
+    GanicDomAir,
+  );
 })();

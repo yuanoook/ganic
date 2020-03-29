@@ -2,7 +2,7 @@
 
 import Ganic from 'ganic';
 import GanicDOM from 'ganic-dom';
-import GanicDOMAir from 'ganic-dom-air';
+import GanicDomAir from 'ganic-dom-air';
 import { useOrgan } from 'ganic-usex';
 import Select from './Select';
 import TodoList from './todomvc/TodoList';
@@ -51,4 +51,4 @@ const App = () => {
   </>;
 };
 
-GanicDOM.render(<App />, document.getElementById('app'), GanicDOMAir);
+GanicDOM.render(<App />, document.getElementById('app'), GanicDomAir);

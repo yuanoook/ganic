@@ -18,15 +18,15 @@ import DocInfo from './components/DocInfo';
 import Speech2Text from './speech2text/index';
 
 const options = {
-  speech2Text: <Speech2Text/>,
-  theHorseInMotion: <TheHorseInMotion/>,
+  todolist: <TodoList/>,
+  benchmark: <Benchmark/>,
+  counter: <CounterApp/>,
   doublePendulum: <DoublePendulum/>,
   flocking: <Flocking/>,
   followers: <Followers/>,
+  theHorseInMotion: <TheHorseInMotion/>,
+  speech2Text: <Speech2Text/>,
   watch: <Watch/>,
-  todolist: <TodoList/>,
-  counter: <CounterApp/>,
-  benchmark: <Benchmark/>,
 };
 const optionKeys = Object.keys(options);
 

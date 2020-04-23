@@ -28,6 +28,7 @@ describe('useDebounce & useThrottle', () => {
   beforeEach(() => mockFn.mockReset());
 
   it('should debounce state updates', done => {
+    // TODO: this need to be tested with another way
     const organism = () => {
       const [state, setState] = useState(0);        // parasite index 0
       const [interval, setInterval] = useState(50); // parasite index 1

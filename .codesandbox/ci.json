@@ -2,15 +2,19 @@
   "packages": [
     "packages/ganic",
     "packages/ganic-usex",
+    "packages/ganic-pandora",
     "packages/ganic-tree",
-    "packages/ganic-dom"
+    "packages/ganic-dom",
+    "packages/ganic-dom-air"
   ],
   "buildCommand": "ci",
   "publishDirectory": {
     "ganic": "build/node_modules/ganic",
     "ganic-usex": "build/node_modules/ganic-usex",
+    "ganic-pandora": "build/node_modules/ganic-pandora",
     "ganic-tree": "build/node_modules/ganic-tree",
-    "ganic-dom": "build/node_modules/ganic-dom"
+    "ganic-dom": "build/node_modules/ganic-dom",
+    "ganic-dom-air": "build/node_modules/ganic-dom-air"
   },
   "sandboxes": ["/website"]
 }

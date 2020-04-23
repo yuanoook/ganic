@@ -106,7 +106,7 @@ const DoublePendulum = () => {
   }));
   const [[x1, y1], [x2, y2]] = calculatePosition(state);
 
-  const [fps, FpsInput] = useNumber(10, 'ganic_demo__double_pendulum_fps');
+  const [fps, FpsInput] = useNumber(30, 'ganic_demo__double_pendulum_fps');
   const fpsInRange = keepInRange(fps, 0, 100);
   const interval = !fpsInRange ? null : (1000 / fpsInRange);
 

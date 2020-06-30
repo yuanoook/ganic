@@ -14,5 +14,10 @@ describe('utils functions', () => {
     expect(shallowEqual({a: 1}, {a: 2})).toBe(false);
     expect(shallowEqual({a: {}}, {a: {}})).toBe(false);
     expect(shallowEqual({a: b}, {a: {}})).toBe(false);
+
+    expect(shallowEqual(new Date(1), new Date(1))).toBe(true);
+    expect(shallowEqual(new Date(1), new Date(0))).toBe(false);
+    expect(shallowEqual(new Date(1), {})).toBe(false);
+    expect(shallowEqual(new Date(1), 1)).toBe(false);
   });
 });

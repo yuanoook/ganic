@@ -1,6 +1,6 @@
 {
   "private": true,
-  "version": "2.1.7",
+  "version": "2.2.0",
   "workspaces": ["packages/*"],
   "devDependencies": {
     "@babel/plugin-transform-react-jsx": "^7.7.0",

@@ -1,12 +1,12 @@
 const { updateLeaf, vanishLeaf } = require('./connect/leaf');
-const { relocate, insertDom } = require('./connect/utils');
-const { organDomMap } = require('./connect/shared');
+const { insertFile } = require('./connect/utils');
+const { organMap } = require('./connect/shared');
 const { taskify, clearTasks } = require('../../shared/taskQueue');
 const getOrganism = require('./connect/getOrganism');
 
 const setUpNode = node => {
-  const dom = organDomMap.get(node.organ);
-  insertDom(dom, node);
+  const dom = organMap.get(node.organ);
+  insertFile(dom, node);
 };
 
 const onReady = taskify(setUpNode);
@@ -18,12 +18,12 @@ const getTagkitFactory = configs => tagName => ({
 const base = {
   updateLeaf: taskify(updateLeaf),
   vanishLeaf: taskify(vanishLeaf),
-  relocate: taskify(relocate),
+  relocate: () => null,
   onSettled: clearTasks,
   onBuried: clearTasks,
 };
 
-const envDom = config => {
+const envFS = config => {
   const configs = !Array.isArray(config) ? [config] : config;
   return {
     getTagkit: getTagkitFactory(configs),
@@ -31,4 +31,4 @@ const envDom = config => {
   };
 };
 
-module.exports = envDom;
+module.exports = envFS;

@@ -1,6 +1,7 @@
 const nameMap = {
   'ganic': 'Ganic',
   'ganic-dom': 'GanicDOM',
+  'ganic-fs': 'GanicFS',
   'ganic-tree': 'GanicTree',
   'ganic-usex': 'GanicUseX',
   'ganic-pandora': 'GanicPandora',
@@ -10,6 +11,7 @@ const nameMap = {
 const externalMap = {
   'ganic': [],
   'ganic-dom': ['ganic'],
+  'ganic-fs': ['ganic', 'fs'],
   'ganic-tree': ['ganic'],
   'ganic-usex': ['ganic'],
   'ganic-pandora': ['ganic', 'ganic-usex'],
@@ -19,6 +21,10 @@ const externalMap = {
 const globalsMap = {
   'ganic': {},
   'ganic-dom': {ganic: 'Ganic'},
+  'ganic-fs': {
+    ganic: 'Ganic',
+    fs: 'fs',
+  },
   'ganic-tree': {ganic: 'Ganic'},
   'ganic-usex': {ganic: 'Ganic'},
   'ganic-pandora': {

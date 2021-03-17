@@ -28,7 +28,6 @@ describe('basic attrs', () => {
       const [count, setCount] = useState(1);
       const onButtonClick = () => {
         setCount(n => n + 1);
-        inputRef.current.focus();
       };
       return <>
         <input ref={inputRef} ivalue={count} />
@@ -41,9 +40,6 @@ describe('basic attrs', () => {
     expect(envRoot.textContent).toBe('1');
 
     envRoot.querySelector('button').dispatchEvent(new MouseEvent('click'));
-    expect(document.activeElement.tagName).toBe('INPUT');
-    expect(envRoot.querySelector('input') === document.activeElement).toBe(true);
-
     expect(envRoot.innerHTML).toBe('<input ivalue="2"><button>2</button>');
     expect(envRoot.textContent).toBe('2');
 

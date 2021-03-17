@@ -1,7 +1,7 @@
 const { getUpdatingOrgan, attach } = require('ganic');
 const { organDomMap, getNamespace } = require('./shared');
 const { removeDom } = require('./utils');
-const { taskify } = require('../taskQueue');
+const { taskify } = require('../../../shared/taskQueue');
 const applyAttrs = require('./applyAttrs');
 
 const engage = taskify((organ, tagName, attrs) => {

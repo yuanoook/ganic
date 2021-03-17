@@ -2,7 +2,7 @@ const { getUpdatingOrgan, attach } = require('ganic');
 const fs = require('fs');
 const { organMap } = require('./shared');
 const { removeFile } = require('./utils');
-const { taskify } = require('../taskQueue');
+const { taskify } = require('../../../shared/taskQueue');
 const applyAttrs = require('./applyAttrs');
 
 const dirExists = name => fs.existsSync(name) && fs.lstatSync(name).isDirectory();

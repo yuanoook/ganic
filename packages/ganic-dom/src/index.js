@@ -1,7 +1,7 @@
 const { updateLeaf, vanishLeaf } = require('./connect/leaf');
 const { relocate, insertDom } = require('./connect/utils');
 const { organDomMap } = require('./connect/shared');
-const { taskify, clearTasks } = require('./taskQueue');
+const { taskify, clearTasks } = require('../../shared/taskQueue');
 const getOrganism = require('./connect/getOrganism');
 
 const setUpNode = node => {

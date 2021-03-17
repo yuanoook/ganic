@@ -47,7 +47,6 @@ module.exports = {
           },
         },
         parallel: true,
-        cache: true,
       }),
     ],
   },

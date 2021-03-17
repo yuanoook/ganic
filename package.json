@@ -1,7 +1,9 @@
 {
   "private": true,
   "version": "2.2.0",
-  "workspaces": ["packages/*"],
+  "workspaces": [
+    "packages/*"
+  ],
   "devDependencies": {
     "@babel/plugin-transform-react-jsx": "7.12.17",
     "@babel/preset-env": "7.13.10",
@@ -54,7 +56,10 @@
     "url": "https://github.com/yuanoook/ganic.git"
   },
   "jest": {
-    "modulePathIgnorePatterns": [".codesandbox/", "website/"]
+    "modulePathIgnorePatterns": [
+      ".codesandbox/",
+      "website/"
+    ]
   },
   "author": "Rango Yuan",
   "license": "MIT"

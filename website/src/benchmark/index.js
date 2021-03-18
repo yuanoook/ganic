@@ -10,7 +10,7 @@ const Row = ({ selected, item, dispatch }) => {
   const select = useCallback(() => dispatch({ type: 'SELECT', id: item.id }));
     const remove = useCallback(() => dispatch({ type: 'REMOVE', id: item.id }));
 
-  return (<ul class={
+  return (<li class={
     selected
       ? 'list-group-item list-group-item-action active'
       : 'list-group-item list-group-item-action'
@@ -20,7 +20,7 @@ const Row = ({ selected, item, dispatch }) => {
       <div class="col-8"><a onClick={select}>{item.label}</a></div>
       <div class="col-2"><a onClick={remove}>{biX}</a></div>
     </div>
-  </ul>);
+  </li>);
 };
 
 const RowsGroup = ({ selected, items, dispatch }) => {

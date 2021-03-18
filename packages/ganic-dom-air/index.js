@@ -6,6 +6,13 @@ const airView = (tagName, attachTag) => props => {
   const { domRef, invisible, placeHolder, attrs: newAttrs } = useAir(attrs);
   attachTag(tagName, newAttrs);
 
+  // shortcut if placeHolder higher than window, because this shit will crap
+  const placeHolderHigh = placeHolder.props.style.minHeight.replace(/\D/g, '') || 0;
+  const higherThanWindow = window.innerHeight - placeHolderHigh <= 0;
+  if (higherThanWindow) {
+    return children;
+  }
+
   // shortcut if invisible situation does not change
   if (invisible && domRef.invisible && domRef.children) {
     return domRef.children;

@@ -17,17 +17,17 @@ const useInvisible = rect => {
 const getStyleInfo = (rect, dom) => {
   const style = window.getComputedStyle(dom);
   const minHeight = (rect.height
-      - +style.borderTopWidth.replace(/px/, '')
-      + +style.borderBottomWidth.replace(/px/, '')
-      - +style.paddingTop.replace(/px/, '')
-      + +style.paddingBottom.replace(/px/, '')
-    ) + 'px';
+      - style.borderTopWidth.replace(/px/, '')
+      - style.borderBottomWidth.replace(/px/, '')
+      - style.paddingTop.replace(/px/, '')
+      - style.paddingBottom.replace(/px/, '')
+    );
   const minWidth = (rect.width
-      - +style.borderLeftWidth.replace(/px/, '')
-      + +style.borderRightWidth.replace(/px/, '')
-      - +style.paddingLeft.replace(/px/, '')
-      + +style.paddingRight.replace(/px/, '')
-    ) + 'px';
+      - style.borderLeftWidth.replace(/px/, '')
+      - style.borderRightWidth.replace(/px/, '')
+      - style.paddingLeft.replace(/px/, '')
+      - style.paddingRight.replace(/px/, '')
+    );
   const display = style.display;
   return {display, minHeight, minWidth};
 };
@@ -43,8 +43,8 @@ const getPlaceHolder = (invisible, rect, domRef) => {
 
   if (invisible && rect && domRef.current) {
     const styleInfo = getStyleInfo(rect, domRef.current);
-    minWidth = styleInfo.minWidth;
-    minHeight = styleInfo.minHeight;
+    minWidth = styleInfo.minWidth ? (styleInfo.minWidth + 'px') : minWidth;
+    minHeight = styleInfo.minHeight ? (styleInfo.minHeight + 'px') : minHeight;
     display = styleInfo.display;
   }
 

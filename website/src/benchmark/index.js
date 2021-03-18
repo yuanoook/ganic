@@ -4,25 +4,32 @@ import chunk from 'lodash.chunk';
 import { useCallback } from 'ganic-usex';
 import useStore from './useStore';
 
-const GlyphIcon = <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>;
+const biX = <i class="bi bi-x"></i>;
 
 const Row = ({ selected, item, dispatch }) => {
   const select = useCallback(() => dispatch({ type: 'SELECT', id: item.id }));
     const remove = useCallback(() => dispatch({ type: 'REMOVE', id: item.id }));
 
-  return (<tr class={selected ? 'danger' : ''}>
-    <td class="col-1">{item.id}</td>
-    <td class="col-4"><a onClick={select}>{item.label}</a></td>
-    <td class="col-1"><a onClick={remove}>{GlyphIcon}</a></td>
-    <td class="col-6"></td>
-  </tr>);
+  return (<li class={
+    selected
+      ? 'list-group-item list-group-item-action active'
+      : 'list-group-item list-group-item-action'
+    }>
+    <div class="row">
+      <div class="col-2">{item.id}</div>
+      <div class="col-8"><a onClick={select}>{item.label}</a></div>
+      <div class="col-2"><a onClick={remove}>{biX}</a></div>
+    </div>
+  </li>);
 };
 
 const RowsGroup = ({ selected, items, dispatch }) => {
   const rows = items.map(item =>
     <Row key={item.id} item={item} selected={selected === item.id} dispatch={dispatch} />,
   );
-  return <tbody>{rows}</tbody>;
+  return <div class="container">
+    <ul class="list-group">{rows}</ul>
+  </div>;
 };
 
 const Button = ({ id, cb, title }) => (
@@ -48,15 +55,15 @@ const Jumbotron = ({ dispatch }) => (
 const Benchmark = props => {
   const [state, dispatch] = useStore();
   const groups = chunk(state.data, 100);
-  const groupsUI = groups.map(items =>
-    <RowsGroup key={items[0].id} items={items} selected={state.selected} dispatch={dispatch} />,
+  const groupsUI = groups.map((items, index) =>
+    <RowsGroup key={index} items={items} selected={state.selected} dispatch={dispatch} />,
   );
   return (
     <div {...props}>
       <Jumbotron dispatch={dispatch} />
-      <table class="table table-hover table-striped test-data">
+      <div class="test-data">
         {groupsUI}
-      </table>
+      </div>
     </div>
   );
 };

@@ -4,7 +4,7 @@ import chunk from 'lodash.chunk';
 import { useCallback } from 'ganic-usex';
 import useStore from './useStore';
 
-const GlyphIcon = <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>;
+const biX = <i class="bi bi-x"></i>;
 
 const Row = ({ selected, item, dispatch }) => {
   const select = useCallback(() => dispatch({ type: 'SELECT', id: item.id }));
@@ -13,7 +13,7 @@ const Row = ({ selected, item, dispatch }) => {
   return (<tr class={selected ? 'danger' : ''}>
     <td class="col-1">{item.id}</td>
     <td class="col-4"><a onClick={select}>{item.label}</a></td>
-    <td class="col-1"><a onClick={remove}>{GlyphIcon}</a></td>
+    <td class="col-1"><a onClick={remove}>{biX}</a></td>
     <td class="col-6"></td>
   </tr>);
 };
@@ -48,8 +48,8 @@ const Jumbotron = ({ dispatch }) => (
 const Benchmark = props => {
   const [state, dispatch] = useStore();
   const groups = chunk(state.data, 100);
-  const groupsUI = groups.map(items =>
-    <RowsGroup key={items[0].id} items={items} selected={state.selected} dispatch={dispatch} />,
+  const groupsUI = groups.map((items, index) =>
+    <RowsGroup key={index} items={items} selected={state.selected} dispatch={dispatch} />,
   );
   return (
     <div {...props}>

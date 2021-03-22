@@ -1,55 +1,26 @@
 const { getUpdatingOrgan, attach } = require('ganic');
-const fs = require('fs');
 const { organMap } = require('./shared');
 const { removeFile } = require('./utils');
 const { taskify } = require('../../../shared/taskQueue');
-const applyAttrs = require('./applyAttrs');
-
-const dirExists = name => fs.existsSync(name) && fs.lstatSync(name).isDirectory();
-const fileExists = name => fs.existsSync(name) && fs.lstatSync(name).isFile();
-const socketExists = name => fs.existsSync(name) && fs.lstatSync(name).isSocket();
-const linkExists = name => fs.existsSync(name) && fs.lstatSync(name).isSymbolicLink();
-
-const creators = {
-  dir: fullPathname => {
-    if (!dirExists(fullPathname)) {
-      return fs.mkdirSync(fullPathname, { recursive: true });
-    }
-  },
-  file: fullPathname => {
-    if (!fileExists(fullPathname)) {
-      return fs.appendFileSync(fullPathname, '');
-    }
-  },
-  socket: fullPathname => {
-    if (!socketExists(fullPathname)) {
-      // TODO
-    }
-  },
-  link: fullPathname => {
-    if (!linkExists(fullPathname)) {
-      // TODO
-    }
-  },
-};
-
-const create = (tagName, fullPathname) => creators[tagName](fullPathname);
 
 const engage = taskify((organ, tagName, attrs) => {
-  let file = organMap.get(organ);
-  let fullPathname = null; // TODO
-  if (!file) {
-    file = create(tagName, fullPathname);
-    organMap.set(organ, file);
+  let fileDesc = organMap.get(organ);
+  if (!attrs.name) {
+    throw new Error('No file name!');
   }
-  applyAttrs(file, attrs);
+  if (!fileDesc) {
+    organMap.set(organ, {
+      tagName,
+      attrs,
+    });
+  }
 });
 
 const release = taskify(organ => {
-  const file = organMap.get(organ);
+  const fileDesc = organMap.get(organ);
   organMap.delete(organ);
-  if (file) {
-    removeFile(file);
+  if (fileDesc) {
+    removeFile(fileDesc);
   }
 });
 

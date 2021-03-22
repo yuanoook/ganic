@@ -3,7 +3,7 @@ const envFS = require('./src/index');
 
 /**
  * @param {*} organDesc 
- * @param {*} envRoot 
+ * @param {*} envRoot : root file / folder
  * @param {*} config : [{ makeOrganism: (tagName, attachTag) => organismFn }]
  */
 const render = (organDesc, envRoot, config) => 

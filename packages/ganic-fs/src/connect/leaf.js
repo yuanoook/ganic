@@ -1,31 +1,19 @@
-const { insertFile, removeFile } = require('./utils');
-const { leafMap } = require('./shared');
+// const { leafMap } = require('./shared');
 
 const updateLeaf = organLeaf => {
-  const value = (organLeaf.value === undefined || organLeaf.value === null)
-    ? ''
-    : organLeaf.value;
-
-  let textNode = leafMap.get(organLeaf);
-  if (!textNode) {
-    textNode = document.createTextNode(value);
-    leafMap.set(organLeaf, textNode);
-    insertFile(textNode, organLeaf);
-    return;
-  }
-
-  const newContent = document.createTextNode(value).textContent;
-  if (textNode.textContent !== newContent) {
-    textNode.textContent = newContent;
-  }
+  // TODO
+  // const value = (organLeaf.value === undefined || organLeaf.value === null)
+  //   ? ''
+  //   : organLeaf.value;
+  // organLeaf.file.content = value
 };
 
 const vanishLeaf = organLeaf => {
-  const textNode = leafMap.get(organLeaf);
-  leafMap.delete(organLeaf);
-  if (textNode) {
-    removeFile(textNode);
-  }
+  // TODO
+  // const value = (organLeaf.value === undefined || organLeaf.value === null)
+  //   ? ''
+  //   : organLeaf.value;
+  // organLeaf.file.content = value
 };
 
 module.exports = {

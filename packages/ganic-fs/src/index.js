@@ -5,8 +5,8 @@ const { taskify, clearTasks } = require('../../shared/taskQueue');
 const getOrganism = require('./connect/getOrganism');
 
 const setUpNode = node => {
-  const dom = organMap.get(node.organ);
-  insertFile(dom, node);
+  const fileDesc = organMap.get(node.organ);
+  insertFile(fileDesc, node);
 };
 
 const onReady = taskify(setUpNode);

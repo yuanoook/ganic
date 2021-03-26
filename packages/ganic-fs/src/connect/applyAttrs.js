@@ -1,8 +1,7 @@
 const fs = require('fs');
-const { organMap } = require('./shared');
 
-const attrsKey = Symbol();
-const listenersKey = Symbol();
+const __attrs = Symbol();
+const __statListeners = Symbol();
 
 const applyRef = (node, ref) => ref ? ref(node) : null;
 
@@ -18,33 +17,35 @@ const applyEventListener = ({
     return;
   }
 
-
-  // TODO: warp this shit together
   const statName = eventName.replace(changeReg, '');
 
-  if (!organ[listenersKey]) {
-    organ[listenersKey] = {};
-  }
-  if (!organ[listenersKey][eventName]) {
-    organ[listenersKey][eventName] = {};
+  if (!organ[__statListeners]) {
+    watchFile(fullPathname, organ[__statListeners] = {});
   }
 
-  const bindInfo = organ[listenersKey][eventName];
-  bindInfo.listener = listener;
-
-  if (!bindInfo.bound) {
-    fs.watchFile(fullPathname, function(curr, prev) {
-      if (statName && curr[statName] !== prev[statName]) {
-        
-      }
-
-      if (typeof bindInfo.listener === 'function') {
-        bindInfo.listener(curr, prev);
-      }
-    });
-    bindInfo.bound = true;
-  }
+  organ[__statListeners][statName] = listener;
 };
+
+function watchFile (fullPathname, statListeners) {
+  fs.watchFile(fullPathname, {
+    persistent: false,
+    interval: 1000,
+  }, function(curr, prev) {
+    if (statListeners['']) {
+      statListeners[''](curr, prev);
+    }
+
+    for (let key in curr) {
+      let statChanged = !prev || curr[key] !== prev[key];
+      if (!statChanged) continue;
+
+      key = key.toLowerCase();
+      if (statListeners[key]) {
+        statListeners[key](curr[key], prev && prev[key]);
+      }
+    }
+  });
+}
 
 const applyAttr = ({
   fullPathname,
@@ -67,7 +68,7 @@ const applyAttr = ({
 };
 
 const applyAttrs = (organ, {fullPathname, attrs}) => {
-  const oldAttrs = organ[attrsKey] || {};
+  const oldAttrs = organ[__attrs] || {};
   Object.keys({...oldAttrs, ...attrs}).forEach(
     name => oldAttrs[name] !== attrs[name] && applyAttr({
       fullPathname,
@@ -76,7 +77,7 @@ const applyAttrs = (organ, {fullPathname, attrs}) => {
       value: attrs[name],
     }),
   );
-  organ[attrsKey] = {...attrs};
+  organ[__attrs] = {...attrs};
 };
 
 module.exports = applyAttrs;

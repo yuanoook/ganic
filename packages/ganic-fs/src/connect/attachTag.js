@@ -2,17 +2,23 @@ const { getUpdatingOrgan, attach } = require('ganic');
 const { organMap } = require('./shared');
 const { removeFile } = require('./utils');
 const { taskify } = require('../../../shared/taskQueue');
+const applyAttrs = require('./applyAttrs');
 
 const engage = taskify((organ, tagName, attrs) => {
-  let fileDesc = organMap.get(organ);
+  const fileDesc = organMap.get(organ);
   if (!attrs.name) {
     throw new Error('No file name!');
   }
-  if (!fileDesc) {
-    organMap.set(organ, {
-      tagName,
-      attrs,
-    });
+
+  const newFileDesc = {
+    tagName,
+    attrs,
+    ...fileDesc,
+  };
+  organMap.set(organ, newFileDesc);
+
+  if (fileDesc) {
+    applyAttrs(organ, newFileDesc);
   }
 });
 

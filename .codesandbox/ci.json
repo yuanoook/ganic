@@ -16,5 +16,6 @@
     "ganic-dom": "build/node_modules/ganic-dom",
     "ganic-dom-air": "build/node_modules/ganic-dom-air"
   },
-  "sandboxes": ["/website"]
+  "sandboxes": ["/website"],
+  "node": "14"
 }

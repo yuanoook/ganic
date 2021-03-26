@@ -37,7 +37,9 @@ function watchFile (fullPathname, statListeners) {
 
     for (let key in curr) {
       let statChanged = !prev || curr[key] !== prev[key];
-      if (!statChanged) continue;
+      if (!statChanged) {
+        continue;
+      }
 
       key = key.toLowerCase();
       if (statListeners[key]) {

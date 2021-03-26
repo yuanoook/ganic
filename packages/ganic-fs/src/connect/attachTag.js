@@ -13,7 +13,7 @@ const engage = taskify((organ, tagName, attrs) => {
   const newFileDesc = {
     tagName,
     attrs,
-    ...fileDesc
+    ...fileDesc,
   };
   organMap.set(organ, newFileDesc);
 

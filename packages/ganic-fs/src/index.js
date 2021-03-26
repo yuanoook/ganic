@@ -8,7 +8,7 @@ const applyAttrs = require('./connect/applyAttrs');
 const setUpFullPathname = node => {
   organMap.set(node.organ, {
     fullPathname: getFullPathname(node),
-    ...organMap.get(node.organ)
+    ...organMap.get(node.organ),
   });
 };
 

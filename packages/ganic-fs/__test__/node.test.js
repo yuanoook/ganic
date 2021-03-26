@@ -42,7 +42,8 @@ describe('ganic-fs', () => {
         size && <file name={`index.html-size-is-${size}`} />
       }
     </dir>;
-    }
+    };
+  
     render(<App />, __dirname);
 
     const htmlPath = path.resolve(__dirname, 'fs-test', 'index.html');

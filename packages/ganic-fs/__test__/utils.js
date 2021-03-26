@@ -15,13 +15,13 @@ const expectTry = async (fn, timeout = 10) => {
 
   await oneSecond();
   expect(fn()).toEqual(true);
-}
+};
 
 const expectFile = async (path, timeout = 10) => {
-  await expectTry(() => fs.existsSync(path), timeout)
-}
+  await expectTry(() => fs.existsSync(path), timeout);
+};
 
 module.exports = {
   expectTry,
-  expectFile
+  expectFile,
 };

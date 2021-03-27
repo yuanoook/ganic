@@ -1,14 +1,17 @@
 const Ganic = require('ganic');
-const {useState} = require('ganic-usex');
-const path = require('path');
+const {useState, useMemo} = require('ganic-usex');
+
 const fs = require('fs');
+const path = require('path');
+
 const {render} = require('../index');
 const {expectFile} = require('./utils');
+const { useRef } = require('../../ganic-usex');
 
 jest.setTimeout(30 * 1000);
 
 beforeEach(() => {
-  fs.rmdirSync(path.resolve(__dirname, 'fs-test'), { recursive: true });
+  // fs.rmdirSync(path.resolve(__dirname, 'fs-test'), { recursive: true });
 });
 
 describe('ganic-fs', () => {
@@ -58,5 +61,42 @@ describe('ganic-fs', () => {
     const sizePath = path.resolve(
       __dirname, 'fs-test', `index.html-size-is-${text.length}`);
     await expectFile(sizePath);
+  });
+
+  it('should handle sock file', (done) => {
+    let clientDb
+
+    const App = () => {
+      const serverDb = useRef(true);
+      clientDb = useRef(true);
+      const clientSock = useRef(true);
+
+      const onClientDbChange = useMemo(() => {
+        console.log('Client content: ', clientDb.json);
+        done();
+        // clientSock.send(clientDb.json);
+      });
+
+      const onServerMessage = useMemo((msg) => {
+        serverDb.text = msg
+      });
+
+      return <dir name="fs-test-proxy">
+        <dir name="server">
+          <file name="server.db" ref={serverDb} />
+          <socket name="echo.sock" type="server" onMessage={onServerMessage}/>
+        </dir>
+        <dir name="client">
+          <file name="client.db" ref={clientDb} onChange={onClientDbChange}/>
+          <socket name="echo.sock" type="client" ref={clientSock}/>
+        </dir>
+      </dir>;
+    };
+
+    render(<App />, __dirname);
+
+    setTimeout(() => {
+      clientDb.json = {hello: 'world!'};
+    }, 3000);
   });
 });

@@ -1,5 +1,5 @@
 const Ganic = require('ganic');
-const { useMemo, useRef } = require('ganic-usex');
+const { useRef } = require('ganic-usex');
 
 const fs = require('fs');
 const path = require('path');

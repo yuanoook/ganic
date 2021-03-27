@@ -35,7 +35,6 @@ const proxyRef = () => useMemo(() => {
   });
 });
 
-// TODO: add test
 const useRef = (proxy = false) => proxy ? proxyRef() : simpleRef();
 
 const useCallback = (fn, dependencies) =>

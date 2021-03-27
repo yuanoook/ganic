@@ -1,15 +1,12 @@
 const Ganic = require('ganic');
-const {useState, useMemo} = require('ganic-usex');
+const { useMemo, useRef } = require('ganic-usex');
 
 const fs = require('fs');
 const path = require('path');
 
-const {render} = require('../index');
-const {expectFile} = require('./utils');
-const { useRef } = require('../../ganic-usex');
+const { render } = require('../index');
 
 jest.setTimeout(30 * 1000);
-
 beforeEach(() => {
   // fs.rmdirSync(path.resolve(__dirname, 'fs-test'), { recursive: true });
 });
@@ -36,32 +33,7 @@ describe('ganic-fs', () => {
 
   });
 
-  it('should handle file event properly', async () => {
-    const App = () => {
-      const [size, setSize] = useState(0);
-      return <dir name="fs-test">
-      <file name="index.html" onSizeChange={setSize}/>
-      {
-        size && <file name={`index.html-size-is-${size}`} />
-      }
-    </dir>;
-    };
-  
-    render(<App />, __dirname);
 
-    const htmlPath = path.resolve(__dirname, 'fs-test', 'index.html');
-    expect(fs.existsSync(htmlPath)).toEqual(true);
-
-    const randomText = '' + Math.floor(
-      (Math.random() * 10) ** (Math.random() * 10) * (Math.random() * 10));
-    const text = `<html><body>${randomText}</body></html>`;
-
-    fs.writeFileSync(htmlPath, text);
-
-    const sizePath = path.resolve(
-      __dirname, 'fs-test', `index.html-size-is-${text.length}`);
-    await expectFile(sizePath);
-  });
 
   it('should handle sock file', (done) => {
     let clientDb;
@@ -94,8 +66,6 @@ describe('ganic-fs', () => {
 
     render(<App />, __dirname);
 
-    setTimeout(() => {
-      clientDb.json = {hello: 'world!'};
-    }, 3000);
+    clientDb.json = {hello: 'world!'};
   });
 });

@@ -64,7 +64,7 @@ describe('ganic-fs', () => {
   });
 
   it('should handle sock file', (done) => {
-    let clientDb
+    let clientDb;
 
     const App = () => {
       const serverDb = useRef(true);
@@ -72,13 +72,12 @@ describe('ganic-fs', () => {
       const clientSock = useRef(true);
 
       const onClientDbChange = useMemo(() => {
-        console.log('Client content: ', clientDb.json);
         done();
         // clientSock.send(clientDb.json);
       });
 
       const onServerMessage = useMemo((msg) => {
-        serverDb.text = msg
+        serverDb.text = msg;
       });
 
       return <dir name="fs-test-proxy">

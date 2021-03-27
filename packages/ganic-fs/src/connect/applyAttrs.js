@@ -7,7 +7,7 @@ const __statListeners = Symbol();
 const applyRef = ({
   organ,
   fullPathname,
-  ref
+  ref,
 }) => ref ? ref(getFileDescriptor(organ, fullPathname)) : null;
 
 const fdGetters = {
@@ -17,13 +17,13 @@ const fdGetters = {
 
 const fdSetters = {
   text: (fullPathname, content) => fs.writeFileSync(fullPathname, content),
-  json: (fullPathname, obj) => fs.writeFileSync(fullPathname, JSON.stringify(obj)),
+  json: (fullPathname, obj) => fs.writeFileSync(fullPathname, JSON.stringify(obj, null, 2)),
 };
 
 function getFileDescriptor(organ, fullPathname) {
   if (!organ[__fileDescriptor]) {
     organ[__fileDescriptor] = new Proxy({
-      fullPathname
+      fullPathname,
     }, {
       get: function(_, property) {
         if (_.hasOwnProperty(property)) {
@@ -38,7 +38,7 @@ function getFileDescriptor(organ, fullPathname) {
           return fdGetters[property](fullPathname);
         }
 
-        _.stat = _.stat || fs.statSync();
+        _.stat = _.stat || fs.statSync(fullPathname);
         return property === 'stat'
           ? _.stat
           : _.stat[property];
@@ -50,7 +50,7 @@ function getFileDescriptor(organ, fullPathname) {
           _[property] = value;
         }
         return true;
-      }
+      },
     });
   }
   return organ[__fileDescriptor];
@@ -73,14 +73,14 @@ const applyEventListener = ({
   if (!organ[__statListeners]) {
     watchFile(
       getFileDescriptor(organ, fullPathname),
-      organ[__statListeners] = {}
+      organ[__statListeners] = {},
     );
   }
 
   organ[__statListeners][statName] = listener;
 };
 
-function watchFile (fileDescriptor, statListeners, ) {
+function watchFile (fileDescriptor, statListeners) {
   fileDescriptor.watchFile({
     persistent: false,
     interval: 1000,
@@ -88,7 +88,7 @@ function watchFile (fileDescriptor, statListeners, ) {
     fileDescriptor.stat = curr;
 
     if (statListeners['']) {
-      statListeners[''](fileDescriptor, curr, prev);
+      statListeners[''](fileDescriptor, prev);
     }
 
     for (let key in curr) {
@@ -100,9 +100,9 @@ function watchFile (fileDescriptor, statListeners, ) {
       key = key.toLowerCase();
       if (statListeners[key]) {
         statListeners[key](
-          fileDescriptor,
           curr[key],
-          prev && prev[key]
+          prev && prev[key],
+          fileDescriptor,
         );
       }
     }
@@ -121,7 +121,7 @@ const applyAttr = ({
     applyRef({
       organ,
       fullPathname,
-      ref: value
+      ref: value,
     });
   } else if (/^on[A-Z][a-zA-Z]*$/.test(name)) {
     applyEventListener({

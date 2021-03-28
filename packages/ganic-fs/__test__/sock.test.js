@@ -7,7 +7,7 @@ const { render } = require('../index');
 const { expectFile } = require('./utils');
 
 const rootDir = 'fs-test-sock';
-jest.setTimeout(30 * 1000);
+jest.setTimeout(60 * 1000);
 beforeEach(() => {
   fs.rmdirSync(path.resolve(__dirname, rootDir), { recursive: true });
 });
@@ -62,7 +62,7 @@ it('should handle sock file', async () => {
 
   const sizePath = () => path.resolve(
     __dirname, rootDir, `client-set-size-${serverDb.text.length}`);
-  await expectFile(sizePath);
+  await expectFile(sizePath, 60);
 
   clientSock.end();
   serverSock.close();

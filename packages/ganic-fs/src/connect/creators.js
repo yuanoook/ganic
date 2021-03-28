@@ -6,44 +6,44 @@ const fileExists = name => fs.existsSync(name) && fs.lstatSync(name).isFile();
 const socketExists = name => fs.existsSync(name) && fs.lstatSync(name).isSocket();
 const linkExists = name => fs.existsSync(name) && fs.lstatSync(name).isSymbolicLink();
 
-const dir = (fullPathname) => {
-  if (!dirExists(fullPathname)) {
-    return fs.mkdirSync(fullPathname, { recursive: true });
+const dir = (fullName) => {
+  if (!dirExists(fullName)) {
+    return fs.mkdirSync(fullName, { recursive: true });
   }
 };
 
-const file = (fullPathname) => {
-  if (!fileExists(fullPathname)) {
+const file = (fullName) => {
+  if (!fileExists(fullName)) {
     // create dir if it does not exist
-    dir(path.dirname(fullPathname));
-    return fs.appendFileSync(fullPathname, '');
+    dir(path.dirname(fullName));
+    return fs.appendFileSync(fullName, '');
   }
 };
 
-const server = (fullPathname) => {
-  if (socketExists(fullPathname) || fileExists(fullPathname)) {
-    fs.rmSync(fullPathname);
+const server = (fullName) => {
+  if (socketExists(fullName) || fileExists(fullName)) {
+    fs.rmSync(fullName);
   }
 
-  return net.createServer().listen(fullPathname, () => {
+  return net.createServer().listen(fullName, () => {
     // eslint-disable-next-line no-console
-    console.log(`server bound on ${fullPathname}`);
+    console.log(`server bound on ${fullName}`);
   }).setEncoding('utf8');
 };
 
-const client = (fullPathname) => {
-  if (!socketExists(fullPathname)) {
-    console.warn(`Sock file ${fullPathname} not ready!`);
+const client = (fullName) => {
+  if (!socketExists(fullName)) {
+    console.warn(`Sock file ${fullName} not ready!`);
   }
 
-  return net.connect(fullPathname, () => {
+  return net.connect(fullName, () => {
     // eslint-disable-next-line no-console
-    console.log(`connected to server ${fullPathname}!`);
+    console.log(`connected to server ${fullName}!`);
   }).setEncoding('utf8');
 };
 
-const link = fullPathname => {
-  if (!linkExists(fullPathname)) {
+const link = fullName => {
+  if (!linkExists(fullName)) {
     // TODO
   }
 };

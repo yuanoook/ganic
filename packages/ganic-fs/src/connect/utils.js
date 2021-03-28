@@ -3,7 +3,7 @@ const creators = require('./creators');
 const { organMap } = require('./shared');
 const getTagFileDesc = node => organMap.get(node.organ);
 
-const getFullPathname = node => {
+const getFullName = node => {
   const rawPaths = [];
   const envRoot = node.tree.envRoot;
   while (node) {
@@ -18,8 +18,8 @@ const getFullPathname = node => {
   return path.resolve(...paths);
 };
 
-const insertFile = (organ, {tagName, fullPathname}) => {
-  return creators[tagName](organ, fullPathname);
+const insertFile = (organ, {tagName, fullName}) => {
+  return creators[tagName](organ, fullName);
 };
 
 const removeFile = () => {
@@ -27,7 +27,7 @@ const removeFile = () => {
 };
 
 module.exports = {
-  getFullPathname,
+  getFullName,
   insertFile,
   removeFile,
 };

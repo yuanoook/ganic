@@ -1,9 +1,9 @@
 const file = require('./file');
-const server = require('./server');
-const client = require('./client');
+const creature = require('./creature');
 
 module.exports = {
+  dir: file,
   file,
-  server,
-  client,
+  server: creature,
+  client: creature,
 };

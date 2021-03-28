@@ -1,21 +1,21 @@
 const fs = require('fs');
 
-const __fileDescriptor = Symbol();
+const __descriptor = Symbol();
 
 const fdGetters = {
-  text: fullPathname => fs.readFileSync(fullPathname, 'utf8'),
-  json: fullPathname => JSON.parse(fs.readFileSync(fullPathname, 'utf8')),
+  text: fullName => fs.readFileSync(fullName, 'utf8'),
+  json: fullName => JSON.parse(fs.readFileSync(fullName, 'utf8')),
 };
 
 const fdSetters = {
-  text: (fullPathname, content) => fs.writeFileSync(fullPathname, content),
-  json: (fullPathname, obj) => fs.writeFileSync(fullPathname, JSON.stringify(obj, null, 2)),
+  text: (fullName, content) => fs.writeFileSync(fullName, content),
+  json: (fullName, obj) => fs.writeFileSync(fullName, JSON.stringify(obj, null, 2)),
 };
 
-function getFileDescriptor(organ, fullPathname) {
-  if (!organ[__fileDescriptor]) {
-    organ[__fileDescriptor] = new Proxy({
-      fullPathname,
+function getDescriptor({organ, fullName}) {
+  if (!organ[__descriptor]) {
+    organ[__descriptor] = new Proxy({
+      fullName,
     }, {
       get: function(_, property) {
         if (_.hasOwnProperty(property)) {
@@ -23,21 +23,21 @@ function getFileDescriptor(organ, fullPathname) {
         }
 
         if (typeof fs[property] === 'function') {
-          return fs[property].bind(fs, fullPathname);
+          return fs[property].bind(fs, fullName);
         }
 
         if (fdGetters[property]) {
-          return fdGetters[property](fullPathname);
+          return fdGetters[property](fullName);
         }
 
-        _.stat = _.stat || fs.statSync(fullPathname);
+        _.stat = _.stat || fs.statSync(fullName);
         return property === 'stat'
           ? _.stat
           : _.stat[property];
       },
       set: function(_, property, value) {
         if (fdSetters[property]) {
-          fdSetters[property](fullPathname, value);
+          fdSetters[property](fullName, value);
         } else {
           _[property] = value;
         }
@@ -45,7 +45,7 @@ function getFileDescriptor(organ, fullPathname) {
       },
     });
   }
-  return organ[__fileDescriptor];
+  return organ[__descriptor];
 }
 
-module.exports = getFileDescriptor;
+module.exports = getDescriptor;

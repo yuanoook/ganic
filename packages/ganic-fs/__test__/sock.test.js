@@ -23,14 +23,14 @@ it('should handle sock file', () => {
       // clientSock.send(clientDb.json);
     };
 
-    const onServerMessage = msg => {
+    const onConnection = msg => {
       serverDb.text = msg;
     };
 
     return <dir name={rootDir}>
       <dir name="server">
         <file name="server.db" ref={serverDb} />
-        <server name="echo.sock" onMessage={onServerMessage}/>
+        <server name="echo.sock" onConnection={onConnection}/>
       </dir>
       <dir name="client">
         <file name="client.db" ref={clientDb} onChange={onClientDbChange}/>

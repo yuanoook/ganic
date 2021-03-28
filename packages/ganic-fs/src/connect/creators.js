@@ -28,7 +28,7 @@ const server = (fullName) => {
   return net.createServer().listen(fullName, () => {
     // eslint-disable-next-line no-console
     console.log(`server bound on ${fullName}`);
-  }).setEncoding('utf8');
+  });
 };
 
 const client = (fullName) => {
@@ -38,7 +38,7 @@ const client = (fullName) => {
 
   return net.connect(fullName, () => {
     // eslint-disable-next-line no-console
-    console.log(`connected to server ${fullName}!`);
+    console.log(`connected to server ${fullName}`);
   }).setEncoding('utf8');
 };
 

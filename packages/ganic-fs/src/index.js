@@ -14,9 +14,10 @@ const setUpFullPathname = node => {
 
 const setUpNode = node => {
   setUpFullPathname(node);
-  const fileDesc = organMap.get(node.organ);
 
-  insertFile(fileDesc);
+  const fileDesc = organMap.get(node.organ);
+  fileDesc.creature = insertFile(node.organ, fileDesc);
+
   applyAttrs(node.organ, fileDesc);
 };
 

@@ -30,11 +30,11 @@ it('should handle sock file', () => {
     return <dir name={rootDir}>
       <dir name="server">
         <file name="server.db" ref={serverDb} />
-        <socket name="echo.sock" type="server" onMessage={onServerMessage}/>
+        <server name="echo.sock" onMessage={onServerMessage}/>
       </dir>
       <dir name="client">
         <file name="client.db" ref={clientDb} onChange={onClientDbChange}/>
-        <socket name="../server/echo.sock" type="client" ref={clientSock}/>
+        <client name="../server/echo.sock" ref={clientSock}/>
       </dir>
     </dir>;
   };

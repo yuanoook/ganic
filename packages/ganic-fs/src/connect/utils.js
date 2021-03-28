@@ -18,8 +18,8 @@ const getFullPathname = node => {
   return path.resolve(...paths);
 };
 
-const insertFile = ({tagName, fullPathname}) => {
-  creators[tagName](fullPathname);
+const insertFile = (organ, {tagName, fullPathname}) => {
+  return creators[tagName](organ, fullPathname);
 };
 
 const removeFile = () => {

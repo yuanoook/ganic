@@ -1,62 +1,17 @@
-const fs = require('fs');
+const descriptors = require('./descriptor');
 
 const __attrs = Symbol();
-const __fileDescriptor = Symbol();
 const __statListeners = Symbol();
 
 const applyRef = ({
+  tagName,
   organ,
   fullPathname,
   ref,
-}) => ref ? ref(getFileDescriptor(organ, fullPathname)) : null;
-
-const fdGetters = {
-  text: fullPathname => fs.readFileSync(fullPathname, 'utf8'),
-  json: fullPathname => JSON.parse(fs.readFileSync(fullPathname, 'utf8')),
-};
-
-const fdSetters = {
-  text: (fullPathname, content) => fs.writeFileSync(fullPathname, content),
-  json: (fullPathname, obj) => fs.writeFileSync(fullPathname, JSON.stringify(obj, null, 2)),
-};
-
-function getFileDescriptor(organ, fullPathname) {
-  if (!organ[__fileDescriptor]) {
-    organ[__fileDescriptor] = new Proxy({
-      fullPathname,
-    }, {
-      get: function(_, property) {
-        if (_.hasOwnProperty(property)) {
-          return _[property];
-        }
-
-        if (typeof fs[property] === 'function') {
-          return fs[property].bind(fs, fullPathname);
-        }
-
-        if (fdGetters[property]) {
-          return fdGetters[property](fullPathname);
-        }
-
-        _.stat = _.stat || fs.statSync(fullPathname);
-        return property === 'stat'
-          ? _.stat
-          : _.stat[property];
-      },
-      set: function(_, property, value) {
-        if (fdSetters[property]) {
-          fdSetters[property](fullPathname, value);
-        } else {
-          _[property] = value;
-        }
-        return true;
-      },
-    });
-  }
-  return organ[__fileDescriptor];
-}
+}) => ref ? ref(descriptors[tagName](organ, fullPathname)) : null;
 
 const applyEventListener = ({
+  tagName,
   fullPathname,
   organ,
   name,
@@ -72,7 +27,7 @@ const applyEventListener = ({
 
   if (!organ[__statListeners]) {
     watchFile(
-      getFileDescriptor(organ, fullPathname),
+      descriptors[tagName](organ, fullPathname),
       organ[__statListeners] = {},
     );
   }
@@ -110,6 +65,7 @@ function watchFile (fileDescriptor, statListeners) {
 }
 
 const applyAttr = ({
+  tagName,
   fullPathname,
   organ,
   name,
@@ -119,12 +75,14 @@ const applyAttr = ({
     return;
   } else if (name === 'ref') {
     applyRef({
+      tagName,
       organ,
       fullPathname,
       ref: value,
     });
   } else if (/^on[A-Z][a-zA-Z]*$/.test(name)) {
     applyEventListener({
+      tagName,
       fullPathname,
       organ,
       name,
@@ -133,10 +91,11 @@ const applyAttr = ({
   }
 };
 
-const applyAttrs = (organ, {fullPathname, attrs}) => {
+const applyAttrs = (organ, {tagName, fullPathname, attrs}) => {
   const oldAttrs = organ[__attrs] || {};
   Object.keys({...oldAttrs, ...attrs}).forEach(
     name => oldAttrs[name] !== attrs[name] && applyAttr({
+      tagName,
       fullPathname,
       organ,
       name,

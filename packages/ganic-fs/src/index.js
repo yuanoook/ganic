@@ -1,22 +1,23 @@
 const { updateLeaf, vanishLeaf } = require('./connect/leaf');
-const { getFullPathname, insertFile } = require('./connect/utils');
+const { getFullName, insertFile } = require('./connect/utils');
 const { organMap } = require('./connect/shared');
 const { taskify, clearTasks } = require('../../shared/taskQueue');
 const getOrganism = require('./connect/getOrganism');
 const applyAttrs = require('./connect/applyAttrs');
 
-const setUpFullPathname = node => {
+const setUpFullName = node => {
   organMap.set(node.organ, {
-    fullPathname: getFullPathname(node),
+    fullName: getFullName(node),
     ...organMap.get(node.organ),
   });
 };
 
 const setUpNode = node => {
-  setUpFullPathname(node);
-  const fileDesc = organMap.get(node.organ);
+  setUpFullName(node);
 
-  insertFile(fileDesc);
+  const fileDesc = organMap.get(node.organ);
+  fileDesc.creature = insertFile(fileDesc);
+
   applyAttrs(node.organ, fileDesc);
 };
 

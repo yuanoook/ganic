@@ -1,12 +1,6 @@
 const { attach } = require('ganic');
 const shallowEqual = require('../../shared/shallowEqual');
 
-const useRef = () => useMemo(() => {
-  const fn = value => (fn.current = value);
-  fn.current = null;
-  return fn;
-});
-
 const useMemo = (fn, dependencies) => {
   if (typeof fn !== 'function') {
     return attach(fn, dependencies);
@@ -14,6 +8,34 @@ const useMemo = (fn, dependencies) => {
   const parasitism = (deps, give) => give(fn(deps));
   return attach(parasitism, dependencies);
 };
+
+const simpleRef = () => useMemo(() => {
+  const fn = value => (fn.current = value);
+  fn.current = null;
+  return fn;
+});
+
+const proxyRef = () => useMemo(() => {
+  const __curr = Symbol();
+  const fn = value => (fn[__curr] = value);
+  fn[__curr] = null;
+
+  return new Proxy(fn, {
+    get: function(_, property) {
+      return _[__curr] && _[__curr][property];
+    },
+    set: function(_, property, value) {
+      if (_[__curr]) {
+        _[__curr][property] = value;
+      } else {
+        console.warn(`Proxy ref is not ready for ${property}!`);
+      }
+      return true;
+    },
+  });
+});
+
+const useRef = (proxy = false) => proxy ? proxyRef() : simpleRef();
 
 const useCallback = (fn, dependencies) =>
   useMemo(deps => (...args) => fn(...args, deps), dependencies);
@@ -51,8 +73,8 @@ const useEffect = (parasitism, dependencies) =>
   }, dependencies);
 
 module.exports = {
-  useRef,
   useMemo,
+  useRef,
   useCallback,
   useState,
   useEffect,

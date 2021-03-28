@@ -1,6 +1,6 @@
 build/
 node_modules/
-fs-test/
+fs-test*/
 
 .DS_Store
 dist

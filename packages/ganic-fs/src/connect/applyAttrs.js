@@ -1,82 +1,75 @@
-const fs = require('fs');
+const descriptors = require('./descriptor');
+const applyEventListener = require('./applyEvents');
+const attrDealers = require('./attrDealers');
 
 const __attrs = Symbol();
-const __statListeners = Symbol();
 
-const applyRef = (node, ref) => ref ? ref(node) : null;
-
-const applyEventListener = ({
-  fullPathname,
+const applyRef = ({
+  tagName,
   organ,
-  name,
-  listener,
-}) => {
-  const eventName = name.replace(/^on/, '').toLowerCase();
-  const changeReg = /change$/;
-  if (!changeReg.test(eventName)) {
-    return;
-  }
-
-  const statName = eventName.replace(changeReg, '');
-
-  if (!organ[__statListeners]) {
-    watchFile(fullPathname, organ[__statListeners] = {});
-  }
-
-  organ[__statListeners][statName] = listener;
-};
-
-function watchFile (fullPathname, statListeners) {
-  fs.watchFile(fullPathname, {
-    persistent: false,
-    interval: 1000,
-  }, function(curr, prev) {
-    if (statListeners['']) {
-      statListeners[''](curr, prev);
-    }
-
-    for (let key in curr) {
-      let statChanged = !prev || curr[key] !== prev[key];
-      if (!statChanged) {
-        continue;
-      }
-
-      key = key.toLowerCase();
-      if (statListeners[key]) {
-        statListeners[key](curr[key], prev && prev[key]);
-      }
-    }
-  });
-}
+  fullName,
+  ref,
+  creature,
+}) => ref ? ref(descriptors[tagName]({organ, fullName, creature})) : null;
 
 const applyAttr = ({
-  fullPathname,
+  tagName,
+  fullName,
   organ,
   name,
   value,
+  creature,
 }) => {
   if (name === 'key') {
     return;
-  } else if (name === 'ref') {
-    applyRef(organ, value);
-  } else if (/^on[A-Z][a-zA-Z]*$/.test(name)) {
+  }
+
+  if (name === 'ref') {
+    applyRef({
+      tagName,
+      organ,
+      fullName,
+      ref: value,
+      creature,
+    });
+    return;
+  }
+
+  if (/^on[A-Z][a-zA-Z]*$/.test(name)) {
     applyEventListener({
-      fullPathname,
+      tagName,
+      fullName,
       organ,
       name,
       listener: value,
+      creature,
     });
+    return;
+  }
+
+  if (attrDealers[tagName] &&
+      attrDealers[tagName][name]) {
+    attrDealers[tagName][name]({
+      tagName,
+      fullName,
+      organ,
+      value,
+      creature,
+    });
+    return;
   }
 };
 
-const applyAttrs = (organ, {fullPathname, attrs}) => {
+const applyAttrs = (organ, {tagName, fullName, attrs, creature}) => {
   const oldAttrs = organ[__attrs] || {};
   Object.keys({...oldAttrs, ...attrs}).forEach(
     name => oldAttrs[name] !== attrs[name] && applyAttr({
-      fullPathname,
+      tagName,
+      fullName,
       organ,
       name,
       value: attrs[name],
+      creature,
     }),
   );
   organ[__attrs] = {...attrs};
